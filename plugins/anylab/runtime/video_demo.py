@@ -20,7 +20,6 @@ def presentation_copy(model, folder, three_d, speed=1, camera=None):
     if field(settings,"ExecutionMode") != "realTimeScaled":
         put(settings,"ExecutionMode","realTimeScaled")
     put(settings,"RealTimeScale",str(speed))
-    put(settings,"EnableZoomAndPanning","false")
     agent = next(a for a in doc.getElementsByTagName("ActiveObjectClass")
                  if field(a,"Id") == experiment.getAttribute("ActiveObjectClassId"))
     for viewport in agent.getElementsByTagName("Control"):

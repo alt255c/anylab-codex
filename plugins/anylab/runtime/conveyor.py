@@ -409,19 +409,6 @@ def extend_line(doc, model, main, network, component="blue_sleeve", layout="exte
         exit_,exit_model,exit_main=tutorial("ConveyorExit")
         shipping=build_shipping(editor,network,exit_model,exit_main)
 
-    view = by_name(child(main,"Areas"),"Area")["viewLogic"]
-    place(view,-520,-25)
-    put(view,"Width","2760" if layout=="extended_offset" else "2520")
-    put(view,"Height","655")
-    camera = main.getElementsByTagName("Camera3D")[0]
-    place(camera,810,755)
-    put(camera,"Z","1810")
-    put(camera,"RotationX","72")
-    put(camera,"RotationZ","-90")
-    for window in main.getElementsByTagName("Control"):
-        if window.getAttribute("Type") == "Window3D":
-            put(window,"FarClippingDistance","4000")
-
     resources = child(model,"ModelResources")
     paths = []
     known = {field(r,"Path") for r in children(resources,"Resource")}
@@ -528,41 +515,20 @@ def distinguish_cartons(doc, model, main):
 
 def restore_tabbed_views(doc, model, main):
     """Preserve the reference's tab navigation; separate the enlarged 2D area."""
-    areas=by_name(child(main,"Areas"),"Area")
-    logic,view3d=areas["viewLogic"],areas["view3D"]
-    place(view3d,5000,0)
-    for window in main.getElementsByTagName("Control"):
-        if window.getAttribute("Type")=="Window3D":
-            place(window,5000,50)
-            put(window,"FollowCamera","true")
-            put(window,"MakeDefaultViewArea","false")
-            put(window,"Width","1000");put(window,"Height","550")
-    # Reserve a header band in model coordinates at the overview zoom.
-    put(logic,"Y","-220")
-    put(logic,"Height","1100")
-    networks=by_name(child(main,"Presentation/Level/Presentation"),"Network")
-    if "warehouseNetwork" not in networks:
-        place(logic,-520,-220)
-        put(logic,"Width","1800")
-        camera=next(iter(main.getElementsByTagName("Camera3D")))
-        for key,value in {"X":"500","Y":"700","Z":"1500","RotationX":"72","RotationZ":"-90"}.items():
-            put(camera,key,value)
-    width=float(field(logic,"Width"))
-    # Match the frame aspect ratio: navigateTo then has no centering band
-    # above the header. Lock model-level dragging; 3D navigation stays local.
-    put(logic,"Height",str(round(width*0.6)))
-    fn=by_name(child(main,"Functions"),"Function")["navigate"]
-    put(fn,"Body", "selectedViewArea = viewArea;\n"
-        + "viewArea.navigateTo();\n"
-        + "getPresentation().setZoom(viewArea == viewLogic ? 1000.0 / viewLogic.getWidth() : 1.0);\n"
-        + "getPresentation().setCenter(viewArea.getX() + viewArea.getWidth()/2, viewArea.getY() + viewArea.getHeight()/2);\n"
-        + "getPresentation().setZoomAndPanningEnabled(false);\n"
-        + "panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);")
+    from xml.dom import minidom
+    ui=minidom.parse(str(Path(__file__).parent/"templates/presentation/lab-5.xml")).documentElement
+    def replace(old,reference):
+        old.parentNode.replaceChild(doc.importNode(reference,True),old)
+    replace(doc.getElementsByTagName("Frame")[0],child(ui,"Frame"))
+    replace(child(main,"Areas"),child(ui,"Areas"))
+    replace(main.getElementsByTagName("Camera3D")[0],child(ui,"Camera3D"))
+    replace(next(w for w in main.getElementsByTagName("Control") if w.getAttribute("Type")=="Window3D"),child(ui,"Control"))
+    replace(next(g for g in main.getElementsByTagName("Group") if field(g,"Name")=="panelGroup"),child(ui,"Group"))
+    replace(by_name(child(main,"Functions"),"Function")["navigate"],child(ui,"Function"))
     for n in children(child(main,"Variables"))+children(child(main,"Functions")):
         put(n,"PresentationFlag","false")
-    put(child(model,"Experiments/SimulationExperiment/PresentationProperties"),"EnableZoomAndPanning","false")
-    put(main,"StartupCode","navigate(viewLogic);")
-
+    put(child(model,"Experiments/SimulationExperiment/PresentationProperties"),"EnableZoomAndPanning","true")
+    put(main,"StartupCode","")
     # Keep the original previews outside Carton, including forklift drivers.
     for agent in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass"):
         if field(agent,"Name")!="Carton":

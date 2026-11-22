@@ -613,8 +613,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[335]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559261406</Id>
-					<Name><![CDATA[link1793559261406]]></Name>
+					<Id>1793559261407</Id>
+					<Name><![CDATA[link1793559261407]]></Name>
 					<X><![CDATA[-425]]></X><Y><![CDATA[590]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -662,9 +662,6 @@
 					</Parameter>
 					<Body><![CDATA[selectedViewArea = viewArea;
 viewArea.navigateTo();
-getPresentation().setZoom(viewArea == viewLogic ? 1000.0 / viewLogic.getWidth() : 1.0);
-getPresentation().setCenter(viewArea.getX() + viewArea.getWidth()/2, viewArea.getY() + viewArea.getHeight()/2);
-getPresentation().setZoomAndPanningEnabled(false);
 panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				</Function>
 			</Functions>
@@ -4117,13 +4114,13 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				<Control Type="Window3D">
 					<Id>1793543370732</Id>
 					<Name><![CDATA[window3d]]></Name>
-					<X><![CDATA[5000]]></X><Y><![CDATA[50]]></Y>
-					<Width><![CDATA[1000]]></Width>
-					<Height><![CDATA[550]]></Height>
-					<MakeDefaultViewArea><![CDATA[false]]></MakeDefaultViewArea>
+					<X>1150</X><Y>50</Y>
+					<Width>1000</Width>
+					<Height>550</Height>
+					<MakeDefaultViewArea>true</MakeDefaultViewArea>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<ShowLabel>false</ShowLabel>
-					<FollowCamera><![CDATA[true]]></FollowCamera>
+					<FollowCamera>false</FollowCamera>
 					<NavigationType>full</NavigationType>
 					<FarClippingDistance>2000</FarClippingDistance>
 					<Camera>camera</Camera>
@@ -4131,11 +4128,11 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				<Camera3D>
 					<Id>1793543579477</Id>
 					<Name><![CDATA[camera]]></Name>
-					<X><![CDATA[500]]></X><Y><![CDATA[700]]></Y><Z><![CDATA[1500]]></Z>
+					<X>50</X><Y>350</Y><Z>200</Z>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<ShowLabel>false</ShowLabel>
-					<RotationX><![CDATA[72]]></RotationX>
-					<RotationZ><![CDATA[-90]]></RotationZ>
+					<RotationX>35.0</RotationX>
+					<RotationZ>-45.0</RotationZ>
 				</Camera3D>
 				<Control Type="Button">
 					<EmbeddedIcon>false</EmbeddedIcon>
@@ -4983,19 +4980,19 @@ gray : black]]></FillColorCode>
 				<Area>
 					<Id>1793543330830</Id>
 					<Name><![CDATA[viewLogic]]></Name>
-					<X><![CDATA[-520]]></X><Y><![CDATA[-220]]></Y>
+					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<Title/>
-					<Width><![CDATA[1800]]></Width>
-					<Height><![CDATA[1080]]></Height>
+					<Width>1000</Width>
+					<Height>600</Height>
 				</Area>
 				<Area>
 					<Id>1793543359984</Id>
 					<Name><![CDATA[view3D]]></Name>
-					<X><![CDATA[5000]]></X><Y><![CDATA[0]]></Y>
+					<X>1150</X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5006,7 +5003,7 @@ gray : black]]></FillColorCode>
 				</Area>
 			</Areas>
 
-		<StartupCode><![CDATA[navigate(viewLogic);]]></StartupCode></ActiveObjectClass>
+		<StartupCode><![CDATA[]]></StartupCode></ActiveObjectClass>
 		<!--   =========   Active Object Class   ========  -->
 		<ActiveObjectClass>
 			<Id>1793541544634</Id>
@@ -6034,7 +6031,7 @@ gray : black]]></FillColorCode>
 				</Parameter>
 			</Parameters>
 			<PresentationProperties>
-				<EnableZoomAndPanning><![CDATA[false]]></EnableZoomAndPanning>
+				<EnableZoomAndPanning><![CDATA[true]]></EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[virtualTime]]></ExecutionMode>
 				<Title><![CDATA[ConveyorPacking : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
