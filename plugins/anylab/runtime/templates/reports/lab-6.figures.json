@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "section": "",
+    "context_before": [
+      "Кафедра №12 «Компьютерные системы и технологии»",
+      ""
+    ],
+    "context_after": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "source_pixels": [
+      300,
+      300
+    ]
+  },
+  {
+    "id": "2",
+    "section": "",
+    "context_before": [
+      "",
+      ""
+    ],
+    "context_after": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "source_pixels": [
+      200,
+      167
+    ]
+  },
+  {
+    "id": "3",
+    "section": "",
+    "context_before": [
+      "",
+      ""
+    ],
+    "context_after": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "source_pixels": [
+      452,
+      124
+    ]
+  }
+]

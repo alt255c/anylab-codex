@@ -73,8 +73,21 @@ def refill_reference(template, destination, values):
             if val != val.strip():
                 node.set(qn("xml:space"),"preserve")
     for key,path in assets.items():
-        rel,_ = doc.part.get_or_add_image(str(Path(path).resolve(strict=True)))
+        rel,image = doc.part.get_or_add_image(str(Path(path).resolve(strict=True)))
         images[key].set(qn("r:embed"),rel)
+        drawing = images[key].xpath("ancestor::w:drawing[1]")
+        if drawing:
+            # Fit within the reference's box without changing the image's aspect ratio.
+            extent = drawing[0].xpath(".//wp:extent")[0]
+            width, height = int(extent.get("cx")), int(extent.get("cy"))
+            ratio = image.px_width / image.px_height
+            fitted_width = min(width, round(height * ratio))
+            fitted_height = round(fitted_width / ratio)
+            extent.set("cx",str(fitted_width))
+            extent.set("cy",str(fitted_height))
+            for shape_extent in drawing[0].xpath(".//a:xfrm/a:ext"):
+                shape_extent.set("cx",str(fitted_width))
+                shape_extent.set("cy",str(fitted_height))
     # Keep cover/section/header relationships. Drop old embedded screenshots from body.
     references = {v for n in doc.element.iter() for k,v in n.attrib.items()
                   if k.startswith("{http://schemas.openxmlformats.org/officeDocument/2006/relationships}")}

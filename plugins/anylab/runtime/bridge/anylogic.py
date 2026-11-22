@@ -200,6 +200,10 @@ def close_owned(token):
 
 
 def build_paths(project):
+    workspace = os.environ.get("ANYLAB_IDE_WORKSPACE")
+    if workspace:
+        yield Path(workspace).resolve() / (project + "_BUILD")
+        return
     for folder in Path.home().glob(".AnyLogic*/Workspace*/" + project + "_BUILD"):
         yield folder
 
@@ -227,8 +231,14 @@ def run(args):
         home, build = locate()
         model = prepare(args, out, result, build, token)
         project = result["project"]
-        subprocess.Popen([str(home / "AnyLogic.exe"), "-r", str(model), args.experiment],
+        command = [str(home / "AnyLogic.exe")]
+        workspace = os.environ.get("ANYLAB_IDE_WORKSPACE")
+        if workspace:
+            command.extend(["-data",str(Path(workspace).resolve())])
+        ide_process = subprocess.Popen([*command, "-r", str(model), args.experiment],
                          cwd=home, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if workspace:
+            result["owned_ide_pid"] = ide_process.pid
         launched = True
         result["state"] = "waiting"
         save_result(out, result)
@@ -264,6 +274,9 @@ def run(args):
                 result["closed_runtime_pids"] = close_owned(token)
             except (OSError, subprocess.SubprocessError) as exc:
                 result["cleanup_error"] = str(exc)
+            if result.get("owned_ide_pid") and ide_process.poll() is None:
+                ide_process.terminate()
+                ide_process.wait(timeout=20)
         result["elapsed_seconds"] = round(time.monotonic() - start, 3)
         save_result(out, result)
     print(json.dumps(result, ensure_ascii=False))
