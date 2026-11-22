@@ -199,9 +199,23 @@
       ],
       "5.2": [
         {
-          "kind": "previous-task",
-          "task": "5.1",
-          "label": "Доработать проект первого задания"
+          "kind": "alp",
+          "file": "models/5.2/1/ConveyorLine.alp",
+          "source": "Обезличенный шаблон полного конвейера",
+          "label": "Готовая модель задания 5.2",
+          "fields": "models/5.2/1/Model.fill.json",
+          "required_install_resources": [
+            "3d/bottle_6.dae",
+            "3d/box_1_closed.dae",
+            "3d/box_1_open.dae",
+            "3d/forklift.dae",
+            "3d/pallet.dae",
+            "3d/pipe_corner.dae",
+            "3d/sittingworker.dae",
+            "3d/table.dae",
+            "3d/trolley.dae",
+            "3d/worker_2_m.glb"
+          ]
         }
       ]
     },
