@@ -1,0 +1,16 @@
+{
+  "spec": {
+    "parameters": {
+      "Main.ИнтенсивностьПрибытия": 10.0
+    }
+  },
+  "block_code": {
+    "Main.source.rate": "ИнтенсивностьПрибытия"
+  },
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    }
+  ]
+}

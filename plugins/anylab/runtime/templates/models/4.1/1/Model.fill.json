@@ -1,0 +1,19 @@
+{
+  "spec": {
+    "parameters": {
+      "Main.ИнтенсивностьВход": 1000.0,
+      "Main.ИнтенсивностьВыход": 500.0
+    }
+  },
+  "block_code": {},
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    },
+    {
+      "name": "ВарьированиеИнтенсивностиВход",
+      "type": "ParamVariationExperiment"
+    }
+  ]
+}

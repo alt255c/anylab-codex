@@ -8,7 +8,7 @@
         "-X",
         "utf8",
         "-c",
-        "import os, runpy, sys; from pathlib import Path; candidate=Path(sys.argv[1]); cache=Path(os.environ.get('CODEX_HOME', Path.home()/'.codex'))/'plugins/cache/anylab-marketplace/anylab/0.1.0/runtime/anylab.py'; entry=candidate if candidate.is_file() else cache; sys.path.insert(0,str(entry.parent)); sys.argv=[str(entry),'serve']; runpy.run_path(str(entry),run_name='__main__')",
+        "import os, runpy, sys; from pathlib import Path; candidate=Path(sys.argv[1]); cache=Path(os.environ.get('CODEX_HOME', Path.home()/'.codex'))/'plugins/cache/anylab-marketplace/anylab/0.2.0/runtime/anylab.py'; entry=candidate if candidate.is_file() else cache; sys.path.insert(0,str(entry.parent)); sys.argv=[str(entry),'serve']; runpy.run_path(str(entry),run_name='__main__')",
         "${PLUGIN_ROOT}/runtime/anylab.py"
       ],
       "tool_timeout_sec": 1000

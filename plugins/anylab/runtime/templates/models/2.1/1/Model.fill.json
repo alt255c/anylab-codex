@@ -1,0 +1,12 @@
+{
+  "spec": {
+    "parameters": {}
+  },
+  "block_code": {},
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    }
+  ]
+}

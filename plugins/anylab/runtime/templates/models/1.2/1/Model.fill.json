@@ -1,0 +1,16 @@
+{
+  "spec": {
+    "parameters": {}
+  },
+  "block_code": {
+    "Main.source.interarrivalTime": "triangular(0, 12, 6)",
+    "Main.queue.capacity": "5",
+    "Main.delay.delayTime": "triangular(0, 5, 4)"
+  },
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    }
+  ]
+}

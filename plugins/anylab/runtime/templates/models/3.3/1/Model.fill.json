@@ -1,0 +1,27 @@
+{
+  "spec": {
+    "parameters": {
+      "Main.РазмерЗакупки": 3300.0,
+      "Main.Себестоимость": 35.0,
+      "Main.Распродажа": 25.0,
+      "Main.НормальнаяЦена": 45.0
+    }
+  },
+  "block_code": {
+    "Main.Дни.interarrivalTime": "1"
+  },
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    },
+    {
+      "name": "Optimization",
+      "type": "OptimizationExperiment"
+    },
+    {
+      "name": "ParametersVariation",
+      "type": "ParamVariationExperiment"
+    }
+  ]
+}

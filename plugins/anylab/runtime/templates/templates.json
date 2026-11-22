@@ -1,0 +1,234 @@
+{
+  "1": {
+    "models": {
+      "1.1": [
+        {
+          "kind": "alp",
+          "file": "models/1.1/1/Model.alp",
+          "source": "Шаблон задания 1.1",
+          "label": "Предоставленный образец",
+          "fields": "models/1.1/1/Model.fill.json",
+          "required_install_resources": []
+        }
+      ],
+      "1.2": [
+        {
+          "kind": "alp",
+          "file": "models/1.2/1/Model.alp",
+          "source": "Шаблон задания 1.2",
+          "label": "Предоставленный образец",
+          "fields": "models/1.2/1/Model.fill.json",
+          "required_install_resources": [
+            "3d/box_2_open.dae"
+          ]
+        }
+      ],
+      "1.3": [
+        {
+          "kind": "alp",
+          "file": "models/1.3/1/Model.alp",
+          "source": "Шаблон задания 1.3",
+          "label": "Предоставленный образец",
+          "fields": "models/1.3/1/Model.fill.json",
+          "required_install_resources": []
+        },
+        {
+          "kind": "alp",
+          "file": "models/1.3/2/Model.alp",
+          "source": "Шаблон задания 1.3",
+          "label": "Предоставленный образец",
+          "fields": "models/1.3/2/Model.fill.json",
+          "required_install_resources": []
+        }
+      ]
+    },
+    "report": "reports/lab-1.docx",
+    "report_basis": "Обезличенная структура исходного отчёта",
+    "report_reference": "reports/lab-1.docx",
+    "reference_fields": "reports/lab-1.fields.json"
+  },
+  "2": {
+    "models": {
+      "2.1": [
+        {
+          "kind": "alp",
+          "file": "models/2.1/1/Model.alp",
+          "source": "Шаблон задания 2.1",
+          "label": "Предоставленный образец",
+          "fields": "models/2.1/1/Model.fill.json",
+          "required_install_resources": []
+        }
+      ],
+      "2.2": [
+        {
+          "kind": "alp",
+          "file": "models/2.2/1/Model.alp",
+          "source": "Шаблон задания 2.2",
+          "label": "Предоставленный образец",
+          "fields": "models/2.2/1/Model.fill.json",
+          "required_install_resources": []
+        }
+      ]
+    },
+    "report": "reports/lab-2.docx",
+    "report_basis": "Обезличенная структура исходного отчёта",
+    "report_reference": "reports/lab-2.docx",
+    "reference_fields": "reports/lab-2.fields.json"
+  },
+  "3": {
+    "models": {
+      "3.1": [
+        {
+          "kind": "alp",
+          "file": "models/3.1/1/Model.alp",
+          "source": "Шаблон задания 3.1",
+          "label": "Предоставленный образец",
+          "fields": "models/3.1/1/Model.fill.json",
+          "required_install_resources": []
+        }
+      ],
+      "3.2": [
+        {
+          "kind": "alp",
+          "file": "models/3.2/1/Model.alp",
+          "source": "Шаблон задания 3.2",
+          "label": "Предоставленный образец",
+          "fields": "models/3.2/1/Model.fill.json",
+          "required_install_resources": [
+            "3d/atm.dae",
+            "3d/officeworker.dae",
+            "3d/person.dae",
+            "3d/table.dae"
+          ]
+        }
+      ],
+      "3.3": [
+        {
+          "kind": "alp",
+          "file": "models/3.3/1/Model.alp",
+          "source": "Шаблон задания 3.3",
+          "label": "Предоставленный образец",
+          "fields": "models/3.3/1/Model.fill.json",
+          "required_install_resources": []
+        }
+      ]
+    },
+    "report": "reports/lab-3.docx",
+    "report_basis": "Обезличенная структура исходного отчёта",
+    "report_reference": "reports/lab-3.docx",
+    "reference_fields": "reports/lab-3.fields.json"
+  },
+  "4": {
+    "models": {
+      "4.1": [
+        {
+          "kind": "alp",
+          "file": "models/4.1/1/Model.alp",
+          "source": "Шаблон задания 4.1",
+          "label": "Предоставленный образец",
+          "fields": "models/4.1/1/Model.fill.json",
+          "required_install_resources": [
+            "3d/boy.dae",
+            "3d/detector.dae",
+            "3d/girl.dae",
+            "3d/person.dae",
+            "3d/subway_car.dae",
+            "3d/subway_car_2.dae",
+            "3d/subway_car_open.dae",
+            "3d/ticket_vending_machine_1.dae",
+            "3d/train_1_state_1.dae",
+            "3d/turnstile_open.dae",
+            "3d/woman_1.dae",
+            "3d/woman_2.dae",
+            "3d/worker.dae",
+            "3d/worker_1_m.glb",
+            "3d/worker_4_m.glb",
+            "3d/worker_7_f.glb",
+            "3d/worker_7_m.glb"
+          ]
+        }
+      ],
+      "4.2": [
+        {
+          "kind": "alp",
+          "file": "models/4.2/1/Model.alp",
+          "source": "Шаблон задания 4.2",
+          "label": "Предоставленный образец",
+          "fields": "models/4.2/1/Model.fill.json",
+          "required_install_resources": [
+            "3d/boy.dae",
+            "3d/detector.dae",
+            "3d/girl.dae",
+            "3d/person.dae",
+            "3d/subway_car_open.dae",
+            "3d/ticket_vending_machine_1.dae",
+            "3d/turnstile_open.dae",
+            "3d/woman_1.dae",
+            "3d/woman_2.dae",
+            "3d/worker.dae",
+            "3d/worker_4_m.glb",
+            "3d/worker_7_f.glb"
+          ]
+        }
+      ]
+    },
+    "report": "reports/lab-4.docx",
+    "report_basis": "Обезличенная структура исходного отчёта",
+    "report_reference": "reports/lab-4.docx",
+    "reference_fields": "reports/lab-4.fields.json"
+  },
+  "5": {
+    "models": {
+      "5.1": [
+        {
+          "kind": "alp",
+          "file": "models/5.1/1/Model.alp",
+          "source": "Шаблон задания 5.1",
+          "label": "Предоставленный образец",
+          "fields": "models/5.1/1/Model.fill.json",
+          "required_install_resources": [
+            "3d/bottle_6.dae",
+            "3d/box_1_closed.dae",
+            "3d/box_1_open.dae",
+            "3d/pipe_corner.dae",
+            "3d/table.dae",
+            "3d/trolley.dae",
+            "3d/worker_2_m.glb"
+          ]
+        }
+      ],
+      "5.2": [
+        {
+          "kind": "previous-task",
+          "task": "5.1",
+          "label": "Доработать проект первого задания"
+        }
+      ]
+    },
+    "report": "reports/lab-5.docx",
+    "report_basis": "Обезличенная структура исходного отчёта",
+    "report_reference": "reports/lab-5.docx",
+    "reference_fields": "reports/lab-5.fields.json"
+  },
+  "6": {
+    "models": {
+      "6.1": [
+        {
+          "kind": "installed-example",
+          "query": "Gas Station",
+          "label": "Штатный пример AnyLogic"
+        }
+      ],
+      "6.2": [
+        {
+          "kind": "previous-task",
+          "task": "6.1",
+          "label": "Доработать проект первого задания"
+        }
+      ]
+    },
+    "report": "reports/lab-6.docx",
+    "report_basis": "Оформление ЛР5, адаптированное для ЛР6",
+    "report_fields": "reports/lab-6.fill.json"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "spec": {
+    "parameters": {}
+  },
+  "block_code": {
+    "Main.source.interarrivalTime": "triangular(0, 13, 5)",
+    "Main.queue.maximumCapacity": "true",
+    "Main.delay.delayTime": "triangular(0, 6, 3)",
+    "Main.delay1.delayTime": "triangular(0, 6, 3)"
+  },
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    }
+  ]
+}

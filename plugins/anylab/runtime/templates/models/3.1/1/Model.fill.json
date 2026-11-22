@@ -1,0 +1,17 @@
+{
+  "spec": {
+    "parameters": {
+      "Main.КоличествоЭкспериментов": 1000
+    }
+  },
+  "block_code": {
+    "Main.source.rate": "1",
+    "Main.source.interarrivalTime": "1"
+  },
+  "experiments": [
+    {
+      "name": "Simulation",
+      "type": "SimulationExperiment"
+    }
+  ]
+}

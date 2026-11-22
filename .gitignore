@@ -11,3 +11,6 @@ runs/
 *.alp
 *.mp4
 *.docx
+
+!/plugins/anylab/runtime/templates/models/**/Model.alp
+!/plugins/anylab/runtime/templates/reports/lab-*.docx

@@ -77,7 +77,7 @@ def template_root(root=None):
     if configured:
         folder = Path(configured).resolve(strict=True)
     else:
-        candidates = [Path.cwd() / "AnyLab-private-templates",
+        candidates = [BASE / "templates", Path.cwd() / "AnyLab-private-templates",
                       Path.cwd() / "outputs/AnyLab-private-templates"]
         folder = next((p for p in candidates if (p / "templates.json").is_file()), None)
     if folder is None or not (folder / "templates.json").is_file():
@@ -94,6 +94,10 @@ def templates(lab, root=None):
         entry["report"] = str(folder / entry["report"])
     if entry.get("report_fields"):
         entry["report_fields"] = str(folder / entry["report_fields"])
+    if entry.get("report_reference"):
+        entry["report_reference"] = str(folder / entry["report_reference"])
+    if entry.get("reference_fields"):
+        entry["reference_fields"] = str(folder / entry["reference_fields"])
     for items in entry["models"].values():
         for item in items:
             if item["kind"] == "alp":
@@ -103,8 +107,128 @@ def templates(lab, root=None):
     return entry
 
 
+def prepare_lab(lab, variant, destination, root=None, variant_inputs=None,
+                student=None, group=None, teacher=None):
+    """Create a workspace from the exact project and report references."""
+    import hashlib
+    from projects import copy_resources, new_directory
+    from reference_docx import inspect_reference
+
+    folder = template_root(root)
+    bundle = templates(lab, folder)
+    reference = bundle.get("report_reference") or bundle.get("report")
+    if not reference:
+        raise ValueError("В комплекте указан каркас отчёта. Для точного оформления нужен оригинальный DOCX.")
+    variant = str(variant).strip()
+    if not variant:
+        raise ValueError("Укажите номер или название варианта")
+    tasks = task_data(lab=lab, variant=variant)
+    variant_inputs = variant_inputs or {}
+    if any(key not in {task["id"] for task in tasks} for key in variant_inputs):
+        raise ValueError("Исходные данные должны быть привязаны к заданию")
+    for task in tasks:
+        if task["available_variants"] and not task["variant_data"] and not variant_inputs.get(task["id"]):
+            raise ValueError(f"В задании {task['id']} нет строки для варианта {variant}. Нужны данные варианта.")
+
+    def owned(path):
+        result = Path(path).resolve(strict=True)
+        if not result.is_relative_to(folder):
+            raise ValueError("Образец должен находиться внутри указанного комплекта")
+        return result
+
+    source = owned(reference)
+    layout = inspect_reference(source)
+    dest = Path(destination).resolve()
+    plan = dict(lab=lab, variant=variant, report_author=bundle.get("report_reference_author"),
+                report_source_name=source.name, report_sha256=layout["sha256"],
+                report_reference=str(dest / "reference.docx"),
+                report_layout=str(dest / "reference-fields.json"),
+                report_mode="reference" if bundle.get("report_reference") else "fillable",
+                student=student, group=group, teacher=teacher, tasks=[])
+    with new_directory(dest) as stage:
+        shutil.copy2(source, stage / "reference.docx")
+        layout["template"] = plan["report_reference"]
+        fields_file = bundle.get("reference_fields") or bundle.get("report_fields")
+        if fields_file:
+            layout["fill_fields"] = load_json(owned(fields_file))
+        (stage / "reference-fields.json").write_text(dumps(layout), encoding="utf-8")
+        for task in tasks:
+            entries = bundle["models"].get(task["id"], [])
+            if not entries:
+                raise ValueError(f"Нужен исходный проект для задания {task['id']}")
+            entry = dict(task=task["id"], title=task["title"], assignment=task["official_pdf"],
+                         variant_data=variant_inputs.get(task["id"]) or task["variant_data"],
+                         shared_condition=not task["available_variants"], models=[])
+            for number, model in enumerate(entries, 1):
+                if model["kind"] == "previous-task":
+                    entry["models"].append(model)
+                    continue
+                if model["kind"] == "installed-example":
+                    alp = next((Path(p) for p in examples(model["query"]) if Path(p).stem.casefold()
+                                == model["query"].casefold()), None)
+                    if alp is None:
+                        raise FileNotFoundError("Установленный пример AnyLogic не найден: " + model["query"])
+                else:
+                    alp = owned(model["file"])
+                subdir = Path(f"task-{task['id']}") / f"model-{number}"
+                copy_resources(alp, stage / subdir, True)
+                shutil.copy2(alp, stage / subdir / alp.name)
+                row = dict(kind="alp", source=str(alp), sha256=hashlib.sha256(alp.read_bytes()).hexdigest(),
+                           model=str(dest / subdir / alp.name))
+                if model.get("fields"):
+                    row["fields"] = str(dest / subdir / owned(model["fields"]).name)
+                entry["models"].append(row)
+            plan["tasks"].append(entry)
+        (stage / "lab-plan.json").write_text(dumps(plan), encoding="utf-8")
+    return plan
+
+
+def finish_lab_report(workspace, destination, paragraphs, images):
+    """Apply a prepared dossier's field guide and student metadata."""
+    from datetime import date
+    import re
+    from materials import check_reuse
+    from reference_docx import refill_reference
+    directory = Path(workspace).resolve(strict=True)
+    plan = load_json(directory / "lab-plan.json")
+    layout = load_json(directory / "reference-fields.json")
+    if plan["report_mode"] != "reference":
+        raise ValueError("Для этого шаблона используйте fill_report с полями из reference-fields.json")
+    if not plan["student"] or not plan["group"]:
+        raise ValueError("Для титула укажите студента и группу при подготовке")
+    guide = layout["fill_fields"]
+    required_text = guide["paragraphs"]
+    required_images = guide["images"]
+    metadata = {
+        "STUDENT":plan["student"], "GROUP":plan["group"], "VARIANT":plan["variant"],
+        "YEAR":str(date.today().year), "TEACHER":plan.get("teacher") or "",
+    }
+    updates = dict(paragraphs)
+    for item in layout["paragraphs"]:
+        if item["id"] not in required_text:
+            continue
+        original = item["text"]
+        markers = re.findall(r"\{\{(\w+)\}\}", original)
+        if markers and all(marker in metadata for marker in markers):
+            updates[item["id"]] = re.sub(r"\{\{(\w+)\}\}", lambda match: metadata[match[1]], original)
+    if set(updates) != set(required_text) or set(images) != set(required_images):
+        missing = sorted(set(required_text) - set(updates), key=int)
+        missing_images = sorted(set(required_images) - set(images), key=int)
+        raise ValueError(f"Проверьте карту полей. Абзацы: {missing[:24]}. Изображения: {missing_images[:24]}.")
+    body = [str(v) if not isinstance(v,list) else "".join(v) for k,v in paragraphs.items()
+            if k in required_text and required_text[k]["section"] != "Титульный лист"
+            and len((str(v) if not isinstance(v,list) else "".join(v)).split()) >= 6]
+    hits = check_reuse(CATALOG, body)
+    if hits:
+        raise ValueError("Переформулируйте совпадения с отчётами: " + dumps(hits[:6]))
+    return refill_reference(directory / "reference.docx",destination,dict(
+        sha256=plan["report_sha256"], paragraphs=updates, images=images,
+        keep_paragraphs=[p["id"] for p in layout["paragraphs"] if p["id"] not in updates],
+        keep_images=[p["id"] for p in layout["images"] if p["id"] not in images]))
+
+
 def stage_template(lab, task, destination, model=1, root=None):
-    from projects import new_directory
+    from projects import copy_resources, new_directory
     options = templates(lab, root)["models"].get(task, [])
     if not 1 <= model <= len(options) or options[model - 1]["kind"] != "alp":
         raise ValueError(f"Готовый ALP для {task} в этом комплекте отсутствует")
@@ -113,6 +237,7 @@ def stage_template(lab, task, destination, model=1, root=None):
         raise ValueError("Модель должна находиться внутри комплекта")
     with new_directory(destination) as stage:
         shutil.copytree(source.parent, stage, dirs_exist_ok=True)
+        copy_resources(source, stage, False)
     return {"model": str(Path(destination).resolve() / source.name), "template": str(source)}
 
 
@@ -206,15 +331,20 @@ def calibrated_run(source, destination, experiment, minutes=12, member=None, met
 def dispatch(action, params):
     from pdf_export import export_pdf
     from template_fill import fill_report
+    from reference_docx import inspect_reference, refill_reference
     import experiments
     import materials
     import projects
     functions = {
         "tasks": task_data,
         "templates": templates,
+        "prepare_lab": prepare_lab,
+        "finish_lab_report": finish_lab_report,
         "stage_template": stage_template,
         "fill_model": fill_model,
         "fill_report": fill_report,
+        "inspect_reference": inspect_reference,
+        "refill_reference": refill_reference,
         "examples": examples,
         "video": video,
         "index": index_sources,
@@ -249,11 +379,20 @@ def dispatch(action, params):
 COMMANDS = {
     "tasks": ("Список лабораторных и вариантов или условия всех заданий указанной работы.", (), {"lab":"integer","variant":"string"}),
     "templates": ("Показать локальные образцы всех заданий и общий шаблон DOCX по лабораторной.", ("lab",), {"lab":"integer","root":"string"}),
+    "prepare_lab": ("Подготовить DOCX и проекты всех заданий из встроенного или выбранного комплекта.",
+                    ("lab","variant","destination"), {"lab":"integer","variant":"string","destination":"string","root":"string","variant_inputs":"object",
+                                                     "student":"string","group":"string","teacher":"string"}),
+    "finish_lab_report": ("Заполнить отчёт из подготовленного комплекта. Титул берётся из lab-plan.json.",
+                          ("workspace","destination","paragraphs","images"),
+                          {"workspace":"string","destination":"string","paragraphs":"object","images":"object"}),
     "stage_template": ("Скопировать готовую модель ALP и её ресурсы в новый рабочий каталог.", ("lab","task","destination"), {"lab":"integer","task":"string","destination":"string","model":"integer","root":"string"}),
     "fill_model": ("Заполнить переменные и свойства блоков в копии готового ALP.", ("lab","task","destination","values"),
                    {"lab":"integer","task":"string","destination":"string","values":"object","model":"integer","root":"string"}),
     "fill_report": ("Заполнить поля, таблицы и места для снимков в готовом DOCX.", ("template","destination","values"),
                     {"template":"string","destination":"string","values":"object"}),
+    "inspect_reference": ("Разметить абзацы, ячейки и изображения оригинального DOCX с привязкой к хешу.", ("template",), {"template":"string"}),
+    "refill_reference": ("Заменить содержимое в оригинальной структуре DOCX, сохранив оформление.", ("template","destination","values"),
+                         {"template":"string","destination":"string","values":"object"}),
     "examples": ("Найти установленные примеры AnyLogic (по словам в английском названии).", (), {"query":"string","limit":"integer"}),
     "video": ("Открыть покадровый показ модели и записать MP4 в новый каталог.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean"}),
     "index": ("Обновить индекс материалов. По умолчанию берётся список из sources.json.", (), {"paths":"array"}),
