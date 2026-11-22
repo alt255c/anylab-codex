@@ -8,7 +8,7 @@ import anylab
 from bridge.anylogic import close_owned, direct, field, put, hook
 
 
-def presentation_copy(model, folder, three_d):
+def presentation_copy(model, folder, three_d, speed=1):
     shutil.copytree(model.parent, folder)
     target = folder / model.name
     doc = minidom.parse(str(target))
@@ -19,6 +19,7 @@ def presentation_copy(model, folder, three_d):
     settings = direct(experiment, "PresentationProperties")[0]
     if field(settings,"ExecutionMode") != "realTimeScaled":
         put(settings,"ExecutionMode","realTimeScaled")
+    put(settings,"RealTimeScale",str(speed))
     agent = next(a for a in doc.getElementsByTagName("ActiveObjectClass")
                  if field(a,"Id") == experiment.getAttribute("ActiveObjectClassId"))
     if three_d:
@@ -39,8 +40,10 @@ def presentation_copy(model, folder, three_d):
     return target, field(experiment,"Name")
 
 
-def record_demo(model, root, files, seconds, three_d, minutes):
-    path,experiment = presentation_copy(Path(model),root/"video-project",three_d)
+def record_demo(model, root, files, seconds, three_d, minutes, speed=1, screenshot=False):
+    if not isinstance(speed,(int,float)) or not 0.1 <= speed <= 20:
+        raise ValueError("Скорость демонстрации должна быть от 0,1 до 20")
+    path,experiment = presentation_copy(Path(model),root/"video-project",three_d,speed)
     evidence = anylab.run_model(path,root/"video-run",experiment,min(180,minutes*60),until="started",close=False)
     try:
         for _ in range(30):
@@ -48,6 +51,8 @@ def record_demo(model, root, files, seconds, three_d, minutes):
             if window:
                 time.sleep(3)
                 anylab.native(["record","--window",window["hwnd"],"--out",files/"demo.mp4","--seconds",seconds])
+                if screenshot:
+                    anylab.native(["capture","--window",window["hwnd"],"--out",files/"scene.png"])
                 return
             time.sleep(.5)
         raise ValueError("Окно симуляции не появилось для записи")

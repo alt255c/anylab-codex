@@ -108,11 +108,12 @@ def templates(lab, root=None):
 
 
 def prepare_lab(lab, variant, destination, root=None, variant_inputs=None,
-                student=None, group=None, teacher=None):
+                student=None, group=None, teacher=None, station=None, station_plan=None, addition=None):
     """Create a workspace from the exact project and report references."""
     import hashlib
     from projects import copy_resources, new_directory
     from reference_docx import inspect_reference
+    from scenarios import course_options
 
     folder = template_root(root)
     bundle = templates(lab, folder)
@@ -139,14 +140,22 @@ def prepare_lab(lab, variant, destination, root=None, variant_inputs=None,
     source = owned(reference)
     layout = inspect_reference(source)
     dest = Path(destination).resolve()
+    options = course_options(lab,station,station_plan,addition)
+    if options.get("open_examples"):
+        options["installed_examples"] = {name:examples(name,limit=5) for name in options["open_examples"]}
     plan = dict(lab=lab, variant=variant, report_author=bundle.get("report_reference_author"),
                 report_source_name=source.name, report_sha256=layout["sha256"],
                 report_reference=str(dest / "reference.docx"),
                 report_layout=str(dest / "reference-fields.json"),
                 report_mode="reference" if bundle.get("report_reference") else "fillable",
-                student=student, group=group, teacher=teacher, tasks=[])
+                student=student, group=group, teacher=teacher, scenario=options, tasks=[])
     with new_directory(dest) as stage:
         shutil.copy2(source, stage / "reference.docx")
+        if options.get("station_plan"):
+            location=Path(options["station_plan"])
+            supplied=stage/("station-plan"+location.suffix)
+            shutil.copy2(location,supplied)
+            options["station_plan"]=str(dest/supplied.name)
         layout["template"] = plan["report_reference"]
         fields_file = bundle.get("reference_fields") or bundle.get("report_fields")
         if fields_file:
@@ -274,14 +283,14 @@ def examples(query="",limit=20):
             if all(word.casefold() in p.stem.casefold() for word in query.split())][:limit]
 
 
-def video(model, destination, seconds=20, three_d=True):
+def video(model, destination, seconds=20, three_d=True, speed=1, screenshot=False):
     from video_demo import record_demo
     if not 3 <= seconds <= 120:
         raise ValueError("Длительность записи должна быть от 3 до 120 секунд")
     root = Path(destination).resolve()
     root.mkdir(parents=True, exist_ok=False)
-    record_demo(Path(model).resolve(strict=True), root, root, seconds, three_d, 3)
-    return {"video": str(root / "demo.mp4")}
+    record_demo(Path(model).resolve(strict=True), root, root, seconds, three_d, 3, speed, screenshot)
+    return {"video": str(root / "demo.mp4"), "screenshot": str(root / "scene.png") if screenshot else None}
 
 
 def run_model(model, destination, experiment, timeout=720, until="finished", close=False, metrics=None):
@@ -332,6 +341,7 @@ def dispatch(action, params):
     from pdf_export import export_pdf
     from template_fill import fill_report
     from reference_docx import inspect_reference, refill_reference
+    from scenarios import conveyor_scenario
     import experiments
     import materials
     import projects
@@ -339,6 +349,7 @@ def dispatch(action, params):
         "tasks": task_data,
         "templates": templates,
         "prepare_lab": prepare_lab,
+        "conveyor_scenario": conveyor_scenario,
         "finish_lab_report": finish_lab_report,
         "stage_template": stage_template,
         "fill_model": fill_model,
@@ -381,7 +392,11 @@ COMMANDS = {
     "templates": ("Показать локальные образцы всех заданий и общий шаблон DOCX по лабораторной.", ("lab",), {"lab":"integer","root":"string"}),
     "prepare_lab": ("Подготовить DOCX и проекты всех заданий из встроенного или выбранного комплекта.",
                     ("lab","variant","destination"), {"lab":"integer","variant":"string","destination":"string","root":"string","variant_inputs":"object",
-                                                     "student":"string","group":"string","teacher":"string"}),
+                                                     "student":"string","group":"string","teacher":"string",
+                                                     "station":"string","station_plan":"string","addition":"string"}),
+    "conveyor_scenario": ("Подготовить прогон ЛР5. Полный режим добавляет сборку с поперечной подачей детали и разгрузку по трём складам.",
+                           ("source","destination","rate"), {"source":"string","destination":"string","rate":"number",
+                                                             "horizon":"number","seed":"integer","full_line":"boolean"}),
     "finish_lab_report": ("Заполнить отчёт из подготовленного комплекта. Титул берётся из lab-plan.json.",
                           ("workspace","destination","paragraphs","images"),
                           {"workspace":"string","destination":"string","paragraphs":"object","images":"object"}),
@@ -394,7 +409,7 @@ COMMANDS = {
     "refill_reference": ("Заменить содержимое в оригинальной структуре DOCX, сохранив оформление.", ("template","destination","values"),
                          {"template":"string","destination":"string","values":"object"}),
     "examples": ("Найти установленные примеры AnyLogic (по словам в английском названии).", (), {"query":"string","limit":"integer"}),
-    "video": ("Открыть покадровый показ модели и записать MP4 в новый каталог.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean"}),
+    "video": ("Открыть демонстрацию, записать MP4 и при необходимости сохранить PNG.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean","speed":"number","screenshot":"boolean"}),
     "index": ("Обновить индекс материалов. По умолчанию берётся список из sources.json.", (), {"paths":"array"}),
     "sources": ("Показать доступные и отсутствующие материалы, включая модели внутри архивов.", (), {}),
     "search": ("Найти фрагменты материалов и координаты источников.", ("query",), {"query":"string", "limit":"integer"}),
