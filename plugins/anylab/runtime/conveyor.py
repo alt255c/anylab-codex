@@ -298,6 +298,7 @@ def extend_loading(doc,model,main,network):
     """Add the perpendicular component feeder to the standalone middle section."""
     if ("partFeeder" in by_name(child(network,"Presentation"),"Conveyor") and
             {"partSource","partTravel","fitPart"}.issubset(by_name(child(main,"EmbeddedObjects"),"EmbeddedObject"))):
+        _normalize_feeder(LineEditor(doc,model,main),network,main)
         return []
     editor=LineEditor(doc,model,main)
     enter,enter_model,enter_main=tutorial("ConveyorEnter")
