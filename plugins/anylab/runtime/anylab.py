@@ -289,13 +289,17 @@ def examples(query="",limit=20):
             if all(word.casefold() in p.stem.casefold() for word in query.split())][:limit]
 
 
-def video(model, destination, seconds=None, three_d=True, speed=1, screenshot=False, camera=None, warmup=3, shots=None, tour=False):
+def video(model, destination, seconds=None, three_d=True, speed=None, screenshot=False, camera=None, warmup=None, shots=None, tour=False):
     from video_demo import record_demo
+    if speed is None:
+        speed = 3 if tour else 1
     if seconds is None:
-        seconds = 32 if tour else 20
+        seconds = 96 if tour else 20
+    if warmup is None:
+        warmup = 30 if tour else 3
     if tour:
         from video_demo import record_tour
-        return record_tour(model,destination,seconds,speed)
+        return record_tour(model,destination,seconds,speed,warmup)
     if shots is not None:
         from video_story import record_story
         return record_story(model,destination,shots)
