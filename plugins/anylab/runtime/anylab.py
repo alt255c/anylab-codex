@@ -289,8 +289,11 @@ def examples(query="",limit=20):
             if all(word.casefold() in p.stem.casefold() for word in query.split())][:limit]
 
 
-def video(model, destination, seconds=20, three_d=True, speed=1, screenshot=False, camera=None, warmup=3, shots=None):
+def video(model, destination, seconds=20, three_d=True, speed=1, screenshot=False, camera=None, warmup=3, shots=None, tour=False):
     from video_demo import record_demo
+    if tour:
+        from video_demo import record_tour
+        return record_tour(model,destination,seconds,speed)
     if shots is not None:
         from video_story import record_story
         return record_story(model,destination,shots)
@@ -423,7 +426,7 @@ COMMANDS = {
     "refill_reference": ("Заменить содержимое в оригинальной структуре DOCX, сохранив оформление.", ("template","destination","values"),
                          {"template":"string","destination":"string","values":"object"}),
     "examples": ("Найти установленные примеры AnyLogic (по словам в английском названии).", (), {"query":"string","limit":"integer"}),
-    "video": ("Записать демонстрацию одним планом или списком shots с 2D, 3D и крупными планами.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean","speed":"number","screenshot":"boolean","camera":"object","warmup":"number","shots":"array"}),
+    "video": ("Записать демонстрацию одним планом или списком shots с 2D, 3D и крупными планами.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean","speed":"number","screenshot":"boolean","camera":"object","warmup":"number","shots":"array", "tour":"boolean"}),
     "index": ("Обновить индекс материалов. По умолчанию берётся список из sources.json.", (), {"paths":"array"}),
     "sources": ("Показать доступные и отсутствующие материалы, включая модели внутри архивов.", (), {}),
     "search": ("Найти фрагменты материалов и координаты источников.", ("query",), {"query":"string", "limit":"integer"}),
