@@ -172,6 +172,7 @@ def build_loading(editor, network, enter_model, enter_main):
     for name, y in (("partStart",feeder_start_y),("partJoin",feeder_end_y)):
         descriptor = editor.clone(position_proto,name)
         place(descriptor,join_x,y)
+        put(descriptor,"Offset",str(y-feeder_start_y))
         part_presentation.appendChild(descriptor)
     belt_shapes.appendChild(part)
     editor.caption("loadingText","Подача детали ↓",int(join_x)-72,int(join_y)-176)
@@ -435,21 +436,22 @@ def _normalize_feeder(editor,network,main):
     blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
     if inlet is None or part is None or "partSource" not in blocks:
         return
-    join_x=round(float(field(inlet,"X"))+82)
-    join_y=round(float(field(inlet,"Y")))
+    join_x=float(field(inlet,"X"))+82
+    join_y=float(field(inlet,"Y"))
     start_y=join_y-180
     end_y=join_y+25
     place(part,join_x,start_y)
     set_points(part,route_curve([(0,0,0),(0,end_y-start_y,0)]))
     positions=by_name(child(part,"Presentation"),"PositionOnConveyor")
-    for name,y in (("partStart",start_y),("partJoin",end_y)):
+    for name,y in (("partStart",start_y),("partJoin",join_y)):
         if name in positions:
             place(positions[name],join_x,y)
+            put(positions[name],"Offset",str(y-start_y))
     set_param(blocks["partSource"],"locationX",str(join_x))
     set_param(blocks["partSource"],"locationY",str(start_y))
 
 
-def distinguish_cartons(doc, model, main):
+def distinguish_cartons(doc, model, main, component_color="#2867D1"):
     """Apply stable category cues on every generation, including staged models."""
     carton = by_name(child(model,"ActiveObjectClasses"),"ActiveObjectClass")["Carton"]
     shapes = child(carton,"Presentation/Level/Presentation")
@@ -511,6 +513,33 @@ def distinguish_cartons(doc, model, main):
     for name,x,y,w,h in [("PStem",-15,-12,4,25),("PTop",-11,-12,11,4),
                          ("PRight",-3,-8,4,7),("PMid",-11,-1,11,4)]:
         stroke(name,x,y,w,h,"#FFFFFF",manual)
+    # Before assembly only a pallet and sheet are present, never an empty box.
+    assembled=" && (hasAssemblyPart || isManuallyAdded)"
+    for node in children(shapes):
+        name=field(node,"Name")
+        if name.startswith("box_") or name in {"carton2D","cartonTape2D"} or name.startswith("categoryMark"):
+            visible=field(node,"VisibleCode")
+            if "hasAssemblyPart || isManuallyAdded" not in visible:
+                put(node,"VisibleCode",visible+assembled)
+    existing=by_name(shapes,"Rectangle")
+    pallet=existing.get("assemblyPallet2D")
+    if pallet is None:
+        pallet=editor.clone(base,"assemblyPallet2D")
+        shapes.insertBefore(pallet,base)
+    for key,value in {"X":"-25","Y":"-25","Width":"50","Height":"50",
+                      "FillColor":str(argb("#A68760")),"Z":"5","DrawMode":"SHAPE_DRAW_2D",
+                      "VisibleCode":"!isComponent && !isManuallyAdded"}.items():
+        put(pallet,key,value)
+    sheet=existing.get("assemblyrectangle")
+    if sheet is not None: shapes.insertBefore(pallet,sheet)
+    sleeve=existing.get("blueSleeve2D")
+    if sleeve is not None:
+        put(sleeve,"FillColor",str(argb(component_color)))
+        # The ring and its central bore lie on the load, only in 2D.
+        hole=editor.clone(sleeve,"categoryMarkSleeveBore")
+        for key,value in {"X":"-4","Y":"-4","Width":"8","Height":"8",
+                          "FillColor":str(argb("#172D55")),"Z":"10"}.items(): put(hole,key,value)
+        shapes.appendChild(hole)
 
 
 def restore_tabbed_views(doc, model, main):
@@ -538,18 +567,116 @@ def restore_tabbed_views(doc, model, main):
     shapes=child(carton,"Presentation/Level/Presentation")
     for shape in children(shapes):
         if field(shape,"Name")=="blueSleeve":
-            put(shape,"ZCode","isComponent ? 0 : 8")
-        if field(shape,"Name")=="blueSleeve2D":
+            put(shape,"ZCode","8")
+        if field(shape,"Name") in {"blueSleeve2D","categoryMarkSleeveBore"}:
             shapes.appendChild(shape)
-    # Logical source stays with its flowchart, not on the physical feeder.
-    blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
-    if "partSource" in blocks and "partTravel" in blocks:
-        place(blocks["partSource"],-455,580)
-        editor=LineEditor(doc,model,main)
-        editor.unlink("partSource","partTravel")
-        editor.connect("partSource","partTravel",(30,10),(0,10))
     for text in main.getElementsByTagName("Text"):
         if field(text,"Name") in {"ordinaryWarehouseLabel","fragileWarehouseLabel","manualWarehouseLabel"}:
             put(text,"Y",str(float(field(text,"Y"))-40))
             # Do not accumulate the offset when reusing an already patched model.
             put(text,"Name",field(text,"Name")+"Adjusted")
+
+
+def repair_loading_flow(doc,model,main):
+    """Explicit geometric offsets and real travel before assembly."""
+    editor=LineEditor(doc,model,main)
+    network=next(iter(main.getElementsByTagName("ConveyorNetwork")))
+    belts=by_name(child(network,"Presentation"),"Conveyor")
+    inlet=belts.get("loadingBelt",belts["conveyor"])
+    part=belts["partFeeder"]
+    _normalize_feeder(editor,network,main)
+    positions=by_name(child(part,"Presentation"),"PositionOnConveyor")
+    length=anchors(part)[-1][1]
+    for name,offset in (("partStart",0),("partJoin",180)):
+        put(positions[name],"Offset",str(offset))
+    inlet_pres=child(inlet,"Presentation")
+    if inlet_pres is None: inlet_pres=inlet.appendChild(doc.createElement("Presentation"))
+    descriptors=by_name(inlet_pres,"PositionOnConveyor")
+    if "assemblyJoin" not in descriptors:
+        descriptor=editor.clone(positions["partJoin"],"assemblyJoin")
+        place(descriptor,float(field(inlet,"X"))+82,float(field(inlet,"Y")))
+        put(descriptor,"Offset","82")
+        inlet_pres.appendChild(descriptor)
+    if "loadingTravel" not in editor.blocks:
+        block=editor.block(editor.blocks["fromConveyorStart"],"loadingTravel",-200,400,{
+            "sourceType":"self.SOURCE_CONVEYOR_OFFSET","sourceConveyor":field(inlet,"Name"),
+            "sourceOffsetFromBeginning":"true","sourceOffset":"0",
+            "targetType":"self.TARGET_POSITION_ON_CONVEYOR","targetPositionOnConveyor":"assemblyJoin",
+            "removeFromConveyor":"true"})
+        editor.unlink("fitSheet","fitPart")
+        editor.connect("fitSheet","loadingTravel",(30,10),(0,10))
+        editor.connect("loadingTravel","fitPart",(40,10),(10,10),target_port="in1")
+    set_param(editor.blocks["fromConveyorStart"],"sourceType","self.SOURCE_POSITION_ON_CONVEYOR")
+    set_param(editor.blocks["fromConveyorStart"],"sourcePositionOnConveyor","assemblyJoin")
+    set_param(editor.blocks["partTravel"],"removeFromConveyor","true")
+    set_param(editor.blocks["partSource"],"onAtExit","agent.isComponent = true; agent.isFragile = false; agent.isManuallyAdded = false;")
+    set_param(editor.blocks["source"],"onBeforeArrival","sheetSource.inject(1); partSource.inject(1);")
+    set_param(editor.blocks["source"],"onAtExit","agent.setXY("+field(inlet,"X")+","+field(inlet,"Y")+");")
+    # The component has its own icon/mesh; suppress inherited empty boxes.
+    carton=by_name(child(model,"ActiveObjectClasses"),"ActiveObjectClass")["Carton"]
+    for shape in carton.getElementsByTagName("Figure3D"):
+        if field(shape,"Name").startswith("box_"):
+            visibility=field(shape,"VisibleCode")
+            if "!isComponent" not in visibility: put(shape,"VisibleCode",visibility+" && !isComponent")
+
+    variables=by_name(child(main,"Variables"),"Variable")
+    for name in ("partsTravelled","palletsTravelled"):
+        if name not in variables:
+            editor.variable(main,variables["assembled"],name,"0",1200,"int")
+    set_param(editor.blocks["partTravel"],"onExit","partsTravelled++;")
+    set_param(editor.blocks["loadingTravel"],"onExit","palletsTravelled++;")
+
+    if "loadingGate" not in editor.blocks:
+        _,tutorial_model,tutorial_main=tutorial("ConveyorEnter")
+        proto=by_name(child(tutorial_main,"EmbeddedObjects"),"EmbeddedObject")["hold"]
+        editor.block(proto,"loadingGate",-250,400,{"mode":"self.BLOCK_AFTER_N_ENTITIES","nEntitiesForSelfBlock":"1"},field(tutorial_model,"JavaPackageName"))
+        editor.unlink("fitSheet","loadingTravel")
+        editor.connect("fitSheet","loadingGate",(30,10),(0,10))
+        editor.connect("loadingGate","loadingTravel",(20,10),(0,10))
+    set_param(editor.blocks["fromConveyorStart"],"onExit","loadingGate.unblock();")
+
+    # Layout is independent of physical source coordinates. Leave room for labels
+    # and use orthogonal branches into the two assembly blocks.
+    for name,x,y in (("source",-650,400),("sheetSource",-650,520),
+                     ("fitSheet",-450,400),("loadingGate",-320,400),
+                     ("loadingTravel",-190,400),("fitPart",-30,400),
+                     ("partSource",-650,620),("partTravel",-350,620)):
+        place(editor.blocks[name],x,y)
+    for source,target,start,end,bends,port in (
+        ("source","fitSheet",(30,10),(10,10),(),"in1"),
+        ("sheetSource","fitSheet",(30,10),(0,30),((-500,530),(-500,430)),"in2"),
+        ("fitSheet","loadingGate",(30,10),(0,10),(),"in"),
+        ("loadingGate","loadingTravel",(20,10),(0,10),(),"in"),
+        ("loadingTravel","fitPart",(40,10),(10,10),(),"in1"),
+        ("partSource","partTravel",(30,10),(0,10),(),"in"),
+        ("partTravel","fitPart",(40,10),(0,30),((-100,630),(-100,430)),"in2"),
+        ("fitPart","fromConveyorStart",(30,10),(0,10),(),"in")):
+        editor.unlink(source,target)
+        editor.connect(source,target,start,end,bends,port)
+    for variable in children(child(main,"Variables"),"Variable"):
+        put(variable,"PresentationFlag","false")
+
+
+def validate_loading_flow(main):
+    """Reject the silent Offset/XY mismatch that can hide the entire feeder."""
+    network=next(iter(main.getElementsByTagName("ConveyorNetwork")))
+    belts=by_name(child(network,"Presentation"),"Conveyor")
+    feeder=belts["partFeeder"]
+    length=anchors(feeder)[-1][1]
+    positions=by_name(child(feeder,"Presentation"),"PositionOnConveyor")
+    offsets=[float(field(positions[n],"Offset")) for n in ("partStart","partJoin")]
+    inlet=belts.get("loadingBelt",belts["conveyor"])
+    intersection=float(field(inlet,"Y"))-float(field(feeder,"Y"))
+    if offsets != [0,intersection] or not 0<offsets[1]<=length:
+        raise ValueError(f"Неверные смещения подачи детали: {offsets}, длина {length}")
+    blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
+    def parameter(name,key):
+        return field(child(by_name(child(blocks[name],"Parameters"),"Parameter")[key],"Value"),"Code")
+    for name,key,value in (("partTravel","sourcePositionOnConveyor","partStart"),
+                           ("partTravel","targetPositionOnConveyor","partJoin"),
+                           ("loadingTravel","sourceOffset","0"),
+                           ("loadingTravel","targetPositionOnConveyor","assemblyJoin"),
+                           ("fromConveyorStart","sourcePositionOnConveyor","assemblyJoin")):
+        if parameter(name,key)!=value:
+            raise ValueError(f"{name}.{key} должен быть {value}")
+    return {"feeder_length":length,"offsets":offsets,"physical_loading":True}

@@ -106,8 +106,11 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
         from conveyor import extend_loading
         assets = extend_loading(doc,model,main,network)
         assets.append(Path("blue_sleeve.dae"))
+    from conveyor import repair_loading_flow, validate_loading_flow
+    repair_loading_flow(doc,model,main)
+    validate_loading_flow(main)
     from conveyor import distinguish_cartons
-    distinguish_cartons(doc,model,main)
+    distinguish_cartons(doc,model,main,details[component])
     from conveyor import restore_tabbed_views
     restore_tabbed_views(doc,model,main)
     # Preserve the reference's 2D previews for staff and vehicles. Only
@@ -145,7 +148,7 @@ def _blue_sleeve_dae(color="#2867D1"):
     # Simple original hollow cylinder, authored as COLLADA instead of reusing
     # an illustration from a student report or an unrelated AnyLogic asset.
     import math
-    n=20; outer=8.0; inner=4.2; half=10.0
+    n=20; outer=0.8; inner=0.42; half=1.0
     points=[]
     for x in (-half,half):
         for radius in (outer,inner):
@@ -158,7 +161,7 @@ def _blue_sleeve_dae(color="#2867D1"):
     pos=" ".join(f"{v:.3f}" for p in points for v in p)
     tris=" ".join(str(v) for face in faces for v in face)
     return f'''<?xml version="1.0" encoding="utf-8"?>
-<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1"><asset><contributor><authoring_tool>AnyLab original asset</authoring_tool></contributor><unit name="centimeter" meter="0.01"/><up_axis>Y_UP</up_axis></asset>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1"><asset><contributor><authoring_tool>AnyLab original asset</authoring_tool></contributor><up_axis>Y_UP</up_axis></asset>
 <library_effects><effect id="blue"><profile_COMMON><technique sid="common"><lambert><diffuse><color>{int(color[1:3],16)/255:.4f} {int(color[3:5],16)/255:.4f} {int(color[5:7],16)/255:.4f} 1</color></diffuse></lambert></technique></profile_COMMON></effect></library_effects><library_materials><material id="blueMat" name="AnyLab custom component"><instance_effect url="#blue"/></material></library_materials>
 <library_geometries><geometry id="sleeve" name="Blue cylindrical sleeve"><mesh><source id="positions"><float_array id="positions-array" count="{len(points)*3}">{pos}</float_array><technique_common><accessor source="#positions-array" count="{len(points)}" stride="3"><param name="X" type="float"/><param name="Y" type="float"/><param name="Z" type="float"/></accessor></technique_common></source><vertices id="vertices"><input semantic="POSITION" source="#positions"/></vertices><triangles material="surface" count="{len(faces)}"><input semantic="VERTEX" source="#vertices" offset="0"/><p>{tris}</p></triangles></mesh></geometry></library_geometries>
 <library_visual_scenes><visual_scene id="Scene" name="Scene"><node id="Sleeve"><instance_geometry url="#sleeve"><bind_material><technique_common><instance_material symbol="surface" target="#blueMat"/></technique_common></bind_material></instance_geometry></node></visual_scene></library_visual_scenes><scene><instance_visual_scene url="#Scene"/></scene></COLLADA>'''
@@ -171,7 +174,7 @@ def _argb(hex_color):
 
 def conveyor_capacity(source,destination,rates=(4,8,12,16,20),horizon=900,seed=73,minutes=12):
     """Sweep a bounded arrival-rate grid and report the measured saturation point."""
-    import csv,time
+    import csv,time,os
     from anylab import run_model
     from projects import new_directory
     values=list(rates)
@@ -189,13 +192,24 @@ def conveyor_capacity(source,destination,rates=(4,8,12,16,20),horizon=900,seed=7
         built=conveyor_scenario(source,model_dir,float(rate),horizon,seed,True)
         run_dir=model_dir/"run"
         remaining=max(30,int(minutes*60-(time.monotonic()-started)))
-        evidence=run_model(built["model"],run_dir,"Simulation",timeout=min(180,remaining),
-                           until="finished",close=True,metrics={
+        workspace=os.environ.get("ANYLAB_IDE_WORKSPACE")
+        # Reopening several projects in one IDE workspace may leave a modal
+        # restore/save dialog. Each grid point gets an isolated workspace.
+        os.environ["ANYLAB_IDE_WORKSPACE"]=str(model_dir/"ide")
+        try:
+            evidence=run_model(built["model"],run_dir,"Simulation",timeout=min(180,remaining),
+                              until="finished",close=True,metrics={
                                "main_arrivals":"source.count()",
                                "manual_arrivals":"source1.count()",
                                "ordinary":"ordinaryDelivered",
                                "fragile":"fragileDelivered",
                                "manual":"manualDelivered"})
+        except RuntimeError:
+            import json
+            evidence=json.loads((run_dir/"result.json").read_text(encoding="utf-8"))
+        finally:
+            if workspace is None: os.environ.pop("ANYLAB_IDE_WORKSPACE",None)
+            else: os.environ["ANYLAB_IDE_WORKSPACE"]=workspace
         if not evidence.get("finished"):
             rows.append({"rate":rate,"state":evidence.get("state"),"finished":False})
             break
@@ -205,20 +219,27 @@ def conveyor_capacity(source,destination,rates=(4,8,12,16,20),horizon=900,seed=7
         arrivals=int(float(result["main_arrivals"]))+int(float(result["manual_arrivals"]))
         throughput=sum(int(float(result[k])) for k in ("ordinary","fragile","manual"))
         backlog=max(0,arrivals-throughput)
-        rows.append({"rate_per_minute":float(rate),"main_arrivals":int(float(result["main_arrivals"])),
+        main_finished=sum(int(float(result[k])) for k in ("ordinary","fragile"))
+        expected_main=rate*horizon/60
+        main_accepted=int(float(result["main_arrivals"]))
+        rows.append({"rate_per_minute":float(rate),"main_arrivals":main_accepted,
                      "manual_arrivals":int(float(result["manual_arrivals"])),"arrivals":arrivals,"finished_boxes":throughput,
                      "backlog":backlog,"throughput_per_minute":round(throughput*60/horizon,3),
+                     "main_throughput_per_minute":round(main_finished*60/horizon,3),
+                     "offered_main_expected":expected_main,"admission_ratio":round(main_accepted/expected_main,4),
                      "completion_ratio":round(throughput/arrivals,4) if arrivals else 1.0,
-                     "sustainable":backlog<=max(3,math.ceil(arrivals*.05)),"finished":True,"run":str(run_dir)})
+                     "sustainable":main_accepted>=expected_main*.95 and backlog<=max(3,math.ceil(arrivals*.05)),
+                     "finished":True,"run":str(run_dir)})
     sustainable=[r for r in rows if r.get("sustainable")]
-    peak=max((r["throughput_per_minute"] for r in rows if "throughput_per_minute" in r),default=None)
+    peak=max((r["main_throughput_per_minute"] for r in rows if "main_throughput_per_minute" in r),default=None)
     saturation=next((r["rate_per_minute"] for r in sorted(rows,key=lambda r:r.get("rate_per_minute",float("inf")))
-                     if peak is not None and r.get("throughput_per_minute",0)>=peak*.95),None)
+                     if peak is not None and r.get("main_throughput_per_minute",0)>=peak*.95),None)
     result={"runs":rows,"tested_levels":len(rows),"requested_levels":len(values),
             "max_sustainable_rate":max((r["rate_per_minute"] for r in sustainable),default=None),
             "measured_peak_throughput_per_minute":peak,"saturation_onset_rate":saturation,
             "elapsed_seconds":round(time.monotonic()-started,2),
             "complete":len(rows)==len(values) and all(r.get("finished") for r in rows)}
+    result["interpretation"]="Source.count() is admitted flow; compare it with offered rate. The sustainable rate is a tested grid bound, not an exact stochastic capacity. Manual arrivals are reported separately."
     with (dest/"capacity.csv").open("w",encoding="utf-8-sig",newline="") as stream:
         writer=csv.DictWriter(stream,fieldnames=sorted({k for row in rows for k in row}))
         writer.writeheader();writer.writerows(rows)

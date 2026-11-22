@@ -88,6 +88,12 @@ def refill_reference(template, destination, values):
             for shape_extent in drawing[0].xpath(".//a:xfrm/a:ext"):
                 shape_extent.set("cx",str(fitted_width))
                 shape_extent.set("cy",str(fitted_height))
+    import re
+    remaining=[]
+    for paragraph in doc.element.body.xpath(".//w:p"):
+        remaining.extend(re.findall(r"\{\{[^{}]+\}\}","".join(t.text or "" for t in paragraph.xpath(".//w:t"))))
+    if remaining:
+        raise ValueError("В отчёте остались незаполненные поля: "+", ".join(sorted(set(remaining))))
     # Keep cover/section/header relationships. Drop old embedded screenshots from body.
     references = {v for n in doc.element.iter() for k,v in n.attrib.items()
                   if k.startswith("{http://schemas.openxmlformats.org/officeDocument/2006/relationships}")}

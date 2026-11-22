@@ -213,6 +213,34 @@
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261476</Id>
+					<Name><![CDATA[partsTravelled]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1200]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261477</Id>
+					<Name><![CDATA[palletsTravelled]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1200]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
 				</Variable></Variables>
 			<Connectors>
 
@@ -421,166 +449,6 @@
 					</Points>
 				</Connector>
 			<Connector>
-					<Id>1793559261324</Id>
-					<Name><![CDATA[link1793559261324]]></Name>
-					<X><![CDATA[-425]]></X><Y><![CDATA[410]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[source]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Source]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fitSheet]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Combine]]></ClassName>
-						<ItemName><![CDATA[in1]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-
-
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[165]]></X><Y><![CDATA[0]]></Y></Point></Points>
-				</Connector><Connector>
-					<Id>1793559261325</Id>
-					<Name><![CDATA[link1793559261325]]></Name>
-					<X><![CDATA[-425]]></X><Y><![CDATA[530]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[sheetSource]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Source]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fitSheet]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Combine]]></ClassName>
-						<ItemName><![CDATA[in2]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-
-
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[110]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[110]]></X><Y><![CDATA[-100]]></Y></Point><Point><X><![CDATA[165]]></X><Y><![CDATA[-100]]></Y></Point></Points>
-				</Connector><Connector>
-					<Id>1793559261326</Id>
-					<Name><![CDATA[link1793559261326]]></Name>
-					<X><![CDATA[-240]]></X><Y><![CDATA[410]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fitSheet]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Combine]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fitPart]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Combine]]></ClassName>
-						<ItemName><![CDATA[in1]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-
-
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[155]]></X><Y><![CDATA[0]]></Y></Point></Points>
-				</Connector><Connector>
-					<Id>1793559261328</Id>
-					<Name><![CDATA[link1793559261328]]></Name>
-					<X><![CDATA[-230]]></X><Y><![CDATA[590]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[partTravel]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
-						<ClassName><![CDATA[Convey]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fitPart]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Combine]]></ClassName>
-						<ItemName><![CDATA[in2]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-
-
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[80]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[80]]></X><Y><![CDATA[-160]]></Y></Point><Point><X><![CDATA[145]]></X><Y><![CDATA[-160]]></Y></Point></Points>
-				</Connector><Connector>
-					<Id>1793559261329</Id>
-					<Name><![CDATA[link1793559261329]]></Name>
-					<X><![CDATA[-65]]></X><Y><![CDATA[410]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<SourceEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fitPart]]></ItemName>
-					</SourceEmbeddedObjectReference>
-					<SourceConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Combine]]></ClassName>
-						<ItemName><![CDATA[out]]></ItemName>
-					</SourceConnectableItemReference>
-					<TargetEmbeddedObjectReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[fromConveyorStart]]></ItemName>
-					</TargetEmbeddedObjectReference>
-					<TargetConnectableItemReference>
-						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
-						<ClassName><![CDATA[Convey]]></ClassName>
-						<ItemName><![CDATA[in]]></ItemName>
-					</TargetConnectableItemReference>
-					<Points>
-
-
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[335]]></X><Y><![CDATA[0]]></Y></Point></Points>
-				</Connector><Connector>
 					<Id>1793559261391</Id>
 					<Name><![CDATA[link1793559261391]]></Name>
 					<X><![CDATA[860]]></X><Y><![CDATA[410]]></Y>
@@ -773,9 +641,169 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[310]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559261468</Id>
-					<Name><![CDATA[link1793559261468]]></Name>
-					<X><![CDATA[-425]]></X><Y><![CDATA[590]]></Y>
+					<Id>1793559261489</Id>
+					<Name><![CDATA[link1793559261489]]></Name>
+					<X><![CDATA[-620]]></X><Y><![CDATA[410]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[source]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Source]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fitSheet]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Combine]]></ClassName>
+						<ItemName><![CDATA[in1]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[180]]></X><Y><![CDATA[0]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261490</Id>
+					<Name><![CDATA[link1793559261490]]></Name>
+					<X><![CDATA[-620]]></X><Y><![CDATA[530]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[sheetSource]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Source]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fitSheet]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Combine]]></ClassName>
+						<ItemName><![CDATA[in2]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[-100]]></Y></Point><Point><X><![CDATA[170]]></X><Y><![CDATA[-100]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261491</Id>
+					<Name><![CDATA[link1793559261491]]></Name>
+					<X><![CDATA[-420]]></X><Y><![CDATA[410]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fitSheet]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Combine]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[loadingGate]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Hold]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[100]]></X><Y><![CDATA[0]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261492</Id>
+					<Name><![CDATA[link1793559261492]]></Name>
+					<X><![CDATA[-300]]></X><Y><![CDATA[410]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[loadingGate]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Hold]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[loadingTravel]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[110]]></X><Y><![CDATA[0]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261493</Id>
+					<Name><![CDATA[link1793559261493]]></Name>
+					<X><![CDATA[-150]]></X><Y><![CDATA[410]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[loadingTravel]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fitPart]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Combine]]></ClassName>
+						<ItemName><![CDATA[in1]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261494</Id>
+					<Name><![CDATA[link1793559261494]]></Name>
+					<X><![CDATA[-620]]></X><Y><![CDATA[630]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -803,7 +831,71 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[155]]></X><Y><![CDATA[0]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[270]]></X><Y><![CDATA[0]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261495</Id>
+					<Name><![CDATA[link1793559261495]]></Name>
+					<X><![CDATA[-310]]></X><Y><![CDATA[630]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[partTravel]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fitPart]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Combine]]></ClassName>
+						<ItemName><![CDATA[in2]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[210]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[210]]></X><Y><![CDATA[-200]]></Y></Point><Point><X><![CDATA[280]]></X><Y><![CDATA[-200]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559261496</Id>
+					<Name><![CDATA[link1793559261496]]></Name>
+					<X><![CDATA[0]]></X><Y><![CDATA[410]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fitPart]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Combine]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[fromConveyorStart]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[270]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector></Connectors>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
@@ -849,10 +941,10 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 					<Parameters>
 						<Parameter>
 							<Name><![CDATA[sourceType]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[self.SOURCE_POSITION_ON_CONVEYOR]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[sourcePositionOnConveyor]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[assemblyJoin]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[sourceConveyor]]></Name>
 							<Value Class="CodeValue">
@@ -924,7 +1016,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[loadingGate.unblock();]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
 						</Parameter>
@@ -1350,7 +1442,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				<EmbeddedObject>
 					<Id>1793543993450</Id>
 					<Name><![CDATA[source]]></Name>
-					<X><![CDATA[-455]]></X><Y><![CDATA[400]]></Y>
+					<X><![CDATA[-650]]></X><Y><![CDATA[400]]></Y>
 					<Label><X>-5</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1542,10 +1634,10 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onBeforeArrival]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[sheetSource.inject(1); partSource.inject(1);]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[sheetSource.inject(1); partSource.inject(1);]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[agent.setXY(-310.6666666666667,250);]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 						</Parameter>
@@ -1945,7 +2037,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 			<EmbeddedObject>
 					<Id>1793559261312</Id>
 					<Name><![CDATA[sheetSource]]></Name>
-					<X><![CDATA[-455]]></X><Y><![CDATA[520]]></Y>
+					<X><![CDATA[-650]]></X><Y><![CDATA[520]]></Y>
 					<Label><X>-5</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2174,7 +2266,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559261316</Id>
 					<Name><![CDATA[partSource]]></Name>
-					<X><![CDATA[-455]]></X><Y><![CDATA[580]]></Y>
+					<X><![CDATA[-650]]></X><Y><![CDATA[620]]></Y>
 					<Label><X>-5</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2247,10 +2339,10 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[locationX]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[-229]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[-228.66666666666669]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[locationY]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[70]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[70.0]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[locationZ]]></Name>
 						</Parameter>
@@ -2366,7 +2458,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.isComponent = true;]]></Code>
+								<Code><![CDATA[agent.isComponent = true; agent.isFragile = false; agent.isManuallyAdded = false;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2403,7 +2495,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559261320</Id>
 					<Name><![CDATA[partTravel]]></Name>
-					<X><![CDATA[-270]]></X><Y><![CDATA[580]]></Y>
+					<X><![CDATA[-350]]></X><Y><![CDATA[620]]></Y>
 					<Label><X>-10</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2485,7 +2577,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[removeFromConveyor]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[removeFromSpace]]></Name>
 						</Parameter>
@@ -2497,7 +2589,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[partsTravelled++;]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
 						</Parameter>
@@ -2532,7 +2624,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559261322</Id>
 					<Name><![CDATA[fitSheet]]></Name>
-					<X><![CDATA[-270]]></X><Y><![CDATA[400]]></Y>
+					<X><![CDATA[-450]]></X><Y><![CDATA[400]]></Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2666,7 +2758,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559261323</Id>
 					<Name><![CDATA[fitPart]]></Name>
-					<X><![CDATA[-95]]></X><Y><![CDATA[400]]></Y>
+					<X><![CDATA[-30]]></X><Y><![CDATA[400]]></Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3758,6 +3850,212 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Code><![CDATA[10]]></Code>
 						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 					</InitialSpeedCode>
+					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject><EmbeddedObject>
+					<Id>1793559261472</Id>
+					<Name><![CDATA[loadingTravel]]></Name>
+					<X><![CDATA[-190]]></X><Y><![CDATA[400]]></Y>
+					<Label><X>-10</X><Y>-25</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+							<ClassName><![CDATA[Convey]]></ClassName>
+							<ItemName><![CDATA[1504168429638]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[sourceType]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[self.SOURCE_CONVEYOR_OFFSET]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[sourcePositionOnConveyor]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[sourceConveyor]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[loadingBelt]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[sourceOffsetFromBeginning]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[sourceOffset]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[0]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[changeOrientation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[orientation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetType]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[self.TARGET_POSITION_ON_CONVEYOR]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetPositionOnConveyor]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[assemblyJoin]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetConveyor]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetOffsetFromBeginning]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetOffset]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetStation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetCustomStation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[routeIs]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[conveyorsToAvoid]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[conveyorsToInclude]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[conveyorSequence]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[removeFromConveyor]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[removeFromSpace]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnter]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onAtExit]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExit]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[palletsTravelled++;]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[onRemove]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onCancel]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1793559261473</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject><EmbeddedObject>
+					<Id>1793559261478</Id>
+					<Name><![CDATA[loadingGate]]></Name>
+					<X><![CDATA[-320]]></X><Y><![CDATA[400]]></Y>
+					<Label><X>-5</X><Y>-20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Hold]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+							<ClassName><![CDATA[Hold]]></ClassName>
+							<ItemName><![CDATA[1412336242940]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[mode]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[self.BLOCK_AFTER_N_ENTITIES]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[nEntitiesForSelfBlock]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[1]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[condition]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[initiallyBlocked]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnter]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
@@ -5206,10 +5504,76 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 
 
 
-				</Conveyor><Conveyor>
+				<Presentation><PositionOnConveyor>
+					<Id>1793559261469</Id>
+					<Name><![CDATA[assemblyJoin]]></Name>
+					<X><![CDATA[-228.66666666666669]]></X><Y><![CDATA[250.0]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<EmbeddedObject>
+						<Id>1793559261470</Id>
+						<ActiveObjectClass>
+							<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+							<ClassName><![CDATA[PositionOnConveyorDescriptor]]></ClassName>
+						</ActiveObjectClass>
+						<GenericParameterSubstitute>
+							<GenericParameterSubstituteReference>
+								<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+								<ClassName><![CDATA[PositionOnConveyorDescriptor]]></ClassName>
+								<ItemName><![CDATA[1513935806894]]></ItemName>
+							</GenericParameterSubstituteReference>
+						</GenericParameterSubstitute>
+						<Parameters>
+							<Parameter>
+								<Name><![CDATA[initiallyBlocked]]></Name>
+							</Parameter>
+							<Parameter>
+								<Name><![CDATA[onLeadingEdgeEnter]]></Name>
+							</Parameter>
+							<Parameter>
+								<Name><![CDATA[onTrailingEdgeExit]]></Name>
+							</Parameter>
+							<Parameter>
+								<Name><![CDATA[onCellEnter]]></Name>
+							</Parameter>
+							<Parameter>
+								<Name><![CDATA[onCellExit]]></Name>
+							</Parameter>
+						</Parameters>
+						<ReplicationFlag>false</ReplicationFlag>
+						<Replication Class="CodeValue">
+							<Code><![CDATA[100]]></Code>
+						</Replication>
+						<CollectionType>ARRAY_LIST_BASED</CollectionType>
+						<InitialLocationType>XYZ</InitialLocationType>
+						<ColumnCode Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</ColumnCode>
+						<RowCode Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</RowCode>
+						<LocationNameCode Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
+						</LocationNameCode>
+						<InitializationType>SPECIFIED_NUMBER</InitializationType>
+						<InitializationDatabaseTableQuery>
+							<Id>1793559261471</Id>
+							<TableReference>
+							</TableReference>
+						</InitializationDatabaseTableQuery>
+						<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+						<QuantityColumn>
+						</QuantityColumn>
+					</EmbeddedObject>
+					<Offset><![CDATA[82]]></Offset>
+				</PositionOnConveyor></Presentation></Conveyor><Conveyor>
 					<Id>1793559261302</Id>
 					<Name><![CDATA[partFeeder]]></Name>
-					<X><![CDATA[-229]]></X><Y><![CDATA[70]]></Y>
+					<X><![CDATA[-228.66666666666669]]></X><Y><![CDATA[70.0]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5340,7 +5704,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				<Presentation><PositionOnConveyor>
 					<Id>1793559261305</Id>
 					<Name><![CDATA[partStart]]></Name>
-					<X><![CDATA[-229]]></X><Y><![CDATA[70]]></Y>
+					<X><![CDATA[-228.66666666666669]]></X><Y><![CDATA[70.0]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5402,11 +5766,11 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset>450.0</Offset>
+					<Offset><![CDATA[0]]></Offset>
 				</PositionOnConveyor><PositionOnConveyor>
 					<Id>1793559261308</Id>
 					<Name><![CDATA[partJoin]]></Name>
-					<X><![CDATA[-229]]></X><Y><![CDATA[275]]></Y>
+					<X><![CDATA[-228.66666666666669]]></X><Y><![CDATA[250.0]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5468,7 +5832,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset>450.0</Offset>
+					<Offset><![CDATA[180]]></Offset>
 				</PositionOnConveyor></Presentation></Conveyor></Presentation>
 
 					<Z>0</Z>
@@ -7483,7 +7847,7 @@ gray : black]]></FillColorCode>
 				</Area>
 			</Areas>
 
-		<StartupCode><![CDATA[]]></StartupCode></ActiveObjectClass>
+		<StartupCode/></ActiveObjectClass>
 		<!--   =========   Active Object Class   ========  -->
 		<ActiveObjectClass>
 			<Id>1793541544634</Id>
@@ -7723,7 +8087,7 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && !isManuallyAdded && !isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[!isSealed && !isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D>
 				<Figure3D>
 					<Id>1793542079459</Id>
@@ -7758,7 +8122,7 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && !isManuallyAdded && !isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[isSealed && !isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D>
 				<Figure3D>
 					<Id>1793542878377</Id>
@@ -7794,7 +8158,7 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && isManuallyAdded && !isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[isSealed && isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D>
 				<Figure3D>
 					<Id>1793542881461</Id>
@@ -7826,7 +8190,7 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && isManuallyAdded && !isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[!isSealed && isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D>
 
 
@@ -7858,6 +8222,28 @@ gray : black]]></FillColorCode>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
 					<ApplyShading>true</ApplyShading>
 				<VisibleCode><![CDATA[!isComponent && !isManuallyAdded]]></VisibleCode></Figure3D><Rectangle>
+					<Id>1793559261515</Id>
+					<Name><![CDATA[assemblyPallet2D]]></Name>
+					<X><![CDATA[-25]]></X><Y><![CDATA[-25]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+					<VisibleCode><![CDATA[!isComponent && !isManuallyAdded]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[5]]></Z>
+					<ZHeight>1</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[50]]></Width>
+					<Height><![CDATA[50]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-5863584]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle><Rectangle>
 					<Id>1793559261331</Id>
 					<Name><![CDATA[assemblyrectangle]]></Name>
 					<X>-15</X><Y>-15</Y>
@@ -7909,7 +8295,7 @@ gray : black]]></FillColorCode>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
 					<VisibleCode><![CDATA[isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)]]></VisibleCode>
-				<ZCode><![CDATA[isComponent ? 0 : 8]]></ZCode></Figure3D><Rectangle>
+				<ZCode><![CDATA[8]]></ZCode></Figure3D><Rectangle>
 					<Id>1793559261334</Id>
 					<Name><![CDATA[carton2D]]></Name>
 					<X><![CDATA[-20]]></X><Y><![CDATA[-20]]></Y>
@@ -7918,7 +8304,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && !isManuallyAdded && !isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && !isManuallyAdded && !isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[8]]></Z>
 					<ZHeight>1</ZHeight>
@@ -7940,7 +8326,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[9]]></Z>
 					<ZHeight>1</ZHeight>
@@ -7954,7 +8340,29 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-882116]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261448</Id>
+					<Id>1793559261333</Id>
+					<Name><![CDATA[blueSleeve2D]]></Name>
+					<X><![CDATA[-9]]></X><Y><![CDATA[-9]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+					<VisibleCode><![CDATA[isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[9]]></Z>
+					<ZHeight>1</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[18]]></Width>
+					<Height><![CDATA[18]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-14129199]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle><Rectangle>
+					<Id>1793559261517</Id>
 					<Name><![CDATA[categoryMarkManualBody]]></Name>
 					<X><![CDATA[-20]]></X><Y><![CDATA[-20]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -7962,7 +8370,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && !isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && !isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[8]]></Z>
 					<ZHeight>1</ZHeight>
@@ -7976,7 +8384,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-14395444]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261449</Id>
+					<Id>1793559261518</Id>
 					<Name><![CDATA[categoryMarkFragileBody]]></Name>
 					<X><![CDATA[-20]]></X><Y><![CDATA[-20]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -7984,7 +8392,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[8]]></Z>
 					<ZHeight>1</ZHeight>
@@ -7998,7 +8406,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-882116]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Figure3D>
-					<Id>1793559261450</Id>
+					<Id>1793559261519</Id>
 					<Name><![CDATA[categoryMarkFragilebox_1_open]]></Name>
 					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
@@ -8026,9 +8434,9 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && !isManuallyAdded && isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[!isSealed && !isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D><Figure3D>
-					<Id>1793559261451</Id>
+					<Id>1793559261520</Id>
 					<Name><![CDATA[categoryMarkFragilebox_1_closed]]></Name>
 					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
@@ -8060,9 +8468,9 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && !isManuallyAdded && isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[isSealed && !isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D><Figure3D>
-					<Id>1793559261452</Id>
+					<Id>1793559261521</Id>
 					<Name><![CDATA[categoryMarkFragilebox_1_closed1]]></Name>
 					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
@@ -8095,9 +8503,9 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && isManuallyAdded && isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[isSealed && isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D><Figure3D>
-					<Id>1793559261453</Id>
+					<Id>1793559261522</Id>
 					<Name><![CDATA[categoryMarkFragilebox_1_open1]]></Name>
 					<X>0</X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
@@ -8126,9 +8534,9 @@ gray : black]]></FillColorCode>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && isManuallyAdded && isFragile && !isComponent]]></VisibleCode>
+					<VisibleCode><![CDATA[!isSealed && isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 				</Figure3D><Rectangle>
-					<Id>1793559261454</Id>
+					<Id>1793559261523</Id>
 					<Name><![CDATA[categoryMarkTop]]></Name>
 					<X><![CDATA[-21]]></X><Y><![CDATA[-21]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8136,7 +8544,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8150,7 +8558,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-39680]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261455</Id>
+					<Id>1793559261524</Id>
 					<Name><![CDATA[categoryMarkBottom]]></Name>
 					<X><![CDATA[-21]]></X><Y><![CDATA[16]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8158,7 +8566,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8172,7 +8580,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-39680]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261456</Id>
+					<Id>1793559261525</Id>
 					<Name><![CDATA[categoryMarkLeft]]></Name>
 					<X><![CDATA[-21]]></X><Y><![CDATA[-16]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8180,7 +8588,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8194,7 +8602,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-39680]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261457</Id>
+					<Id>1793559261526</Id>
 					<Name><![CDATA[categoryMarkRight]]></Name>
 					<X><![CDATA[16]]></X><Y><![CDATA[-16]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8202,7 +8610,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8216,7 +8624,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-39680]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261458</Id>
+					<Id>1793559261527</Id>
 					<Name><![CDATA[categoryMarkGlassRim]]></Name>
 					<X><![CDATA[-8]]></X><Y><![CDATA[-12]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8224,7 +8632,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8238,7 +8646,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-14670538]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261459</Id>
+					<Id>1793559261528</Id>
 					<Name><![CDATA[categoryMarkGlassBowl]]></Name>
 					<X><![CDATA[-6]]></X><Y><![CDATA[-8]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8246,7 +8654,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8260,7 +8668,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-14670538]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261460</Id>
+					<Id>1793559261529</Id>
 					<Name><![CDATA[categoryMarkGlassStem]]></Name>
 					<X><![CDATA[-2]]></X><Y><![CDATA[1]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8268,7 +8676,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8282,7 +8690,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-14670538]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261461</Id>
+					<Id>1793559261530</Id>
 					<Name><![CDATA[categoryMarkGlassFoot]]></Name>
 					<X><![CDATA[-7]]></X><Y><![CDATA[9]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8290,7 +8698,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8304,7 +8712,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-14670538]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261462</Id>
+					<Id>1793559261531</Id>
 					<Name><![CDATA[categoryMarkPStem]]></Name>
 					<X><![CDATA[-15]]></X><Y><![CDATA[-12]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8312,7 +8720,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8326,7 +8734,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-1]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261463</Id>
+					<Id>1793559261532</Id>
 					<Name><![CDATA[categoryMarkPTop]]></Name>
 					<X><![CDATA[-11]]></X><Y><![CDATA[-12]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8334,7 +8742,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8348,7 +8756,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-1]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261464</Id>
+					<Id>1793559261533</Id>
 					<Name><![CDATA[categoryMarkPRight]]></Name>
 					<X><![CDATA[-3]]></X><Y><![CDATA[-8]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8356,7 +8764,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8370,7 +8778,7 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-1]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261465</Id>
+					<Id>1793559261534</Id>
 					<Name><![CDATA[categoryMarkPMid]]></Name>
 					<X><![CDATA[-11]]></X><Y><![CDATA[-1]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
@@ -8378,7 +8786,7 @@ gray : black]]></FillColorCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded]]></VisibleCode>
+					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[44]]></Z>
 					<ZHeight><![CDATA[1]]></ZHeight>
@@ -8392,9 +8800,9 @@ gray : black]]></FillColorCode>
 					<FillColor><![CDATA[-1]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle><Rectangle>
-					<Id>1793559261333</Id>
-					<Name><![CDATA[blueSleeve2D]]></Name>
-					<X><![CDATA[-9]]></X><Y><![CDATA[-9]]></Y>
+					<Id>1793559261535</Id>
+					<Name><![CDATA[categoryMarkSleeveBore]]></Name>
+					<X><![CDATA[-4]]></X><Y><![CDATA[-4]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8402,16 +8810,16 @@ gray : black]]></FillColorCode>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
 					<VisibleCode><![CDATA[isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[9]]></Z>
+					<Z><![CDATA[10]]></Z>
 					<ZHeight>1</ZHeight>
 					<LineWidth>1</LineWidth>
 					<LineColor/>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[18]]></Width>
-					<Height><![CDATA[18]]></Height>
+					<Width><![CDATA[8]]></Width>
+					<Height><![CDATA[8]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillColor><![CDATA[-15258283]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle></Presentation>
 
