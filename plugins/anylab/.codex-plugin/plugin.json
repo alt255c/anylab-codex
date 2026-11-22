@@ -1,0 +1,12 @@
+{
+  "name": "anylab",
+  "version": "0.1.0",
+  "description": "Подготовка лабораторных AnyLogic по вариантам: модели, эксперименты и общий отчёт.",
+  "requires_local_executor": true,
+  "interface": {
+    "displayName": "AnyLab",
+    "shortDescription": "Лабораторные по AnyLogic"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

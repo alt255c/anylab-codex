@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.sqlite3*
+*.db
+.env*
+.venv/
+private/
+web-jobs/
+runs/
+.local/
+*.alp
+*.mp4
+*.docx
