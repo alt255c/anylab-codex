@@ -1,6 +1,6 @@
 {
   "name": "anylab",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Подготовка лабораторных AnyLogic по вариантам: модели, эксперименты и общий отчёт.",
   "requires_local_executor": true,
   "interface": {

@@ -117,6 +117,11 @@ def place(node, x, y):
     put(node, "Y", str(y))
 
 
+def argb(hex_color):
+    value=int(hex_color.lstrip("#"),16) | 0xFF000000
+    return value-0x100000000 if value >= 0x80000000 else value
+
+
 def tutorial(name):
     from anylab import examples
     files = [Path(p) for p in examples(name) if Path(p).stem == name]
@@ -136,13 +141,38 @@ def build_loading(editor, network, enter_model, enter_main):
         editor.variable(editor.main,flag,name,"0",820+50*index,"int")
 
     belt_shapes = child(network,"Presentation")
-    inlet = by_name(belt_shapes,"Conveyor")["loadingBelt"]
+    available_belts=by_name(belt_shapes,"Conveyor")
+    inlet=available_belts.get("loadingBelt",available_belts.get("conveyor"))
+    if inlet is None:
+        raise ValueError("В модели не найден основной конвейер для точки слияния")
     part = editor.clone(inlet,"partFeeder")
     part.removeAttribute("TargetId")
-    join_x = float(field(inlet,"X"))+82
-    join_y = float(field(inlet,"Y"))
-    place(part,join_x,join_y-155)
-    set_points(part,route_curve([(0,0,0),(0,117,0)]))
+    join_x = round(float(field(inlet,"X"))+82)
+    join_y = round(float(field(inlet,"Y")))
+    feeder_start_y=join_y-180
+    feeder_extension=25
+    feeder_length=180+feeder_extension
+    feeder_end_y=join_y+feeder_extension
+    place(part,join_x,feeder_start_y)
+    set_points(part,route_curve([(0,0,0),(0,feeder_length,0)]))
+    # Convey requires real PositionOnConveyor descriptors for both ends.
+    position_proto = next((n for n in children(inlet,"PositionOnConveyor")), None)
+    if position_proto is None:
+        position_proto = next(iter(network.getElementsByTagName("PositionOnConveyor")), None)
+    if position_proto is None:
+        raise ValueError("В шаблоне конвейера отсутствуют точки позиционирования")
+    part_presentation=child(part,"Presentation")
+    if part_presentation is None:
+        part_presentation=part.appendChild(editor.doc.createElement("Presentation"))
+    else:
+        # The cloned straight belt carries two template sensor/controller names.
+        # Keep only the newly named positions to prevent duplicate Java methods.
+        while part_presentation.firstChild:
+            part_presentation.removeChild(part_presentation.firstChild)
+    for name, y in (("partStart",feeder_start_y),("partJoin",feeder_end_y)):
+        descriptor = editor.clone(position_proto,name)
+        place(descriptor,join_x,y)
+        part_presentation.appendChild(descriptor)
     belt_shapes.appendChild(part)
     editor.caption("loadingText","Подача детали ↓",int(join_x)-72,int(join_y)-176)
 
@@ -151,17 +181,18 @@ def build_loading(editor, network, enter_model, enter_main):
     source, manual, convey = (editor.blocks[k] for k in ("source","source1","fromConveyorStart"))
     place(source,-455,400)
     editor.block(manual,"sheetSource",-455,520,{"onAtExit":"agent.isComponent = true;"})
-    editor.block(manual,"partSource",-455,580,{"onAtExit":"agent.isComponent = true;"})
+    editor.block(manual,"partSource",join_x-18,feeder_start_y-12,{"onAtExit":"agent.isComponent = true;"})
     # Inject exactly one part and one sheet for each pallet.
     set_param(source,"onAtExit","sheetSource.inject(1); partSource.inject(1);")
     set_param(source,"locationX",str(float(field(inlet,"X"))))
     set_param(source,"locationY",str(join_y))
     travel = editor.block(convey,"partTravel",-270,580,{
         "sourceConveyor":"partFeeder","targetConveyor":"partFeeder",
+        "sourceType":"self.SOURCE_POSITION_ON_CONVEYOR","sourcePositionOnConveyor":"partStart",
+        "targetType":"self.TARGET_POSITION_ON_CONVEYOR","targetPositionOnConveyor":"partJoin",
     })
-    parameters = by_name(child(travel,"Parameters"),"Parameter")
-    for setting in ("targetType","targetPositionOnConveyor"):
-        parameters[setting].removeChild(child(parameters[setting],"Value"))
+    set_param(editor.blocks["partSource"],"locationX",str(join_x))
+    set_param(editor.blocks["partSource"],"locationY",str(feeder_start_y))
     fit_sheet = editor.block(blocks["addSheet"],"fitSheet",-270,400,{
         "onExit":"((Carton)agent).hasPalletSheet = true;"
     },package)
@@ -204,10 +235,85 @@ def build_loading(editor, network, enter_model, enter_main):
             visibility = visibility.replace("coveredWithSheet","hasPalletSheet")
         put(duplicate,"VisibleCode","!isComponent && !isManuallyAdded" +
             (" && ("+visibility+")" if visibility else ""))
+        # Imported 3D meshes have no 2D bitmap preview. AnyLogic draws a
+        # broken-image placeholder when these are set to 2D+3D, so keep the
+        # meshes in the 3D view and provide explicit vector proxies below.
+        if duplicate.tagName == "Figure3D":
+            put(duplicate,"DrawMode","SHAPE_DRAW_3D")
         dest.appendChild(duplicate)
         assets.extend(n.firstChild.data for n in duplicate.getElementsByTagName("ClassName")
                       if n.firstChild and n.firstChild.data.startswith("3d/"))
+    # Replace the inherited bottle/pipe illustration with an original,
+    # purpose-built sleeve mesh. The same component is visible on its feeder
+    # and after it has been added to an open carton.
+    for old in list(children(dest)):
+        if field(old,"Name") in {"pipe_corner","bottle_6","fragileStamp"}:
+            dest.removeChild(old)
+    proto = next((s for s in children(dest,"Figure3D") if field(s,"Name")=="box_1_open"),None)
+    if proto is not None:
+        sleeve = editor.clone(proto,"blueSleeve")
+        put(sleeve,"DrawMode","SHAPE_DRAW_3D")
+        class_name=child(sleeve,"ResourceReference/ClassName")
+        while class_name.firstChild:
+            class_name.removeChild(class_name.firstChild)
+        class_name.appendChild(editor.doc.createCDATASection("3d/blue_sleeve.dae"))
+        x_nodes=children(sleeve,"X"); y_nodes=children(sleeve,"Y")
+        for node in (*x_nodes,*y_nodes):
+            put(sleeve,node.tagName,"0")
+        z_nodes=children(sleeve,"Z")
+        if z_nodes: put(sleeve,"Z","0")
+        put(sleeve,"VisibleCode","isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)")
+        dest.appendChild(sleeve)
+        # In 2D, represent the cylindrical part as a blue disc instead of
+        # allowing AnyLogic's generic green agent marker to show through.
+        disc=next((s for s in children(dest,"Rectangle") if field(s,"Name")=="assemblyrectangle"),None)
+        if disc is not None:
+            icon=editor.clone(disc,"blueSleeve2D")
+            place(icon,-9,-9)
+            put(icon,"Width","18"); put(icon,"Height","18")
+            put(icon,"Z","9"); put(icon,"FillColor",str(-15092048))
+            put(icon,"DrawMode","SHAPE_DRAW_2D")
+            put(icon,"VisibleCode","isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)")
+            dest.appendChild(icon)
+            # Give cartons a clean vector appearance in the 2D view instead
+            # of relying on the missing preview of the imported 3D box mesh.
+            box=editor.clone(disc,"carton2D")
+            place(box,-20,-20)
+            put(box,"Width","40"); put(box,"Height","40")
+            put(box,"Z","8"); put(box,"FillColor",str(argb("#19B6B0")))
+            put(box,"DrawMode","SHAPE_DRAW_2D")
+            put(box,"VisibleCode","!isComponent")
+            dest.appendChild(box)
+            tape=editor.clone(disc,"cartonTape2D")
+            place(tape,-5,-20)
+            put(tape,"Width","10"); put(tape,"Height","40")
+            put(tape,"Z","9"); put(tape,"FillColor",str(argb("#F28A3C")))
+            put(tape,"DrawMode","SHAPE_DRAW_2D")
+            put(tape,"VisibleCode","!isComponent")
+            dest.appendChild(tape)
     return assets
+
+
+def extend_loading(doc,model,main,network):
+    """Add the perpendicular component feeder to the standalone middle section."""
+    if ("partFeeder" in by_name(child(network,"Presentation"),"Conveyor") and
+            {"partSource","partTravel","fitPart"}.issubset(by_name(child(main,"EmbeddedObjects"),"EmbeddedObject"))):
+        return []
+    editor=LineEditor(doc,model,main)
+    enter,enter_model,enter_main=tutorial("ConveyorEnter")
+    assets=build_loading(editor,network,enter_model,enter_main)
+    resources=child(model,"ModelResources")
+    known={field(r,"Path") for r in children(resources,"Resource")}
+    paths=[]
+    for name in sorted(set(assets)):
+        if name in known:
+            continue
+        resource=next(r for r in children(child(enter_model,"ModelResources"),"Resource")
+                      if field(r,"Path")==name)
+        resources.appendChild(editor.clone(resource))
+        paths.append(enter.parent/name)
+        known.add(name)
+    return paths
 
 
 def build_shipping(editor, network, exit_model, exit_main):
@@ -216,7 +322,7 @@ def build_shipping(editor, network, exit_model, exit_main):
     forklift = by_name(child(exit_model,"ActiveObjectClasses"), "ActiveObjectClass")["Forklift"]
     child(editor.model,"ActiveObjectClasses").appendChild(editor.clone(forklift,imported_package=package))
 
-    belt = by_name(child(network,"Presentation"),"Conveyor")["unloadingBelt"]
+    belt = by_name(child(network,"Presentation"),"Conveyor")["conveyor2"]
     exit_x = round(float(field(belt,"X"))+anchors(belt)[-1][0])
     exit_y = round(float(field(belt,"Y")))
     terminal = child(exit_main,"Presentation/Level/Presentation")
@@ -232,9 +338,9 @@ def build_shipping(editor, network, exit_model, exit_main):
     for element in [paths,*children(space),*space.getElementsByTagName("Attractor")]:
         place(element,int(field(element,"X"))+dx,int(field(element,"Y"))+dy)
     put(store,"Name","ordinaryWarehouse")
-    put(store,"Width","100")
-    put(store,"Height","72")
-    for name, delta, label in (("fragileWarehouse",-95,"Хрупкие"),("manualWarehouse",95,"Ручная сборка")):
+    put(store,"Width","170")
+    put(store,"Height","112")
+    for name, delta, label in (("fragileWarehouse",-245,"Хрупкие"),("manualWarehouse",245,"Ручная сборка")):
         node=editor.clone(store,name)
         x,y=int(field(store,"X")),int(field(store,"Y"))+delta
         place(node,x,y)
@@ -254,7 +360,20 @@ def build_shipping(editor, network, exit_model, exit_main):
 
     editor.unlink("toConveyorEnd","sink")
     set_param(editor.blocks["toConveyorEnd"],"removeFromConveyor","false")
-    editor.block(blocks["forklift"],"forklift",975,480,{"capacity":"3"},package)
+    homes=["forkliftHome"]
+    home_x,home_y=int(field(point,"X")),int(field(point,"Y"))
+    for index,(dx,dy) in enumerate(((-120,-95),(120,-95)),2):
+        home=editor.clone(point,f"forkliftHome{index}")
+        place(home,home_x+dx,home_y+dy)
+        space.appendChild(home)
+        road=editor.clone(outbound,f"homePath{index}")
+        road.setAttribute("TargetId",field(home,"Id"))
+        place(road,home_x,home_y)
+        set_points(road,route_curve([(0,0,0),(dx,dy,0)]))
+        space.appendChild(road)
+        homes.append(f"forkliftHome{index}")
+    editor.block(blocks["forklift"],"forklift",975,480,
+                 {"capacity":"3","homeNodes":"{ "+", ".join(homes)+" }"},package)
     editor.block(blocks["seizeForklift"],"seizeForklift",955,390,package=package)
     editor.block(blocks["conveyorExit"],"leaveBelt",1060,400,package=package)
     editor.block(blocks["toStorage"],"toWarehouse",1170,390,{
@@ -263,7 +382,7 @@ def build_shipping(editor, network, exit_model, exit_main):
     },package)
     editor.block(blocks["releaseForklift"],"releaseForklift",1295,390,package=package)
     editor.block(blocks["storing"],"storeBox",1420,390,package=package)
-    place(editor.blocks["sink"],1540,400)
+    place(editor.blocks["sink"],1770,400)
     set_param(editor.blocks["sink"],"onEnter",
               "if (agent.isManuallyAdded) manualDelivered++; else if (agent.isFragile) fragileDelivered++; else ordinaryDelivered++;")
     links = (("toConveyorEnd","seizeForklift",10,20),("seizeForklift","leaveBelt",20,10),
@@ -274,16 +393,24 @@ def build_shipping(editor, network, exit_model, exit_main):
     return ["3d/forklift.dae", "3d/sittingworker.dae"]
 
 
-def extend_line(doc, model, main, network):
+def extend_line(doc, model, main, network, component="blue_sleeve", layout="extended_offset"):
     editor = LineEditor(doc,model,main)
-    enter, enter_model, enter_main = tutorial("ConveyorEnter")
-    exit_, exit_model, exit_main = tutorial("ConveyorExit")
-    loading = build_loading(editor,network,enter_model,enter_main)
-    shipping = build_shipping(editor,network,exit_model,exit_main)
+    existing_belts=by_name(child(network,"Presentation"),"Conveyor")
+    existing_blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
+    loading=[];shipping=[]
+    if "partFeeder" not in existing_belts or not {"partSource","partTravel","fitPart"}.issubset(existing_blocks):
+        enter,enter_model,enter_main=tutorial("ConveyorEnter")
+        loading=build_loading(editor,network,enter_model,enter_main)
+    else:
+        _normalize_feeder(editor,network,main)
+    existing_networks=by_name(child(main,"Presentation/Level/Presentation"),"Network")
+    if "warehouseNetwork" not in existing_networks:
+        exit_,exit_model,exit_main=tutorial("ConveyorExit")
+        shipping=build_shipping(editor,network,exit_model,exit_main)
 
     view = by_name(child(main,"Areas"),"Area")["viewLogic"]
     place(view,-520,-25)
-    put(view,"Width","2530")
+    put(view,"Width","2760" if layout=="extended_offset" else "2520")
     put(view,"Height","655")
     camera = main.getElementsByTagName("Camera3D")[0]
     place(camera,810,755)
@@ -297,7 +424,10 @@ def extend_line(doc, model, main, network):
     resources = child(model,"ModelResources")
     paths = []
     known = {field(r,"Path") for r in children(resources,"Resource")}
-    for tutorial_path,tutorial_model,files in ((enter,enter_model,loading),(exit_,exit_model,shipping)):
+    tutorials=[]
+    if loading: tutorials.append((enter,enter_model,loading))
+    if shipping: tutorials.append((exit_,exit_model,shipping))
+    for tutorial_path,tutorial_model,files in tutorials:
         for name in sorted(set(files)):
             if name in known:
                 continue
@@ -307,3 +437,25 @@ def extend_line(doc, model, main, network):
             paths.append(tutorial_path.parent / name)
             known.add(name)
     return paths
+
+
+def _normalize_feeder(editor,network,main):
+    """Keep an already staged 5.2 model aligned after geometry fixes."""
+    belts=by_name(child(network,"Presentation"),"Conveyor")
+    inlet=belts.get("loadingBelt",belts.get("conveyor"))
+    part=belts.get("partFeeder")
+    blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
+    if inlet is None or part is None or "partSource" not in blocks:
+        return
+    join_x=round(float(field(inlet,"X"))+82)
+    join_y=round(float(field(inlet,"Y")))
+    start_y=join_y-180
+    end_y=join_y+25
+    place(part,join_x,start_y)
+    set_points(part,route_curve([(0,0,0),(0,end_y-start_y,0)]))
+    positions=by_name(child(part,"Presentation"),"PositionOnConveyor")
+    for name,y in (("partStart",start_y),("partJoin",end_y)):
+        if name in positions:
+            place(positions[name],join_x,y)
+    set_param(blocks["partSource"],"locationX",str(join_x))
+    set_param(blocks["partSource"],"locationY",str(start_y))

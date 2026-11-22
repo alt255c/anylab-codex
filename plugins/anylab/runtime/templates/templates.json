@@ -187,9 +187,10 @@
           "label": "Предоставленный образец",
           "fields": "models/5.1/1/Model.fill.json",
           "required_install_resources": [
-            "3d/bottle_6.dae",
+            "3d/blue_sleeve.dae",
             "3d/box_1_closed.dae",
             "3d/box_1_open.dae",
+            "3d/pallet.dae",
             "3d/pipe_corner.dae",
             "3d/table.dae",
             "3d/trolley.dae",
@@ -205,7 +206,7 @@
           "label": "Готовая модель задания 5.2",
           "fields": "models/5.2/1/Model.fill.json",
           "required_install_resources": [
-            "3d/bottle_6.dae",
+            "3d/blue_sleeve.dae",
             "3d/box_1_closed.dae",
             "3d/box_1_open.dae",
             "3d/forklift.dae",

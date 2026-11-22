@@ -107,7 +107,7 @@ def templates(lab, root=None):
     return entry
 
 
-def prepare_lab(lab, variant, destination, root=None, variant_inputs=None,
+def prepare_lab(lab, destination, variant=None, root=None, variant_inputs=None,
                 student=None, group=None, teacher=None, station=None, station_plan=None, addition=None):
     """Create a workspace from the exact project and report references."""
     import hashlib
@@ -120,10 +120,13 @@ def prepare_lab(lab, variant, destination, root=None, variant_inputs=None,
     reference = bundle.get("report_reference") or bundle.get("report")
     if not reference:
         raise ValueError("В комплекте указан каркас отчёта. Для точного оформления нужен оригинальный DOCX.")
-    variant = str(variant).strip()
-    if not variant:
-        raise ValueError("Укажите номер или название варианта")
+    variant = str(variant).strip() if variant is not None else ""
     tasks = task_data(lab=lab, variant=variant)
+    if not variant and any(task["available_variants"] for task in tasks):
+        choices=sorted({v for task in tasks for v in task["available_variants"]},key=int)
+        raise ValueError("Для этой работы есть варианты. Выберите один из: "+", ".join(choices))
+    if not variant:
+        variant=None
     variant_inputs = variant_inputs or {}
     if any(key not in {task["id"] for task in tasks} for key in variant_inputs):
         raise ValueError("Исходные данные должны быть привязаны к заданию")
@@ -208,18 +211,21 @@ def finish_lab_report(workspace, destination, paragraphs, images):
     guide = layout["fill_fields"]
     required_text = guide["paragraphs"]
     required_images = guide["images"]
-    metadata = {
-        "STUDENT":plan["student"], "GROUP":plan["group"], "VARIANT":plan["variant"],
-        "YEAR":str(date.today().year), "TEACHER":plan.get("teacher") or "",
-    }
+    metadata = {"STUDENT":plan["student"], "GROUP":plan["group"],
+                "YEAR":str(date.today().year), "TEACHER":plan.get("teacher") or ""}
+    if plan.get("variant"):
+        metadata["VARIANT"]=plan["variant"]
     updates = dict(paragraphs)
     for item in layout["paragraphs"]:
         if item["id"] not in required_text:
             continue
         original = item["text"]
         markers = re.findall(r"\{\{(\w+)\}\}", original)
-        if markers and all(marker in metadata for marker in markers):
-            updates[item["id"]] = re.sub(r"\{\{(\w+)\}\}", lambda match: metadata[match[1]], original)
+        if markers and all(marker in metadata or marker=="VARIANT" and not plan.get("variant") for marker in markers):
+            text=original
+            if not plan.get("variant"):
+                text=re.sub(r"\s*[·|—-]?\s*Вариант\s*\{\{VARIANT\}\}","",text,flags=re.I)
+            updates[item["id"]] = re.sub(r"\{\{(\w+)\}\}", lambda match: metadata.get(match[1],""), text)
     if set(updates) != set(required_text) or set(images) != set(required_images):
         missing = sorted(set(required_text) - set(updates), key=int)
         missing_images = sorted(set(required_images) - set(images), key=int)
@@ -344,7 +350,7 @@ def dispatch(action, params):
     from pdf_export import export_pdf
     from template_fill import fill_report
     from reference_docx import inspect_reference, refill_reference
-    from scenarios import conveyor_scenario
+    from scenarios import conveyor_scenario, conveyor_capacity
     import experiments
     import materials
     import projects
@@ -353,6 +359,7 @@ def dispatch(action, params):
         "templates": templates,
         "prepare_lab": prepare_lab,
         "conveyor_scenario": conveyor_scenario,
+        "conveyor_capacity": conveyor_capacity,
         "finish_lab_report": finish_lab_report,
         "stage_template": stage_template,
         "fill_model": fill_model,
@@ -394,12 +401,16 @@ COMMANDS = {
     "tasks": ("Список лабораторных и вариантов или условия всех заданий указанной работы.", (), {"lab":"integer","variant":"string"}),
     "templates": ("Показать локальные образцы всех заданий и общий шаблон DOCX по лабораторной.", ("lab",), {"lab":"integer","root":"string"}),
     "prepare_lab": ("Подготовить DOCX и проекты всех заданий из встроенного или выбранного комплекта.",
-                    ("lab","variant","destination"), {"lab":"integer","variant":"string","destination":"string","root":"string","variant_inputs":"object",
+                    ("lab","destination"), {"lab":"integer","variant":"string","destination":"string","root":"string","variant_inputs":"object",
                                                      "student":"string","group":"string","teacher":"string",
                                                      "station":"string","station_plan":"string","addition":"string"}),
     "conveyor_scenario": ("Подготовить прогон ЛР5. Полный режим добавляет сборку с поперечной подачей детали и разгрузку по трём складам.",
                            ("source","destination","rate"), {"source":"string","destination":"string","rate":"number",
-                                                             "horizon":"number","seed":"integer","full_line":"boolean"}),
+                                                             "horizon":"number","seed":"integer","full_line":"boolean",
+                                                             "palette":"string","layout":"string","component":"string"}),
+    "conveyor_capacity": ("Измерить устойчивую интенсивность и пропускную способность полного конвейера в ограниченном бюджете.",
+                          ("source","destination"), {"source":"string","destination":"string","rates":"array",
+                                                        "horizon":"number","seed":"integer","minutes":"number"}),
     "finish_lab_report": ("Заполнить отчёт из подготовленного комплекта. Титул берётся из lab-plan.json.",
                           ("workspace","destination","paragraphs","images"),
                           {"workspace":"string","destination":"string","paragraphs":"object","images":"object"}),

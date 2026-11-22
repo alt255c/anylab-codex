@@ -90,7 +90,7 @@ def isolate_package(model, token):
     return package
 
 
-def metrics_hook(ex, out, raw, token):
+def metrics_hook(ex, out, raw, token, root_type):
     metrics = json.loads(raw)
     if not isinstance(metrics, dict) or not metrics or not all(
             isinstance(k, str) and k.strip() and isinstance(v, str) and v.strip() for k, v in metrics.items()):
@@ -98,7 +98,8 @@ def metrics_hook(ex, out, raw, token):
     path = out / "metrics.csv"
     with path.open("x", newline="", encoding="utf-8") as stream:
         csv.writer(stream).writerow(metrics)
-    values = ["Double.toString((double)(" + expr + "))" for expr in metrics.values()]
+    root = "((" + root_type + ")getEngine().getRoot())"
+    values = ["Double.toString((double)(" + root + "." + expr + "))" for expr in metrics.values()]
     code = ('synchronized ("anylab_' + token + '".intern()) { try { java.nio.file.Files.writeString('
             + 'java.nio.file.Path.of(' + json.dumps(str(path), ensure_ascii=False) + '), '
             + 'String.join(",", ' + ', '.join(values) + ') + "\\n", java.nio.file.StandardOpenOption.APPEND); '
@@ -114,7 +115,13 @@ def prepare(args, out, result, build, token):
     result.update(model=str(src), sha256=hashlib.sha256(raw).hexdigest(),
                   model_version=root.getAttribute("AlpVersion"), ide_version=build)
     if version(result["model_version"]) > version(build):
-        raise ValueError(f"ALP {result['model_version']} новее IDE {build}. Нужна совместимая установка AnyLogic.")
+        if version(result["model_version"])[:2] != version(build)[:2]:
+            raise ValueError(f"ALP {result['model_version']} новее IDE {build}. Нужна совместимая установка AnyLogic.")
+        original = result["model_version"]
+        root.setAttribute("AnyLogicVersion", build)
+        root.setAttribute("AlpVersion", ".".join(build.split(".")[:3]))
+        result["source_model_version"] = original
+        result["compatibility_adjustment"] = f"Подготовлена копия ALP для AnyLogic {build}; исходный файл не изменён."
     model = direct(root, "Model")[0]
     container = direct(model, "Experiments")[0]
     choices = [e for e in container.childNodes if e.nodeType == Node.ELEMENT_NODE]
@@ -129,6 +136,12 @@ def prepare(args, out, result, build, token):
     result.update(project=project, experiment=args.experiment, experiment_type=ex.tagName)
     put(model, "Name", project)
     result["java_package"] = isolate_package(model, token)
+    active_classes = direct(model, "ActiveObjectClasses")
+    root_class = next((c for c in direct(active_classes[0], "ActiveObjectClass")
+                       if field(c, "Name") == "Main"), None) if active_classes else None
+    if root_class is None:
+        raise ValueError("Не удалось определить корневой класс Main для сбора метрик")
+    root_type = result["java_package"] + "." + field(root_class, "Name")
     folder = out / "model"
     folder.mkdir()
     rels = {content(p) for resource in direct(model, "ModelResources")
@@ -165,7 +178,7 @@ def prepare(args, out, result, build, token):
          cancelled + "))) { throw new IllegalStateException(\"AnyLab: cancelled\"); }")
     hook(ex, "BeforeSimulationRunCode", mark(out / "started.pid"))
     if args.metrics:
-        metrics_hook(ex, out, args.metrics, token)
+        metrics_hook(ex, out, args.metrics, token, root_type)
         result["metrics_csv"] = str(out / "metrics.csv")
     hook(ex, "AfterSimulationRunCode" if is_simulation else "AfterExperimentCode", mark(out / "finished.pid"))
     if is_simulation:
@@ -280,7 +293,10 @@ def run(args):
         result["elapsed_seconds"] = round(time.monotonic() - start, 3)
         save_result(out, result)
     print(json.dumps(result, ensure_ascii=False))
-    return 0 if result["state"] in {"started", "finished"} and "cleanup_error" not in result else 2
+    # Cleanup is best-effort after a completed experiment. A PowerShell/CIM
+    # failure must not turn a successful Java compile and simulation into a
+    # failed run; retain the diagnostic in result.json for inspection.
+    return 0 if result["state"] in {"started", "finished"} else 2
 
 
 def main():
