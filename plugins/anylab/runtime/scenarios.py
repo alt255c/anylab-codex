@@ -106,6 +106,8 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
         from conveyor import extend_loading
         assets = extend_loading(doc,model,main,network)
         assets.append(Path("blue_sleeve.dae"))
+    from conveyor import distinguish_cartons
+    distinguish_cartons(doc,model,main)
     # Figure3D meshes have no usable bitmap preview in the 2D animation.
     # Let the explicit vector proxies represent moving cartons there, and
     # reserve the imported meshes for the 3D view.

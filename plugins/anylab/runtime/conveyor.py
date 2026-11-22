@@ -460,3 +460,46 @@ def _normalize_feeder(editor,network,main):
             place(positions[name],join_x,y)
     set_param(blocks["partSource"],"locationX",str(join_x))
     set_param(blocks["partSource"],"locationY",str(start_y))
+
+
+def distinguish_cartons(doc, model, main):
+    """Apply stable category cues on every generation, including staged models."""
+    carton = by_name(child(model,"ActiveObjectClasses"),"ActiveObjectClass")["Carton"]
+    shapes = child(carton,"Presentation/Level/Presentation")
+    editor = LineEditor(doc,model,main)
+    for node in list(children(shapes)):
+        if field(node,"Name").startswith("categoryMark"):
+            shapes.removeChild(node)
+    base = by_name(shapes,"Rectangle")["carton2D"]
+    put(base,"VisibleCode","!isComponent && !isManuallyAdded")
+    manual = editor.clone(base,"categoryMarkManualBody")
+    put(manual,"VisibleCode","!isComponent && isManuallyAdded")
+    put(manual,"FillColor",str(argb("#2457CC")))
+    shapes.appendChild(manual)
+    for figure in children(shapes,"Figure3D"):
+        if field(figure,"Name") in {"box_1_open1","box_1_closed1"}:
+            for mapping in figure.getElementsByTagName("ColorMapping"):
+                if field(mapping,"Name")=="MA_material_27":
+                    put(mapping,"Color",str(argb("#2457CC")))
+    # Raised vector plates work in both views and remain above the closed lid.
+    # Four orange sides mark fragile boxes; a white P marks manual assembly.
+    def stroke(name,x,y,w,h,color,condition):
+        node=editor.clone(base,"categoryMark"+name)
+        place(node,x,y)
+        for key,value in {"Width":str(w),"Height":str(h),"Z":"44",
+                          "ZHeight":"1","DrawMode":"SHAPE_DRAW_2D3D",
+                          "FillColor":str(argb(color)),"VisibleCode":condition}.items():
+            put(node,key,value)
+        shapes.appendChild(node)
+    fragile="!isComponent && isFragile"
+    for name,x,y,w,h in [("Top",-21,-21,42,5),("Bottom",-21,16,42,5),
+                         ("Left",-21,-16,5,32),("Right",16,-16,5,32)]:
+        stroke(name,x,y,w,h,"#FF6500",fragile)
+    # Glass silhouette, kept independent of isSealed.
+    for name,x,y,w,h in [("GlassRim",-8,-12,16,4),("GlassBowl",-6,-8,12,9),
+                         ("GlassStem",-2,1,4,8),("GlassFoot",-7,9,14,4)]:
+        stroke(name,x,y,w,h,"#202536",fragile)
+    manual="!isComponent && isManuallyAdded"
+    for name,x,y,w,h in [("PStem",-15,-12,4,25),("PTop",-11,-12,11,4),
+                         ("PRight",-3,-8,4,7),("PMid",-11,-1,11,4)]:
+        stroke(name,x,y,w,h,"#FFFFFF",manual)
