@@ -481,7 +481,27 @@ def distinguish_cartons(doc, model, main):
             for mapping in figure.getElementsByTagName("ColorMapping"):
                 if field(mapping,"Name")=="MA_material_27":
                     put(mapping,"Color",str(argb("#2457CC")))
-    # Raised vector plates work in both views and remain above the closed lid.
+    # Color categories are integral to the mesh, so no 3D badge can float.
+    put(base,"VisibleCode","!isComponent && !isManuallyAdded && !isFragile")
+    put(manual,"VisibleCode","!isComponent && isManuallyAdded && !isFragile")
+    fragile_body=editor.clone(base,"categoryMarkFragileBody")
+    put(fragile_body,"FillColor",str(argb("#F28A3C")))
+    put(fragile_body,"VisibleCode","!isComponent && isFragile")
+    shapes.appendChild(fragile_body)
+    for figure in list(children(shapes,"Figure3D")):
+        if field(figure,"Name") not in {"box_1_open","box_1_closed","box_1_open1","box_1_closed1"}:
+            continue
+        original=field(figure,"VisibleCode").split(" && !isFragile")[0]
+        put(figure,"VisibleCode",original+" && !isFragile && !isComponent")
+        duplicate=editor.clone(figure,"categoryMarkFragile"+field(figure,"Name"))
+        put(duplicate,"VisibleCode",original+" && isFragile && !isComponent")
+        for mapping in duplicate.getElementsByTagName("ColorMapping"):
+            if field(mapping,"Name")=="MA_material_27":
+                put(mapping,"Color",str(argb("#F28A3C")))
+            elif field(mapping,"Name")=="MA_material_28":
+                put(mapping,"Color",str(argb("#FFFFFF")))
+        shapes.appendChild(duplicate)
+    # Flat vector icons are restricted to 2D.
     # Four orange sides mark fragile boxes; a white P marks manual assembly.
     def stroke(name,x,y,w,h,color,condition):
         node=editor.clone(base,"categoryMark"+name)
@@ -490,6 +510,7 @@ def distinguish_cartons(doc, model, main):
                           "ZHeight":"1","DrawMode":"SHAPE_DRAW_2D3D",
                           "FillColor":str(argb(color)),"VisibleCode":condition}.items():
             put(node,key,value)
+        put(node,"DrawMode","SHAPE_DRAW_2D")
         shapes.appendChild(node)
     fragile="!isComponent && isFragile"
     for name,x,y,w,h in [("Top",-21,-21,42,5),("Bottom",-21,16,42,5),
@@ -503,3 +524,66 @@ def distinguish_cartons(doc, model, main):
     for name,x,y,w,h in [("PStem",-15,-12,4,25),("PTop",-11,-12,11,4),
                          ("PRight",-3,-8,4,7),("PMid",-11,-1,11,4)]:
         stroke(name,x,y,w,h,"#FFFFFF",manual)
+
+
+def restore_tabbed_views(doc, model, main):
+    """Preserve the reference's tab navigation; separate the enlarged 2D area."""
+    areas=by_name(child(main,"Areas"),"Area")
+    logic,view3d=areas["viewLogic"],areas["view3D"]
+    place(view3d,5000,0)
+    for window in main.getElementsByTagName("Control"):
+        if window.getAttribute("Type")=="Window3D":
+            place(window,5000,50)
+            put(window,"FollowCamera","true")
+            put(window,"MakeDefaultViewArea","false")
+            put(window,"Width","1000");put(window,"Height","550")
+    # Reserve a header band in model coordinates at the overview zoom.
+    put(logic,"Y","-220")
+    put(logic,"Height","1100")
+    networks=by_name(child(main,"Presentation/Level/Presentation"),"Network")
+    if "warehouseNetwork" not in networks:
+        place(logic,-520,-220)
+        put(logic,"Width","1800")
+        camera=next(iter(main.getElementsByTagName("Camera3D")))
+        for key,value in {"X":"500","Y":"700","Z":"1500","RotationX":"72","RotationZ":"-90"}.items():
+            put(camera,key,value)
+    width=float(field(logic,"Width"))
+    # Match the frame aspect ratio: navigateTo then has no centering band
+    # above the header. Lock model-level dragging; 3D navigation stays local.
+    put(logic,"Height",str(round(width*0.6)))
+    fn=by_name(child(main,"Functions"),"Function")["navigate"]
+    put(fn,"Body", "selectedViewArea = viewArea;\n"
+        + "viewArea.navigateTo();\n"
+        + "getPresentation().setZoom(viewArea == viewLogic ? 1000.0 / viewLogic.getWidth() : 1.0);\n"
+        + "getPresentation().setCenter(viewArea.getX() + viewArea.getWidth()/2, viewArea.getY() + viewArea.getHeight()/2);\n"
+        + "getPresentation().setZoomAndPanningEnabled(false);\n"
+        + "panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);")
+    for n in children(child(main,"Variables"))+children(child(main,"Functions")):
+        put(n,"PresentationFlag","false")
+    put(child(model,"Experiments/SimulationExperiment/PresentationProperties"),"EnableZoomAndPanning","false")
+    put(main,"StartupCode","navigate(viewLogic);")
+
+    # Keep the original previews outside Carton, including forklift drivers.
+    for agent in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass"):
+        if field(agent,"Name")!="Carton":
+            for figure in agent.getElementsByTagName("Figure3D"):
+                put(figure,"DrawMode","SHAPE_DRAW_2D3D")
+    carton=by_name(child(model,"ActiveObjectClasses"),"ActiveObjectClass")["Carton"]
+    shapes=child(carton,"Presentation/Level/Presentation")
+    for shape in children(shapes):
+        if field(shape,"Name")=="blueSleeve":
+            put(shape,"ZCode","isComponent ? 0 : 8")
+        if field(shape,"Name")=="blueSleeve2D":
+            shapes.appendChild(shape)
+    # Logical source stays with its flowchart, not on the physical feeder.
+    blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
+    if "partSource" in blocks and "partTravel" in blocks:
+        place(blocks["partSource"],-455,580)
+        editor=LineEditor(doc,model,main)
+        editor.unlink("partSource","partTravel")
+        editor.connect("partSource","partTravel",(30,10),(0,10))
+    for text in main.getElementsByTagName("Text"):
+        if field(text,"Name") in {"ordinaryWarehouseLabel","fragileWarehouseLabel","manualWarehouseLabel"}:
+            put(text,"Y",str(float(field(text,"Y"))-40))
+            # Do not accumulate the offset when reusing an already patched model.
+            put(text,"Name",field(text,"Name")+"Adjusted")

@@ -506,7 +506,7 @@ def main():
         for key, kind in fields.items():
             kwargs = {"required": key in required, "default": argparse.SUPPRESS}
             if kind == "boolean":
-                kwargs["action"] = "store_true"
+                kwargs["action"] = argparse.BooleanOptionalAction
             else:
                 kwargs["type"] = {"string":str,"integer":int,"number":float,"array":json_arg,"object":json_arg}[kind]
             cmd.add_argument("--" + key.replace("_","-"), **kwargs)

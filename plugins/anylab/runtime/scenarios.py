@@ -108,11 +108,13 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
         assets.append(Path("blue_sleeve.dae"))
     from conveyor import distinguish_cartons
     distinguish_cartons(doc,model,main)
-    # Figure3D meshes have no usable bitmap preview in the 2D animation.
-    # Let the explicit vector proxies represent moving cartons there, and
-    # reserve the imported meshes for the 3D view.
-    for figure in model.getElementsByTagName("Figure3D"):
-        put(figure,"DrawMode","SHAPE_DRAW_3D")
+    from conveyor import restore_tabbed_views
+    restore_tabbed_views(doc,model,main)
+    # Preserve the reference's 2D previews for staff and vehicles. Only
+    # Carton uses custom vector icons instead of imported mesh previews.
+    for agent in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass"):
+        for figure in agent.getElementsByTagName("Figure3D"):
+            put(figure,"DrawMode","SHAPE_DRAW_3D" if field(agent,"Name")=="Carton" else "SHAPE_DRAW_2D3D")
     dest=Path(destination).resolve()
     with new_directory(dest) as stage:
         copy_resources(path,stage,False)

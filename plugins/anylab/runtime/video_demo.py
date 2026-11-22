@@ -20,35 +20,25 @@ def presentation_copy(model, folder, three_d, speed=1, camera=None):
     if field(settings,"ExecutionMode") != "realTimeScaled":
         put(settings,"ExecutionMode","realTimeScaled")
     put(settings,"RealTimeScale",str(speed))
+    put(settings,"EnableZoomAndPanning","false")
     agent = next(a for a in doc.getElementsByTagName("ActiveObjectClass")
                  if field(a,"Id") == experiment.getAttribute("ActiveObjectClassId"))
+    for viewport in agent.getElementsByTagName("Control"):
+        if viewport.getAttribute("Type")=="Window3D":
+            put(viewport,"MakeDefaultViewArea","true" if three_d else "false")
     if three_d:
         window = next((w for w in agent.getElementsByTagName("Control") if w.getAttribute("Type")=="Window3D"),None)
         if window is None:
             raise ValueError("В корневом агенте нет окна 3D. Выберите запись текущего вида.")
-        # Fill the default presentation frame with the model's own live 3D control.
-        # Move only the viewport, leaving all physical markup and camera coordinates intact.
-        frame = doc.getElementsByTagName("Frame")[0]
-        panel = next((g for g in agent.getElementsByTagName("Group") if field(g,"Name")=="panelGroup"),None)
-        inset = 50 if panel is not None else 0
-        for key,val in (("X","0"),("Y",str(inset)),("Width",field(frame,"Width") or "1000"),
-                        ("Height",str(int(field(frame,"Height") or "600")-inset))):
-            put(window,key,val)
-        window.parentNode.appendChild(window)
-        if panel is not None:
-            panel.parentNode.appendChild(panel)
-            variable = next(v for v in agent.getElementsByTagName("Variable") if field(v,"Name")=="selectedViewArea")
-            initial = direct(direct(variable,"Properties")[0],"InitialValue")[0]
-            put(initial,"Code","view3D")
         if camera:
             selected = next(c for c in agent.getElementsByTagName("Camera3D") if field(c,"Name")==field(window,"Camera"))
             for key,value in camera.items():
                 if key not in {"X","Y","Z","RotationX","RotationZ"} or not isinstance(value,(int,float)):
                     raise ValueError("Камера принимает числовые X, Y, Z, RotationX, RotationZ")
                 put(selected,key,str(value))
-        startup = field(agent,"StartupCode")
-        if "navigate(viewArea2D);" in startup:
-            put(agent,"StartupCode",startup.replace("navigate(viewArea2D);",""))
+    # Select a tab through the model's own navigation, preserving its window.
+    startup=field(agent,"StartupCode")
+    put(agent,"StartupCode",startup+"\nnavigate("+("view3D" if three_d else "viewLogic")+");")
     target.write_bytes(doc.toxml(encoding="utf-8"))
     return target, field(experiment,"Name")
 
