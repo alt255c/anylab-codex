@@ -52,5 +52,50 @@
       452,
       124
     ]
+  },
+  {
+    "field": "T1_SCHEME",
+    "role": "Схема настоящих блоков модели 6.1",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T2_SCHEME",
+    "role": "Схема настоящих блоков модели 6.2",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T1_RUN",
+    "role": "График настоящего эксперимента варьирования входной интенсивности, с единицами и параметрами",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T2_RUN",
+    "role": "График настоящего эксперимента варьирования входной интенсивности, с единицами и параметрами",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T1_2D",
+    "role": "Свежий снимок текущей модели: 2D",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T1_3D",
+    "role": "Свежий снимок текущей модели: 3D",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T2_2D",
+    "role": "Свежий снимок текущей модели: 2D",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T2_3D",
+    "role": "Свежий снимок текущей модели: 3D",
+    "source_kind": "anylogic-window-capture"
+  },
+  {
+    "field": "T2_PAYMENT",
+    "role": "Свежий снимок текущей модели: PAYMENT",
+    "source_kind": "anylogic-window-capture"
   }
 ]

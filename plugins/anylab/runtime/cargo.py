@@ -12,6 +12,12 @@ from conveyor import LineEditor, by_name, set_param, argb
 
 
 def apply_cargo(doc, model, main, body="#19B6B0", accent="#F28A3C", component="#2867D1"):
+    existing=by_name(child(model,'ActiveObjectClasses'),'ActiveObjectClass').get('Carton')
+    if existing is not None and 'cargoRole' in by_name(child(existing,'Variables'),'Variable'):
+        from lr5_revision import revise
+        revise(doc,model,main,any(field(n,'Name')=='warehouseNetwork' for n in main.getElementsByTagName('Network')))
+        validate_cargo(main)
+        return {'geometry':'native_static_category_colors','preserved':True}
     from supply import ensure_supply
     ensure_supply(doc,model,main)
     editor=LineEditor(doc,model,main)
@@ -204,7 +210,9 @@ new AnyLabFixedTabs();
 navigate(viewLogic);
 """)
     # Sheets consumed by Combine stay invisible, including while queued.
-    return {"roles":["pallet_with_empty_box","part","sheet","assembled_carton","stock_pallet"],"geometry":"native_static_category_colors", "parts_center_offset":185,"pallet_center_offset":102}
+    from lr5_revision import revise
+    revise(doc,model,main,any(field(n,'Name')=='warehouseNetwork' for n in main.getElementsByTagName('Network')))
+    return {"roles":["pallet_before_assembly","part","sheet","assembled_carton","stock_pallet"],"geometry":"native_static_category_colors", "parts_center_offset":185,"pallet_center_offset":102}
 
 
 def validate_cargo(main):
@@ -213,6 +221,7 @@ def validate_cargo(main):
     if code("fromConveyorStart","sourceType")!="self.SOURCE_CURRENT_POSITION" or code("loadingTravel","removeFromConveyor")!="false":
         raise ValueError("Поддон должен непрерывно оставаться на основной ленте при сборке")
     for name,role in (("source",0),("partSource",1),("sheetSource",2),("source1",3),("stockPallets",4)):
+        if name not in blocks and name in {"sheetSource","stockPallets"}:continue
         if f"agent.cargoRole={role};" not in code(name,"onAtExit"):
             raise ValueError("Неверная роль источника "+name)
     positions={field(p,"Name"):p for p in main.getElementsByTagName("PositionOnConveyor")}
@@ -221,6 +230,6 @@ def validate_cargo(main):
     if "inject" not in code("source","onBeforeArrival"):raise ValueError("Комплектующие должны поступать до приёма поддона Combine")
     if code("manualTravel","sourceConveyor")!="manualFeeder" or code("manualTravel","targetPositionOnConveyor")!="manualJoin":
         raise ValueError("Ручная коробка должна пройти отдельную подающую ленту")
-    if "stockPallets.inject(1)" not in code("fitPallet","onExit"):
+    if "fitPallet" in blocks and "stockPallets.inject(1)" not in code("fitPallet","onExit"):
         raise ValueError("Выданный запасной поддон должен пополняться")
     return True

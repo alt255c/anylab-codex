@@ -100,11 +100,16 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     carton=next((a for a in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass") if field(a,"Name")=="Carton"),None)
     canonical=carton is not None and any(field(v,"Name")=="cargoRole" for v in children(child(carton,"Variables"),"Variable"))
     has_shipping=any(field(n,"Name")=="warehouseNetwork" for n in main.getElementsByTagName("Network"))
+    if canonical and has_shipping!=full_line:
+        raise ValueError('Выберите самостоятельный шаблон 5.2 для full_line=true или шаблон 5.1 для full_line=false из prepare_lab.')
     if canonical and has_shipping==full_line:
+        from lr5_revision import revise, add_variation
+        revise(doc,model,main,full_line)
+        add_variation(doc,model,main,full_line)
         from cargo import validate_cargo
         validate_cargo(main)
         fragile_color="#9B4A8C" if palette=="orange_cream_blue" else "#F28A3C"
-        if layout=="compact_straight":
+        if layout=="compact_straight" and full_line:
             loading=next(n for n in main.getElementsByTagName("Conveyor") if field(n,"Name")=="loadingBelt")
             points=anchors(loading);shorten=points[-1][0]-110
             if shorten>0:
@@ -148,6 +153,8 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     restore_tabbed_views(doc,model,main)
     from cargo import apply_cargo, validate_cargo
     apply_cargo(doc,model,main,body_color,accent_color,details[component])
+    from lr5_revision import add_variation
+    add_variation(doc,model,main,full_line)
     validate_cargo(main)
     # Preserve the reference's 2D previews for staff and vehicles. Only
     # Carton uses custom vector icons instead of imported mesh previews.

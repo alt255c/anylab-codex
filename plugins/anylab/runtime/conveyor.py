@@ -213,13 +213,10 @@ def build_loading(editor, network, enter_model, enter_main):
     editor.connect("partTravel","fitPart",(40,10),(10,30),((-150,590),(-150,430)),target_port="in2")
     editor.connect("fitPart","fromConveyorStart",(30,10),(0,10))
 
-    # A small share enters the hand-assembly route during measurement as well.
-    set_param(manual,"arrivalType","self.RATE")
-    set_param(manual,"rate","ИнтенсивностьПрибытия * 0.12")
-    rate = by_name(child(source,"Parameters"),"Parameter")["rate"]
+    # Keep the tutorial's manual button semantics in generated models too.
+    set_param(manual,"arrivalType","self.MANUAL")
     manual_rate = by_name(child(manual,"Parameters"),"Parameter")["rate"]
-    manual_rate.replaceChild(editor.doc.importNode(child(rate,"Value"),True),child(manual_rate,"Value"))
-    set_param(manual,"rate","ИнтенсивностьПрибытия * 0.12")
+    for value in children(manual_rate,"Value"):manual_rate.removeChild(value)
     set_param(manual,"onAtExit","agent.isManuallyAdded = true; agent.isFragile = false;")
 
     # Reuse the tutorial's pallet geometry and its thin anti-slip sheet.
@@ -578,6 +575,11 @@ def restore_tabbed_views(doc, model, main):
 
 
 def repair_loading_flow(doc,model,main):
+    carton=by_name(child(model,'ActiveObjectClasses'),'ActiveObjectClass').get('Carton')
+    if carton is not None and 'cargoRole' in by_name(child(carton,'Variables'),'Variable'):
+        from lr5_revision import revise
+        revise(doc,model,main,any(field(n,'Name')=='warehouseNetwork' for n in main.getElementsByTagName('Network')))
+        return
     """Explicit geometric offsets and real travel before assembly."""
     editor=LineEditor(doc,model,main)
     if "stockPallets" in editor.blocks:

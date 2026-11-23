@@ -56,6 +56,20 @@ class TemplateIntegrity(unittest.TestCase):
         self.assertIn("waitForDriver.stopDelay(agent.car)",xml)
         for name in ("payQueue0","payQueue1","payment0","payment1","returnToCar","returnedDrivers","RoadNetworkDescriptor"):
             self.assertIn(name,xml)
+        root=ET.fromstring(xml)
+        for counter in root.findall('.//Rectangle'):
+            if counter.findtext('Name','').startswith('cashierCounter'):
+                self.assertLessEqual(float(counter.findtext('ZHeight')),12)
+        cars=[n for n in root.findall('.//ActiveObjectClass') if n.findtext('Name')=='Car']
+        self.assertEqual(len(cars),1)
+        figures={n.findtext('Name'):n for n in cars[0].findall('.//Figure3D')}
+        self.assertEqual(figures['car'].findtext('VisibleCode'),'false')
+        colors=[]
+        for fuel in ['GAS95','GAS92','DIESEL']:
+            figure=figures['carFuel'+fuel]
+            self.assertEqual(figure.findtext('VisibleCode'),'fuelType==FuelType.'+fuel)
+            colors.append(next(n.findtext('Color') for n in figure.findall('.//ColorMapping') if n.findtext('Name')=='Material__4__Surf'))
+        self.assertEqual(len(set(colors)),3)
         self.assertNotIn("refreshCargo",xml)
 
     def test_compact_geometry_and_palette_change_the_actual_project(self):

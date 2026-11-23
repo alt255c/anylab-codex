@@ -151,7 +151,7 @@ def prepare_lab(lab, destination, variant=None, root=None, variant_inputs=None,
                 report_reference=str(dest / "reference.docx"),
                 report_layout=str(dest / "reference-fields.json"),
                 report_mode="reference" if bundle.get("report_reference") else "fillable",
-                student=student, group=group, teacher=teacher, scenario=options, tasks=[])
+                student=student, group=group, teacher=teacher if teacher is not None else bundle.get('default_teacher'), scenario=options, tasks=[])
     with new_directory(dest) as stage:
         shutil.copy2(source, stage / "reference.docx")
         if options.get("station_plan"):
@@ -163,6 +163,8 @@ def prepare_lab(lab, destination, variant=None, root=None, variant_inputs=None,
         fields_file = bundle.get("reference_fields") or bundle.get("report_fields")
         if fields_file:
             layout["fill_fields"] = load_json(owned(fields_file))
+            if plan['report_mode']=='fillable':
+                shutil.copy2(owned(fields_file),stage/'reference.fill.json')
         (stage / "reference-fields.json").write_text(dumps(layout), encoding="utf-8")
         for task in tasks:
             entries = bundle["models"].get(task["id"], [])
@@ -305,6 +307,11 @@ def video(model, destination, seconds=None, three_d=True, speed=None, screenshot
     if warmup is None:
         warmup = 30 if tour else 3
     if tour:
+        from models import load
+        _,tour_model=load(Path(model))
+        if not any(n.firstChild and n.firstChild.data=='Carton' for n in tour_model.getElementsByTagName('Name')):
+            from scene_tour import record_scene_tour
+            return record_scene_tour(model,destination,seconds,speed,warmup)
         from video_demo import record_tour
         return record_tour(model,destination,seconds,speed,warmup)
     if shots is not None:

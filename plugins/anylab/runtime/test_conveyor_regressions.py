@@ -64,9 +64,9 @@ class LoadingRegression(unittest.TestCase):
                 for sealed in (False,True):
                     for manual in (False,True):
                         for fragile in (False,True):
-                            self.assertEqual(sum(visible(prefix+"closedLid",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role in (0,3) and sealed))
-                            self.assertEqual(sum(visible(prefix+"flapfront",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role in (0,3) and not sealed))
-                            self.assertEqual(sum(visible(prefix+"carton2D",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role in (0,3)))
+                            self.assertEqual(sum(visible(prefix+"closedLid",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role==3 and sealed))
+                            self.assertEqual(sum(visible(prefix+"flapfront",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role==3 and not sealed))
+                            self.assertEqual(sum(visible(prefix+"carton2D",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role==3))
             self.assertFalse(visible("carton2D",3,False,ready=False))
             self.assertFalse(carton.getElementsByTagName("Figure3D"),"Cargo must not share cached mesh materials")
             self.assertEqual(float(field(shapes["manual_boxfloor"],"Z")),0)
@@ -86,12 +86,19 @@ class LoadingRegression(unittest.TestCase):
             positions={field(n,"Name"):n for n in main.getElementsByTagName("PositionOnConveyor")}
             self.assertAlmostEqual(float(field(lane,"X")),float(field(belts["conveyor"],"X"))+float(field(positions["placingPoint"],"Offset"))-100/6)
             self.assertAlmostEqual(float(field(lane,"Y"))+float(field(positions["manualJoin"],"Offset"))-100/6,float(field(belts["conveyor"],"Y"))-50)
-            self.assertIn("stockPallets.inject(6)",field(main,"StartupCode"))
             travel=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")["manualTravel"]
             self.assertNotIn("cargoReady=false",field(child(by_name(child(travel,"Parameters"),"Parameter")["onExit"],"Value"),"Code"))
 
             blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
-            self.assertIn("stockPallets.inject(1)",field(child(by_name(child(blocks["fitPallet"],"Parameters"),"Parameter")["onExit"],"Value"),"Code"))
+            if '5.2' in str(path):
+                self.assertIn("stockPallets.inject(6)",field(main,"StartupCode"))
+                self.assertIn("stockPallets.inject(1)",field(child(by_name(child(blocks["fitPallet"],"Parameters"),"Parameter")["onExit"],"Value"),"Code"))
+                self.assertIn('sheetTravel',blocks)
+            else:
+                self.assertNotIn('stockPallets',blocks)
+                self.assertNotIn('sheetSource',blocks)
+                self.assertNotIn('loadingBelt',belts)
+            self.assertEqual(field(child(by_name(child(blocks['source1'],'Parameters'),'Parameter')['arrivalType'],'Value'),'Code'),'self.MANUAL')
 
 
 

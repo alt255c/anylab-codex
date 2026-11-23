@@ -18,6 +18,14 @@ def fill_report(template, destination, values):
     text = values.get("text", {})
     images = values.get("images", {})
     tables = values.get("tables", {})
+    guide=src.with_suffix('.fill.json')
+    if guide.is_file():
+        import json
+        from capture_figures import validate_capture_figure
+        requirements=json.loads(guide.read_text(encoding='utf8')).get('figure_requirements',{})
+        for key,requirement in requirements.items():
+            if key in images and requirement.get('source_kind')=='anylogic-window-capture':
+                validate_capture_figure(images[key])
     missing = set()
 
     def replace(match, mapping):

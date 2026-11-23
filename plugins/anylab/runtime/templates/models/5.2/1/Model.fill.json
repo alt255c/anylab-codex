@@ -9,6 +9,10 @@
     {
       "name": "Simulation",
       "type": "SimulationExperiment"
+    },
+    {
+      "name": "Capacity",
+      "type": "ParamVariationExperiment"
     }
   ]
 }

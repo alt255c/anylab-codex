@@ -84,8 +84,16 @@ def frame(hwnd, pid):
     # PW_RENDERFULLCONTENT includes Chromium's composited client surface.
     owner = w.DWORD()
     get_pid(hwnd, c.byref(owner))
-    if owner.value != pid or user.IsIconic(hwnd):
+    if owner.value != pid:
         raise ValueError("Восстановите окно AnyLogic и проверьте HWND.")
+    if user.IsIconic(hwnd):
+        # IDE launches or a desktop focus change can minimize the animation.
+        # Restore only the already verified target HWND, never a different app.
+        restore=bind(user,"ShowWindowAsync",w.BOOL,w.HWND,c.c_int)
+        restore(hwnd,9)
+        time.sleep(.3)
+        if user.IsIconic(hwnd):
+            raise ValueError("Не удалось восстановить выбранное окно AnyLogic.")
     rect, client, origin = w.RECT(), w.RECT(), w.POINT()
     if not (get_rect(hwnd, c.byref(rect)) and get_client(hwnd, c.byref(client))
             and client_screen(hwnd, c.byref(origin))):

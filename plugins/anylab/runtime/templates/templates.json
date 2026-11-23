@@ -45,7 +45,8 @@
     "report": "reports/lab-1.docx",
     "report_basis": "Обезличенная структура исходного отчёта",
     "report_reference": "reports/lab-1.docx",
-    "reference_fields": "reports/lab-1.fields.json"
+    "reference_fields": "reports/lab-1.fields.json",
+    "default_teacher": "Сучков Д.И."
   },
   "2": {
     "models": {
@@ -73,7 +74,8 @@
     "report": "reports/lab-2.docx",
     "report_basis": "Обезличенная структура исходного отчёта",
     "report_reference": "reports/lab-2.docx",
-    "reference_fields": "reports/lab-2.fields.json"
+    "reference_fields": "reports/lab-2.fields.json",
+    "default_teacher": "Сучков Д.И."
   },
   "3": {
     "models": {
@@ -116,7 +118,8 @@
     "report": "reports/lab-3.docx",
     "report_basis": "Обезличенная структура исходного отчёта",
     "report_reference": "reports/lab-3.docx",
-    "reference_fields": "reports/lab-3.fields.json"
+    "reference_fields": "reports/lab-3.fields.json",
+    "default_teacher": "Сучков Д.И."
   },
   "4": {
     "models": {
@@ -175,7 +178,8 @@
     "report": "reports/lab-4.docx",
     "report_basis": "Обезличенная структура исходного отчёта",
     "report_reference": "reports/lab-4.docx",
-    "reference_fields": "reports/lab-4.fields.json"
+    "reference_fields": "reports/lab-4.fields.json",
+    "default_teacher": "Сучков Д.И."
   },
   "5": {
     "models": {
@@ -223,7 +227,8 @@
     "report": "reports/lab-5.docx",
     "report_basis": "Обезличенная структура исходного отчёта",
     "report_reference": "reports/lab-5.docx",
-    "reference_fields": "reports/lab-5.fields.json"
+    "reference_fields": "reports/lab-5.fields.json",
+    "default_teacher": "Сучков Д.И."
   },
   "6": {
     "models": {
@@ -248,6 +253,7 @@
     },
     "report": "reports/lab-6.docx",
     "report_basis": "Оформление ЛР5, адаптированное для ЛР6",
-    "report_fields": "reports/lab-6.fill.json"
+    "report_fields": "reports/lab-6.fill.json",
+    "default_teacher": "Сучков Д.И."
   }
 }

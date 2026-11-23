@@ -115,8 +115,17 @@ def record_tour(model, destination, seconds=96, speed=3, warmup=30):
     # Recording setup only appends view settings; replacing StartupCode can
     # silently leave the loading line without supplies while manual flow runs.
     put(main,"StartupCode",field(main,"StartupCode")+"\nselectedViewArea=viewLogic; viewLogic.navigateTo(); getPresentation().setZoomAndPanningEnabled(false); panelGroup.setScale("+str(1/zoom)+"); panelGroup.setPos("+str(-700+width/2)+","+str(-160+20/zoom)+"); rectangle.setWidth(1000);")
+    # Demonstration operates the same manual entry as the button; the delivered
+    # model keeps Source.MANUAL and does not introduce an automatic arrival rate.
+    put(main,"StartupCode",field(main,"StartupCode")+'''
+class AnyLabDemoManualInput extends com.anylogic.engine.DynamicEvent {
+ AnyLabDemoManualInput(){super(Main.this,20);}
+ @Override public void execute(){source1.inject(1);new AnyLabDemoManualInput();}
+}
+new AnyLabDemoManualInput();
+''')
     route=([[-590,470,230,35,-45],[-390,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[1060,450,210,35,-45],[1250,700,400,35,-45],[-500,1550,1300,35,-45]] if full else
-           [[-390,470,230,35,-45],[-180,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[800,500,350,35,-45],[-350,1050,800,35,-45]])
+           [[-180,430,230,35,-45],[-180,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[620,470,300,35,-45],[-350,1050,800,35,-45]])
     literal="new double[][]{"+",".join("{"+",".join(str(v) for v in row)+"}" for row in route)+"}"
     marker=root/"begin-tour"
     code="""

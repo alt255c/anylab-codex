@@ -12146,15 +12146,15 @@ with FuelDispenser object.]]></Text>
 
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[0]]></Z>
-					<ZHeight><![CDATA[25]]></ZHeight>
+					<ZHeight><![CDATA[10]]></ZHeight>
 					<LineWidth><![CDATA[0]]></LineWidth>
-					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineColor><![CDATA[-9864830]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[34]]></Width>
-					<Height><![CDATA[28]]></Height>
+					<Width><![CDATA[24]]></Width>
+					<Height><![CDATA[12]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14395444]]></FillColor>
+					<FillColor><![CDATA[-5786952]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				<VisibleCode><![CDATA[true]]></VisibleCode></Rectangle><Text>
 					<Id>1778677226422</Id>
@@ -12188,15 +12188,15 @@ with FuelDispenser object.]]></Text>
 
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[0]]></Z>
-					<ZHeight><![CDATA[25]]></ZHeight>
+					<ZHeight><![CDATA[10]]></ZHeight>
 					<LineWidth><![CDATA[0]]></LineWidth>
-					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineColor><![CDATA[-9864830]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[34]]></Width>
-					<Height><![CDATA[28]]></Height>
+					<Width><![CDATA[24]]></Width>
+					<Height><![CDATA[12]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14395444]]></FillColor>
+					<FillColor><![CDATA[-5786952]]></FillColor>
 					<FillMaterial>null</FillMaterial>
 				<VisibleCode><![CDATA[true]]></VisibleCode></Rectangle><Text>
 					<Id>1778677226424</Id>
@@ -16721,7 +16721,7 @@ fuel automatically stops running through pipes]]></Text>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
-</Figure3D>
+<VisibleCode><![CDATA[false]]></VisibleCode></Figure3D>
 				<Group>
 					<Id>1436281942963</Id>
 					<Name><![CDATA[menu3]]></Name>
@@ -16938,7 +16938,133 @@ fuel automatically stops running through pipes]]></Text>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Presentation>
+			<Figure3D>
+					<Id>1793541544639</Id>
+					<Name><![CDATA[carFuelGAS95]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<X>0</X><Y>0</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[gas_station]]></PackageName>
+						<ClassName><![CDATA[3d/car.dae]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[Material__1__Surf]]></Name>
+							<OriginalColor>-3618616</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__2__Surf]]></Name>
+							<OriginalColor>-3403008</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__4__Surf]]></Name>
+							<OriginalColor>-13138595</OriginalColor>
+							<Color><![CDATA[-2316741]]></Color>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__3__Surf]]></Name>
+							<OriginalColor>-11908534</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>false</AutoScale>
+					<Scale>1.0</Scale>
+					<Rotation>0.0</Rotation>
+					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
+					<SelectedAnimationPose/>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+<VisibleCode><![CDATA[fuelType==FuelType.GAS95]]></VisibleCode></Figure3D><Figure3D>
+					<Id>1793541544640</Id>
+					<Name><![CDATA[carFuelGAS92]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<X>0</X><Y>0</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[gas_station]]></PackageName>
+						<ClassName><![CDATA[3d/car.dae]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[Material__1__Surf]]></Name>
+							<OriginalColor>-3618616</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__2__Surf]]></Name>
+							<OriginalColor>-3403008</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__4__Surf]]></Name>
+							<OriginalColor>-13138595</OriginalColor>
+							<Color><![CDATA[-13459558]]></Color>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__3__Surf]]></Name>
+							<OriginalColor>-11908534</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>false</AutoScale>
+					<Scale>1.0</Scale>
+					<Rotation>0.0</Rotation>
+					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
+					<SelectedAnimationPose/>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+<VisibleCode><![CDATA[fuelType==FuelType.GAS92]]></VisibleCode></Figure3D><Figure3D>
+					<Id>1793541544641</Id>
+					<Name><![CDATA[carFuelDIESEL]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<X>0</X><Y>0</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[gas_station]]></PackageName>
+						<ClassName><![CDATA[3d/car.dae]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[Material__1__Surf]]></Name>
+							<OriginalColor>-3618616</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__2__Surf]]></Name>
+							<OriginalColor>-3403008</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__4__Surf]]></Name>
+							<OriginalColor>-13138595</OriginalColor>
+							<Color><![CDATA[-4692655]]></Color>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[Material__3__Surf]]></Name>
+							<OriginalColor>-11908534</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>false</AutoScale>
+					<Scale>1.0</Scale>
+					<Rotation>0.0</Rotation>
+					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
+					<SelectedAnimationPose/>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+<VisibleCode><![CDATA[fuelType==FuelType.DIESEL]]></VisibleCode></Figure3D></Presentation>
 
 				</Level>
 			</Presentation>
