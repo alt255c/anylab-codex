@@ -580,6 +580,10 @@ def restore_tabbed_views(doc, model, main):
 def repair_loading_flow(doc,model,main):
     """Explicit geometric offsets and real travel before assembly."""
     editor=LineEditor(doc,model,main)
+    if "stockPallets" in editor.blocks:
+        from cargo import validate_cargo
+        validate_cargo(main)
+        return
     network=next(iter(main.getElementsByTagName("ConveyorNetwork")))
     belts=by_name(child(network,"Presentation"),"Conveyor")
     inlet=belts.get("loadingBelt",belts["conveyor"])

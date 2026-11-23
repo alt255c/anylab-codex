@@ -12,6 +12,8 @@ from conveyor import LineEditor, by_name, set_param, argb
 
 
 def apply_cargo(doc, model, main, body="#19B6B0", accent="#F28A3C", component="#2867D1"):
+    from supply import ensure_supply
+    ensure_supply(doc,model,main)
     editor=LineEditor(doc,model,main)
     carton=by_name(child(model,"ActiveObjectClasses"),"ActiveObjectClass")["Carton"]
     variables=by_name(child(carton,"Variables"),"Variable")
@@ -24,17 +26,30 @@ def apply_cargo(doc, model, main, body="#19B6B0", accent="#F28A3C", component="#
         "source":"cargoRole=0; isComponent=false; isManuallyAdded=false; isSealed=false; hasPalletSheet=false; hasAssemblyPart=false;",
         "partSource":"cargoRole=1; isComponent=true; isFragile=false; isManuallyAdded=false; isSealed=false;",
         "sheetSource":"cargoRole=2; isComponent=false; isFragile=false; isManuallyAdded=false; isSealed=false;",
-        "source1":"cargoRole=3; isComponent=false; isFragile=false; isManuallyAdded=true; isSealed=false; hasPalletSheet=false; hasAssemblyPart=true;"}
+        "source1":"cargoRole=3; isComponent=false; isFragile=false; isManuallyAdded=true; isSealed=false; hasPalletSheet=false; hasAssemblyPart=true;",
+        "stockPallets":"cargoRole=4; isComponent=false; isFragile=false; isManuallyAdded=false; isSealed=false; hasPalletSheet=false; hasAssemblyPart=false;"}
     for name,code in initialize.items():
         actions=" ".join("agent."+statement.strip()+";" for statement in code.split(";") if statement.strip())
-        set_param(editor.blocks[name],"onAtExit",actions+" agent.cargoReady=true;")
+        # Main and manual cartons become visible only once they physically
+        # enter their belt. A queued Source/Combine must not paint a second
+        # carton over an item already travelling through the loading point.
+        ready="false" if name in {"source","source1"} else "true"
+        set_param(editor.blocks[name],"onAtExit",actions+" agent.cargoReady="+ready+";")
     network=next(iter(main.getElementsByTagName("ConveyorNetwork")))
     belts=by_name(child(network,"Presentation"),"Conveyor")
     inlet=belts.get("loadingBelt",belts["conveyor"])
-    for name,belt in (("source",inlet),("partSource",belts["partFeeder"])):
+    for name,belt in (("source",inlet),("partSource",belts["partFeeder"]),("source1",belts["manualFeeder"])):
         b=editor.blocks[name]
         old=field(by_name(child(b,"Parameters"),"Parameter")["onAtExit"],"Value/Code")
         set_param(b,"onAtExit",old+" agent.setXY("+field(belt,"X")+","+field(belt,"Y")+");")
+    for belt in belts.values():
+        set_param(child(belt,"EmbeddedObject"),"onLeadingEdgeEnter","agent.cargoReady=true; agent.refreshCargo();")
+    manual=belts["manualFeeder"]
+    from models import set_points,route_curve
+    set_points(manual,route_curve([(0,0,0),(0,50,0)]))
+    manual_join=next(p for p in manual.getElementsByTagName("PositionOnConveyor") if field(p,"Name")=="manualJoin")
+    put(manual_join,"Offset",str(20+100/6))
+    set_param(editor.blocks["manualTravel"],"onExit","manualFed++; agent.refreshCargo();")
     # Combine waits for both inputs before accepting a Source handover. Supplies
     # must exist on arrival; injecting them onAtExit would deadlock that handover.
     set_param(editor.blocks["source"],"onBeforeArrival","sheetSource.inject(1); partSource.inject(1);")
@@ -44,7 +59,7 @@ def apply_cargo(doc, model, main, body="#19B6B0", accent="#F28A3C", component="#
     set_param(editor.blocks["fromConveyorStart"],"sourceType","self.SOURCE_CURRENT_POSITION")
     set_param(editor.blocks["fromConveyorStart"],"onExit","")
     # Set physical footprints to match their visible geometry (scale 33.33 px/m).
-    for name,length,width in (("source",1.2,.96),("source1",1.0,.90),("partSource",.30,.30),("sheetSource",.96,.90)):
+    for name,length,width in (("source",1.2,.96),("source1",1.0,.90),("partSource",.30,.30),("sheetSource",.96,.90),("stockPallets",1.2,.96)):
         b=editor.blocks[name]
         set_param(b,"changeDimensions","true")
         for key,value in (("length",length),("width",width),("height",.6)):
@@ -74,38 +89,45 @@ def apply_cargo(doc, model, main, body="#19B6B0", accent="#F28A3C", component="#
     oval=oval_model.getElementsByTagName("Oval")[0]
     for node in list(children(shapes)):shapes.removeChild(node)
     ready="cargoReady"
-    pallet=ready+" && !isManuallyAdded && cargoRole!=1 && cargoRole!=2"
-    box=ready+" && cargoRole==3"
+    pallet=ready+" && !isManuallyAdded && (cargoRole==0 || cargoRole==3 || cargoRole==4)"
+    box=ready+" && (cargoRole==0 || cargoRole==3)"
     loose=ready+" && cargoRole==1"
-    fill="isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color("+str(int(body[1:3],16))+","+str(int(body[3:5],16))+","+str(int(body[5:7],16))+"))"
-    def shape(proto,name,x,y,w,h,z,depth,color,visible,mode="SHAPE_DRAW_2D3D",dynamic=None):
+    def shape(proto,name,x,y,w,h,z,depth,color,visible,mode="SHAPE_DRAW_2D3D"):
         n=editor.clone(proto,name)
-        for key in ("OnClickCode","FillColorCode","VisibleCode","ZCode","XCode","YCode"):
+        for key in ("OnClickCode","FillColorCode","LineColorCode","VisibleCode","ZCode","XCode","YCode","WidthCode","HeightCode","ZHeightCode"):
             for old in children(n,key):n.removeChild(old)
         for key,val in {"X":x,"Y":y,"Z":z,"ZHeight":depth,"LineWidth":0,"LineColor":argb(color),"FillColor":argb(color),"DrawMode":mode,"VisibleCode":visible,"ShowLabel":"false"}.items():put(n,key,str(val))
         if n.tagName=="Oval":put(n,"RadiusX",str(w));put(n,"RadiusY",str(h))
         else:put(n,"Width",str(w));put(n,"Height",str(h))
-        if dynamic:put(n,"FillColorCode",dynamic)
         shapes.appendChild(n);return n
     for i,y in enumerate((-18,-5,8)):shape(rect,"palletSlat"+str(i),-19,y,38,10,0,3,"#AB865D",pallet)
     shape(rect,"palletRail1",-16,-19,6,38,3,2,"#8C6946",pallet,"SHAPE_DRAW_3D")
     shape(rect,"palletRail2",10,-19,6,38,3,2,"#8C6946",pallet,"SHAPE_DRAW_3D")
     shape(rect,"sheet",-16,-16,32,32,5,1,"#FFF1CF",ready+" && ((cargoRole==0 && hasPalletSheet) || (cargoRole==3 && !isManuallyAdded))")
-    # The carton has a floor and four walls, so open/closed size is consistent.
-    for name,x,y,w,h,z,dep in (("floor",-15,-15,30,30,6,1),("front",-15,-15,30,2,7,17),("back",-15,13,30,2,7,17),("left",-15,-13,2,26,7,17),("right",13,-13,2,26,7,17)):
-        shape(rect,"box"+name,x,y,w,h,z,dep,body,box,"SHAPE_DRAW_3D",fill)
-    for name,x,y,w,h in (("front",-15,-24,30,9),("back",-15,15,30,9),("left",-24,-13,9,26),("right",15,-13,9,26)):
-        shape(rect,"flap"+name,x,y,w,h,24,1,body,box+" && !isSealed","SHAPE_DRAW_3D",fill)
-    shape(rect,"closedLid",-15,-15,30,30,24,1,body,box+" && isSealed","SHAPE_DRAW_3D",fill)
-    shape(rect,"tape3D",-3,-15,6,30,25,0.3,accent,box+" && isSealed","SHAPE_DRAW_3D")
+    # Static per-category fill AND edge colors avoid stale/default turquoise
+    # faces in 3D. Visibility chooses one category, never recolors a mesh.
+    fragile_color="#9B4A8C" if body.upper()=="#E88448" else "#F28A3C"
+    categories=[("",body,"!isFragile && !isManuallyAdded"),
+                ("fragile_",fragile_color,"isFragile"),
+                ("manual_","#2457CC","isManuallyAdded && !isFragile")]
+    for prefix,color,condition in categories:
+        category=box+" && ("+condition+")"
+        base=-6 if prefix=="manual_" else 0
+        for name,x,y,w,h,z,dep in (("floor",-15,-15,30,30,6,1),("front",-15,-15,30,2,7,17),("back",-15,13,30,2,7,17),("left",-15,-13,2,26,7,17),("right",13,-13,2,26,7,17)):
+            shape(rect,prefix+"box"+name,x,y,w,h,z+base,dep,color,category,"SHAPE_DRAW_3D")
+        for name,x,y,w,h in (("front",-15,-24,30,9),("back",-15,15,30,9),("left",-24,-13,9,26),("right",15,-13,9,26)):
+            shape(rect,prefix+"flap"+name,x,y,w,h,24+base,1,color,category+" && !isSealed","SHAPE_DRAW_3D")
+        shape(rect,prefix+"closedLid",-15,-15,30,30,24+base,1,color,category+" && isSealed","SHAPE_DRAW_3D")
+        shape(rect,prefix+"carton2D",-15,-15,30,30,26,0,color,category,"SHAPE_DRAW_2D")
+    tape=shape(rect,"tape3D",-3,-15,6,30,25,0.3,accent,box+" && isSealed","SHAPE_DRAW_3D")
+    put(tape,"ZCode","isManuallyAdded ? 19 : 25")
     # A real cylinder and recessed bore are native objects, not a cached mesh.
-    part_visible=loose+" || ("+box+" && !isSealed)"
+    part_visible=loose+" || ("+box+" && hasAssemblyPart && !isSealed)"
     component3=shape(oval,"component3D",0,0,5,5,0,8,component,part_visible,"SHAPE_DRAW_3D")
-    put(component3,"ZCode","cargoRole==1 ? 0 : 8")
+    put(component3,"ZCode","cargoRole==1 ? 0 : (isManuallyAdded ? 2 : 8)")
     hole=shape(oval,"bore3D",0,0,2.6,2.6,8.1,.1,"#102B4B",part_visible,"SHAPE_DRAW_3D")
-    put(hole,"ZCode","cargoRole==1 ? 8.1 : 16.1")
+    put(hole,"ZCode","cargoRole==1 ? 8.1 : (isManuallyAdded ? 10.1 : 16.1)")
     # 2D is drawn explicitly, with an open cavity and a closed taped lid.
-    shape(rect,"carton2D",-15,-15,30,30,26,0,body,box,"SHAPE_DRAW_2D",fill)
     shape(rect,"openInterior2D",-11,-11,22,22,27,0,"#FFF1CF",box+" && !isSealed","SHAPE_DRAW_2D")
     shape(rect,"tape2D",-3,-15,6,30,27,0,accent,box+" && isSealed","SHAPE_DRAW_2D")
     shape(oval,"component2D",0,0,5,5,28,0,component,part_visible,"SHAPE_DRAW_2D")
@@ -182,7 +204,7 @@ new AnyLabFixedTabs();
 navigate(viewLogic);
 """)
     # Sheets consumed by Combine stay invisible, including while queued.
-    return {"roles":["pallet","part","sheet","carton"],"geometry":"native", "parts_center_offset":185,"pallet_center_offset":102}
+    return {"roles":["pallet_with_empty_box","part","sheet","assembled_carton","stock_pallet"],"geometry":"native_static_category_colors", "parts_center_offset":185,"pallet_center_offset":102}
 
 
 def validate_cargo(main):
@@ -190,11 +212,15 @@ def validate_cargo(main):
     def code(block,key):return field(by_name(child(blocks[block],"Parameters"),"Parameter")[key],"Value/Code")
     if code("fromConveyorStart","sourceType")!="self.SOURCE_CURRENT_POSITION" or code("loadingTravel","removeFromConveyor")!="false":
         raise ValueError("Поддон должен непрерывно оставаться на основной ленте при сборке")
-    for name,role in (("source",0),("partSource",1),("sheetSource",2),("source1",3)):
+    for name,role in (("source",0),("partSource",1),("sheetSource",2),("source1",3),("stockPallets",4)):
         if f"agent.cargoRole={role};" not in code(name,"onAtExit"):
             raise ValueError("Неверная роль источника "+name)
     positions={field(p,"Name"):p for p in main.getElementsByTagName("PositionOnConveyor")}
     for name,offset in (("partStart",0),("partJoin",185),("assemblyJoin",102)):
         if abs(float(field(positions[name],"Offset"))-offset)>1e-6:raise ValueError("Неверная точка центрирования "+name)
     if "inject" not in code("source","onBeforeArrival"):raise ValueError("Комплектующие должны поступать до приёма поддона Combine")
+    if code("manualTravel","sourceConveyor")!="manualFeeder" or code("manualTravel","targetPositionOnConveyor")!="manualJoin":
+        raise ValueError("Ручная коробка должна пройти отдельную подающую ленту")
+    if "stockPallets.inject(1)" not in code("fitPallet","onExit"):
+        raise ValueError("Выданный запасной поддон должен пополняться")
     return True

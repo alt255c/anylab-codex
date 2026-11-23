@@ -1,5 +1,5 @@
 {
-  "version": "0.4.2",
+  "version": "0.4.3",
   "date": "2026-11-23",
   "anylogic": "8.9.9.202607020720",
   "scope": "Bounded baseline Java compilation and execution for each template; measurement copies use virtual time and bounded horizons. This is not certification of every variant or every parameter experiment.",
@@ -141,51 +141,65 @@
       "task": "5.1",
       "model": 1,
       "template": "models/5.1/1/Model.alp",
-      "template_sha256": "931899fbff74bb5326e83bb639f1a6c9bced37339e35e1e8d0304b43b2c16658",
+      "template_sha256": "3acc915c83917973f3b5ecf6b8f570005493eede82a11470834eb4034e639544",
       "engine_state": "FINISHED",
       "reached_model_time": 900.0,
       "time_unit": "Second",
-      "run_input_sha256": "97cd8b59959b7161c1d57d5c8d7a21f96751ab2a909af8a957b5e1a42144e92c",
+      "run_input_sha256": "791923c11c982c8e838a5bf36586b903916800b391adabf2c3e1b93a4d1ac7e1",
       "generated_java_files": 6,
-      "compiled_class_files": 63,
+      "compiled_class_files": 90,
       "metrics": {
-        "input": 120.0,
-        "parts": 120.0,
-        "loaded": 120.0,
-        "assembled": 120.0,
+        "input": 119.0,
+        "parts": 119.0,
+        "loaded": 118.0,
+        "assembled": 118.0,
         "ordinaryPacked": 106.0,
-        "fragilePacked": 13.0,
-        "manualPacked": 13.0,
+        "fragilePacked": 11.0,
+        "manualPacked": 17.0,
         "unsealed": 0.0,
         "invalid": 0.0,
-        "output": 131.0
-      }
+        "palletsTaken": 119.0,
+        "stockCreated": 125.0,
+        "stockWaiting": 5.0,
+        "manualCreated": 17.0,
+        "manualFed": 17.0,
+        "output": 133.0
+      },
+      "recording_compiled": true,
+      "recording_model_sha256": "bff727cc52c2d886b47ad92ddc8f59a0c6ae225cfe6e9d7b1f570c718fb0d0f7"
     },
     {
       "task": "5.2",
       "model": 1,
       "template": "models/5.2/1/ConveyorLine.alp",
-      "template_sha256": "6812e46629f0a054371d1ee302c1834f76e392c1d19fbc66c49ce126bdaa7888",
+      "template_sha256": "43db39df4534c7762385a80ec68fb4a20e98dfa9c4f604aef7e489f3f5460035",
       "engine_state": "FINISHED",
       "reached_model_time": 900.0,
       "time_unit": "Second",
-      "run_input_sha256": "9c0198096582c7643ae0e0e28094b2d96ce667942e4c5e75e06cd6ac6b53286f",
+      "run_input_sha256": "89b1e80329e105beb5d478a2b6df74b7b7a2b61d9a3a1e6fef19cbf4847dac82",
       "generated_java_files": 7,
-      "compiled_class_files": 73,
+      "compiled_class_files": 100,
       "metrics": {
-        "input": 120.0,
-        "parts": 120.0,
-        "loaded": 120.0,
-        "assembled": 120.0,
-        "ordinaryPacked": 105.0,
-        "fragilePacked": 13.0,
-        "manualPacked": 13.0,
+        "input": 119.0,
+        "parts": 119.0,
+        "loaded": 118.0,
+        "assembled": 118.0,
+        "ordinaryPacked": 106.0,
+        "fragilePacked": 11.0,
+        "manualPacked": 17.0,
         "unsealed": 0.0,
         "invalid": 0.0,
-        "ordinary": 99.0,
-        "fragile": 13.0,
-        "manual": 12.0
-      }
+        "palletsTaken": 119.0,
+        "stockCreated": 125.0,
+        "stockWaiting": 5.0,
+        "manualCreated": 17.0,
+        "manualFed": 17.0,
+        "ordinary": 102.0,
+        "fragile": 11.0,
+        "manual": 17.0
+      },
+      "recording_compiled": true,
+      "recording_model_sha256": "64b9e43ba324c58b87a718fa8dd212d0469cd1afb5ac680e161d97a85e02fadf"
     },
     {
       "task": "6.1",
@@ -278,7 +292,7 @@
     ],
     "horizon_seconds": 900,
     "seed": 73,
-    "measured_peak_main_throughput_per_minute": 11.533,
+    "measured_peak_main_throughput_per_minute": 13.4,
     "stability_verified": false,
     "video_seconds_per_task": 96,
     "visual_checks": [
@@ -305,7 +319,12 @@
         "ordinary": 64.0,
         "fragile": 6.0,
         "manual": 9.0
-      }
-    }
+      },
+      "note": "Alternate geometry and palette were checked in 0.4.2; core 0.4.3 was checked with the selected user palette."
+    },
+    "manual_box_floor_z": 0,
+    "manual_box_lid_z": 18,
+    "real_pallet_inventory": 6,
+    "seated_drivers_preserved": true
   }
 }

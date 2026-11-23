@@ -164,7 +164,14 @@ def record(hwnd, pid, first, path, seconds, fps):
                     time.sleep(max(0.0, due - time.monotonic()))
                     current = frame(hwnd, pid)
                     if current.size != first.size:
-                        raise ValueError("Размер окна изменился во время записи.")
+                        # DPI/desktop changes can resize a Chromium client while
+                        # it is being captured. Keep one canvas and the entire
+                        # image, preserving aspect ratio instead of stretching
+                        # it or discarding an otherwise valid demonstration.
+                        from PIL import ImageOps, Image
+                        current = ImageOps.pad(current,first.size,
+                                               method=Image.Resampling.LANCZOS,
+                                               color="white")
             process.stdin.write(current.tobytes())
         process.stdin.close()
         if process.wait(timeout=30):

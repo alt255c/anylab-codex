@@ -103,8 +103,7 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     if canonical and has_shipping==full_line:
         from cargo import validate_cargo
         validate_cargo(main)
-        fragile_rgb="155,74,140" if palette=="orange_cream_blue" else "242,138,60"
-        fill="isFragile ? new java.awt.Color("+fragile_rgb+") : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color("+str(int(body_color[1:3],16))+","+str(int(body_color[3:5],16))+","+str(int(body_color[5:7],16))+"))"
+        fragile_color="#9B4A8C" if palette=="orange_cream_blue" else "#F28A3C"
         if layout=="compact_straight":
             loading=next(n for n in main.getElementsByTagName("Conveyor") if field(n,"Name")=="loadingBelt")
             points=anchors(loading);shorten=points[-1][0]-110
@@ -116,9 +115,13 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
                     if field(node,"Name") in {"partFeeder","loadingText"}:put(node,"X",str(float(field(node,"X"))+shorten))
         for shape in children(child(carton,"Presentation/Level/Presentation")):
             label=field(shape,"Name")
-            if field(shape,"FillColorCode"):put(shape,"FillColorCode",fill)
-            if label in {"component2D","component3D"}:put(shape,"FillColor",str(_argb(details[component])))
-            if label in {"tape2D","tape3D"}:put(shape,"FillColor",str(_argb(accent_color)))
+            if "box" in label.lower() or "flap" in label or "closedLid" in label or "carton2D" in label:
+                color=fragile_color if label.startswith("fragile_") else "#2457CC" if label.startswith("manual_") else body_color
+                for key in ("FillColor","LineColor"):put(shape,key,str(_argb(color)))
+            if label in {"component2D","component3D"}:
+                for key in ("FillColor","LineColor"):put(shape,key,str(_argb(details[component])))
+            if label in {"tape2D","tape3D"}:
+                for key in ("FillColor","LineColor"):put(shape,key,str(_argb(accent_color)))
         dest=Path(destination).resolve()
         with new_directory(dest) as stage:
             copy_resources(path,stage,False)

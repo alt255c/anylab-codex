@@ -68,12 +68,13 @@ def record_demo(model, root, files, seconds, three_d, minutes, speed=1, screensh
                            stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
 
 
-def tour_timing(seconds):
+def tour_timing(seconds,full=False):
     """Spend most of the recording on assembly and the two packing routes."""
     two=min(12.0,seconds*.25)
     scale=(seconds-two)/84.0
-    holds=[24*scale,10*scale,32*scale,8*scale,2*scale]
-    moves=[2*scale]*4
+    weights=[6,16,12,22,8,6,2] if full else [6,18,14,26,8,2]
+    holds=[value*scale for value in weights]
+    moves=[2*scale]*(len(weights)-1)
     starts=[two]
     for hold,move in zip(holds,moves): starts.append(starts[-1]+hold+move)
     return {"two_d_seconds":two,"holds":holds,"moves":moves,"starts":starts}
@@ -97,6 +98,7 @@ def record_tour(model, destination, seconds=96, speed=3, warmup=30):
     if not any(field(a,"Name")=="Carton" for a in children(child(model_xml,"ActiveObjectClasses"),"ActiveObjectClass")):
         raise ValueError("Кинопроход tour настроен для конвейеров ЛР5")
     full=any(field(n,"Name")=="warehouseNetwork" for n in main.getElementsByTagName("Network"))
+    timing=tour_timing(seconds,full)
     window=next(w for w in main.getElementsByTagName("Control") if w.getAttribute("Type")=="Window3D")
     put(child(model_xml,"Experiments/SimulationExperiment/ModelTimeProperties"),"FinalTime","36000")
     put(window,"FollowCamera","true")
@@ -109,9 +111,12 @@ def record_tour(model, destination, seconds=96, speed=3, warmup=30):
     put(areas["view3D"],"X","5000")
     put(window,"X","5000")
     zoom=1000.0/width
-    put(main,"StartupCode","selectedViewArea=viewLogic; viewLogic.navigateTo(); getPresentation().setZoomAndPanningEnabled(false); panelGroup.setScale("+str(1/zoom)+"); panelGroup.setPos("+str(-700+width/2)+","+str(-160+20/zoom)+"); rectangle.setWidth(1000);")
-    route=([[-390,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[1300,600,350,35,-45],[-500,1550,1300,35,-45]] if full else
-           [[-180,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[800,500,350,35,-45],[-350,1050,800,35,-45]])
+    # Keep operational initialization (including the real pallet inventory).
+    # Recording setup only appends view settings; replacing StartupCode can
+    # silently leave the loading line without supplies while manual flow runs.
+    put(main,"StartupCode",field(main,"StartupCode")+"\nselectedViewArea=viewLogic; viewLogic.navigateTo(); getPresentation().setZoomAndPanningEnabled(false); panelGroup.setScale("+str(1/zoom)+"); panelGroup.setPos("+str(-700+width/2)+","+str(-160+20/zoom)+"); rectangle.setWidth(1000);")
+    route=([[-590,470,230,35,-45],[-390,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[1060,450,210,35,-45],[1250,700,400,35,-45],[-500,1550,1300,35,-45]] if full else
+           [[-390,470,230,35,-45],[-180,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[800,500,350,35,-45],[-350,1050,800,35,-45]])
     literal="new double[][]{"+",".join("{"+",".join(str(v) for v in row)+"}" for row in route)+"}"
     marker=root/"begin-tour"
     code="""

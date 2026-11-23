@@ -73,7 +73,8 @@ class TemplateIntegrity(unittest.TestCase):
             self.assertEqual(anchors(belt)[-1][0],110)
             carton=next(n for n in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass") if field(n,"Name")=="Carton")
             shape=next(n for n in carton.getElementsByTagName("Rectangle") if field(n,"Name")=="carton2D")
-            self.assertIn("155,74,140",field(shape,"FillColorCode"))
-            self.assertIn("232,132,72",field(shape,"FillColorCode"))
+            self.assertEqual(int(field(shape,"FillColor"))&0xffffff,0xE88448)
+            fragile=next(n for n in carton.getElementsByTagName("Rectangle") if field(n,"Name")=="fragile_carton2D")
+            self.assertEqual(int(field(fragile,"FillColor"))&0xffffff,0x9B4A8C)
 
 if __name__=="__main__":unittest.main()
