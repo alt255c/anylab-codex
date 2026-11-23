@@ -1,0 +1,2 @@
+# Preserve exact ALP bytes: validation evidence includes template SHA-256.
+*.alp -text
