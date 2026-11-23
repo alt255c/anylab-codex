@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 *************************************************
 	         AnyLogic Project File
 *************************************************
--->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.10.202609231424" AlpVersion="8.9.10">
+--><AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.9.202607020720" AlpVersion="8.9.9">
 <Model>
 	<Id>1791155713222</Id>
 	<Name><![CDATA[лр3з2]]></Name>
@@ -34,7 +32,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -1695,7 +1693,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2199,7 +2197,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2233,7 +2231,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2267,7 +2265,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2301,7 +2299,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2536,7 +2534,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -2682,7 +2680,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2713,7 +2711,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -2855,7 +2853,7 @@
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -2919,13 +2917,13 @@
 		<SimulationExperiment ActiveObjectClassId="1791155713226">
 			<Id>1791155713239</Id>
 			<Name><![CDATA[Simulation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Presentation>
@@ -2978,14 +2976,14 @@
 		<ParamVariationExperiment ActiveObjectClassId="1791155713226">
 			<Id>1791562443998</Id>
 			<Name><![CDATA[ВарьированиеИнтенсивности]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<AfterSimulationRunCode><![CDATA[MyCollection.add(new MyAgent(root.Интенсивность, root.queue.statsSize.mean(), root.timeTotal.distribution.mean()));]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="CollectionVariable">

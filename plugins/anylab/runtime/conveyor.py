@@ -659,6 +659,12 @@ def repair_loading_flow(doc,model,main):
 
 def validate_loading_flow(main):
     """Reject the silent Offset/XY mismatch that can hide the entire feeder."""
+    current_blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
+    current_source=field(child(by_name(child(current_blocks["fromConveyorStart"],"Parameters"),"Parameter")["sourceType"],"Value"),"Code")
+    if current_source=="self.SOURCE_CURRENT_POSITION":
+        from cargo import validate_cargo
+        validate_cargo(main)
+        return {"physical_loading":True,"native_cargo":True}
     network=next(iter(main.getElementsByTagName("ConveyorNetwork")))
     belts=by_name(child(network,"Presentation"),"Conveyor")
     feeder=belts["partFeeder"]

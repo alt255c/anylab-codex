@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 *************************************************
 	         AnyLogic Project File
 *************************************************
--->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.10.202609231424" AlpVersion="8.9.10">
+--><AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.9.202607020720" AlpVersion="8.9.9">
 <Model>
 	<Id>1791641175578</Id>
 	<Name><![CDATA[исправл_лр3з3]]></Name>
@@ -34,7 +32,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -872,13 +870,13 @@ if (Спрос > РазмерЗакупки) {
 		<SimulationExperiment ActiveObjectClassId="1791641175582">
 			<Id>1791641175588</Id>
 			<Name><![CDATA[Simulation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Presentation>
@@ -946,7 +944,7 @@ if (Спрос > РазмерЗакупки) {
 		<OptimizationExperiment ActiveObjectClassId="1791641175582">
 			<Id>1791652814042</Id>
 			<Name><![CDATA[Optimization]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -960,7 +958,7 @@ root.Прибыль = 0;]]></BeforeSimulationRunCode>
 Прибыль = root.Прибыль;]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="PlainVariable">
@@ -2096,7 +2094,7 @@ copyToClipboard( s );]]></ActionCode>
 					<Expression2Flag>false</Expression2Flag>
 						<PointStyle>CIRCLE</PointStyle>
 						<LineWidth>0.0</LineWidth>
-						<HorizontalAxisExpression><![CDATA[]]></HorizontalAxisExpression>
+						<HorizontalAxisExpression/>
 					</DatasetExpression>
 					<DatasetExpression>  
 						<Title><![CDATA[Лучшее недопустимое]]></Title>
@@ -2106,7 +2104,7 @@ copyToClipboard( s );]]></ActionCode>
 					<Expression2Flag>false</Expression2Flag>
 						<PointStyle>NONE</PointStyle>
 						<LineWidth>2.0</LineWidth>
-						<HorizontalAxisExpression><![CDATA[]]></HorizontalAxisExpression>
+						<HorizontalAxisExpression/>
 					</DatasetExpression>
 					<DatasetExpression>  
 						<Title><![CDATA[Лучшее допустимое]]></Title>
@@ -2116,7 +2114,7 @@ copyToClipboard( s );]]></ActionCode>
 					<Expression2Flag>false</Expression2Flag>
 						<PointStyle>NONE</PointStyle>
 						<LineWidth>2.0</LineWidth>
-						<HorizontalAxisExpression><![CDATA[]]></HorizontalAxisExpression>
+						<HorizontalAxisExpression/>
 					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<HorScaleFromExpression><![CDATA[0]]></HorScaleFromExpression>
@@ -2199,7 +2197,7 @@ if (bestInfeasibleObjective != Double.POSITIVE_INFINITY) {
 		<ParamVariationExperiment ActiveObjectClassId="1791641175582">
 			<Id>1791644046729</Id>
 			<Name><![CDATA[ParametersVariation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -2219,7 +2217,7 @@ Mid_Прибыль.reset();
 ));]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="CollectionVariable">

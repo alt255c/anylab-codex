@@ -241,6 +241,76 @@
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261538</Id>
+					<Name><![CDATA[packedOrdinary]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1300]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261539</Id>
+					<Name><![CDATA[packedFragile]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1300]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261540</Id>
+					<Name><![CDATA[packedManual]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1300]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261541</Id>
+					<Name><![CDATA[unsealedOutput]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1300]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261542</Id>
+					<Name><![CDATA[invalidOutput]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[1300]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
 				</Variable></Variables>
 			<Connectors>
 
@@ -912,11 +982,41 @@
 						<Name><![CDATA[viewArea]]></Name>
 						<Type><![CDATA[ViewArea]]></Type>
 					</Parameter>
-					<Body><![CDATA[selectedViewArea = viewArea;
-viewArea.navigateTo();
-panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
+					<Body><![CDATA[selectedViewArea = viewArea; viewArea.navigateTo(); anchorTabs();]]></Body>
 				</Function>
-			</Functions>
+			<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1793559261640</Id>
+					<Name><![CDATA[anchorTabs]]></Name>
+					<X>100</X><Y>700</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+
+					<Body><![CDATA[com.anylogic.engine.presentation.INavigationPoint view = getPresentation().getCurrentNavigationPoint();
+if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresentable() == this && view.getWidth() > 0) {
+    // AnyLogic 8.9 navigation snapshots pad the actual viewport by 50% on each side.
+    double width = view.getWidth()/2.0;
+    double top = view.getY()+view.getHeight()/4.0;
+    double scale = width/1000.0;
+    panelGroup.setScale(scale);
+    panelGroup.setPos(view.getX()+view.getWidth()/2.0, top+20*scale);
+}]]></Body>
+				</Function><Function AccessType="default" StaticFunction="false">
+					<ReturnModificator><![CDATA[RETURNS_VALUE]]></ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1793559261737</Id>
+					<Name><![CDATA[tabBarWidth]]></Name>
+					<X>100</X><Y>700</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+
+					<Body><![CDATA[anchorTabs(); return 1000;]]></Body>
+				</Function></Functions>
 
 			<EmbeddedObjects>
 				<EmbeddedObject>
@@ -941,7 +1041,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 					<Parameters>
 						<Parameter>
 							<Name><![CDATA[sourceType]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[self.SOURCE_POSITION_ON_CONVEYOR]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[self.SOURCE_CURRENT_POSITION]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[sourcePositionOnConveyor]]></Name>
 						<Value Class="CodeValue"><Code><![CDATA[assemblyJoin]]></Code></Value></Parameter>
@@ -1016,7 +1116,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[loadingGate.unblock();]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code/></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
 						</Parameter>
@@ -1406,7 +1506,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[if(!agent.isSealed) unsealedOutput++; if(agent.cargoRole!=3 || !agent.hasAssemblyPart) invalidOutput++;]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
 						</Parameter>
@@ -1598,16 +1698,16 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[changeDimensions]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[length]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[1.2]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[width]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.96]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[height]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.6]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[enableCustomStartTime]]></Name>
 						</Parameter>
@@ -1637,7 +1737,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Value Class="CodeValue"><Code><![CDATA[sheetSource.inject(1); partSource.inject(1);]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[agent.setXY(-310.6666666666667,250);]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[agent.cargoRole=0; agent.isComponent=false; agent.isManuallyAdded=false; agent.isSealed=false; agent.hasPalletSheet=false; agent.hasAssemblyPart=false; agent.cargoReady=true; agent.setXY(-310.6666666666667,250); agent.refreshCargo();]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 						</Parameter>
@@ -1831,16 +1931,16 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[changeDimensions]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[length]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[1.0]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[width]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.9]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[height]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.6]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[enableCustomStartTime]]></Name>
 						</Parameter>
@@ -1868,7 +1968,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.isManuallyAdded = true; agent.isFragile = false;]]></Code>
+								<Code><![CDATA[agent.cargoRole=3; agent.isComponent=false; agent.isFragile=false; agent.isManuallyAdded=true; agent.isSealed=false; agent.hasPalletSheet=false; agent.hasAssemblyPart=true; agent.cargoReady=true; agent.refreshCargo();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2192,16 +2292,16 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[changeDimensions]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[length]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.96]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[width]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.9]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[height]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.6]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[enableCustomStartTime]]></Name>
 						</Parameter>
@@ -2229,7 +2329,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.isComponent = true;]]></Code>
+								<Code><![CDATA[agent.cargoRole=2; agent.isComponent=false; agent.isFragile=false; agent.isManuallyAdded=false; agent.isSealed=false; agent.cargoReady=true; agent.refreshCargo();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2421,16 +2521,16 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[changeDimensions]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[length]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.3]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[width]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.3]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[height]]></Name>
-						</Parameter>
+						<Value Class="CodeUnitValue"><Code><![CDATA[0.6]]></Code><Unit Class="LengthUnits"><![CDATA[METER]]></Unit></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[enableCustomStartTime]]></Name>
 						</Parameter>
@@ -2458,7 +2558,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.isComponent = true; agent.isFragile = false; agent.isManuallyAdded = false;]]></Code>
+								<Code><![CDATA[agent.cargoRole=1; agent.isComponent=true; agent.isFragile=false; agent.isManuallyAdded=false; agent.isSealed=false; agent.cargoReady=true; agent.setXY(-228.66666666666669,70.0); agent.refreshCargo();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2697,7 +2797,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[((Carton)agent).hasPalletSheet = true;]]></Code>
+								<Code><![CDATA[agent.hasPalletSheet=true; agent.refreshCargo();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2831,7 +2931,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[((Carton)agent).hasAssemblyPart = true; assembled++;]]></Code>
+								<Code><![CDATA[agent.hasAssemblyPart=true; agent.cargoRole=3; assembled++; loadingGate.unblock(); agent.refreshCargo();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -3968,7 +4068,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[removeFromConveyor]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[false]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[removeFromSpace]]></Name>
 						</Parameter>
@@ -4719,7 +4819,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 							<Parameter>
 								<Name><![CDATA[onProcessFinished]]></Name>
 								<Value Class="CodeValue">
-									<Code><![CDATA[agent.isSealed = true;]]></Code>
+									<Code><![CDATA[agent.isSealed=true; if(agent.isManuallyAdded) packedManual++; else if(agent.isFragile) packedFragile++; else packedOrdinary++; agent.refreshCargo();]]></Code>
 								</Value>
 							</Parameter>
 							<Parameter>
@@ -5024,7 +5124,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 							<Parameter>
 								<Name><![CDATA[onProcessFinished]]></Name>
 								<Value Class="CodeValue">
-									<Code><![CDATA[agent.isSealed = true;]]></Code>
+									<Code><![CDATA[agent.isSealed=true; if(agent.isManuallyAdded) packedManual++; else if(agent.isFragile) packedFragile++; else packedOrdinary++; agent.refreshCargo();]]></Code>
 								</Value>
 							</Parameter>
 							<Parameter>
@@ -5569,7 +5669,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset><![CDATA[82]]></Offset>
+					<Offset><![CDATA[102.0]]></Offset>
 				</PositionOnConveyor></Presentation></Conveyor><Conveyor>
 					<Id>1793559261302</Id>
 					<Name><![CDATA[partFeeder]]></Name>
@@ -5832,7 +5932,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset><![CDATA[180]]></Offset>
+					<Offset><![CDATA[185.0]]></Offset>
 				</PositionOnConveyor></Presentation></Conveyor></Presentation>
 
 					<Z>0</Z>
@@ -5840,7 +5940,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 				<Control Type="Window3D">
 					<Id>1793543370732</Id>
 					<Name><![CDATA[window3d]]></Name>
-					<X>1150</X><Y>50</Y>
+					<X><![CDATA[5000]]></X><Y>50</Y>
 					<Width>1000</Width>
 					<Height>550</Height>
 					<MakeDefaultViewArea>true</MakeDefaultViewArea>
@@ -6206,158 +6306,7 @@ panelGroup.setPos(viewArea.getX() + 500, viewArea.getY() + 20);]]></Body>
 					<CellsBetweenLegs>2</CellsBetweenLegs>
 					<IsObstacle>true</IsObstacle>
 				</PalletRack>
-				<Group>
-					<Id>1793545548340</Id>
-					<Name><![CDATA[panelGroup]]></Name>
-					<X>500</X><Y>20</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
 
-			<Presentation>
-				<Rectangle>
-					<Id>1793544563427</Id>
-					<Name><![CDATA[rectangle]]></Name>
-					<X>-500</X><Y>-20</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-4144960</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>1000</Width>
-					<Height>50</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-16777216</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle>
-				<Rectangle>
-					<Id>1793544580893</Id>
-					<Name><![CDATA[rectangle1]]></Name>
-					<X>-375</X><Y>-20</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<OnClickCode><![CDATA[navigate(viewLogic);]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-4144960</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>145</Width>
-					<Height>50</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-16777216</FillColor>
-					<FillColorCode><![CDATA[selectedViewArea == viewLogic ?
-gray : black]]></FillColorCode>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle>
-				<Text>
-					<Id>1793544600185</Id>
-					<Name><![CDATA[text]]></Name>
-					<X>-490</X><Y>-5</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-1</Color>
-					<Text><![CDATA[ЛР5 Конвеер]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>16</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Rectangle>
-					<Id>1793544647112</Id>
-					<Name><![CDATA[rectangle2]]></Name>
-					<X>-230</X><Y>-20</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<OnClickCode><![CDATA[navigate(view3D);]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-4144960</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>100</Width>
-					<Height>50</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-16777216</FillColor>
-					<FillColorCode><![CDATA[selectedViewArea == view3D ?
-gray : black]]></FillColorCode>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle>
-				<Text>
-					<Id>1793544750228</Id>
-					<Name><![CDATA[text1]]></Name>
-					<X>-350</X><Y>-6</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-1</Color>
-					<Text><![CDATA[2D и схема]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>20</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1793544815044</Id>
-					<Name><![CDATA[text2]]></Name>
-					<X>-190</X><Y>-6</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-1</Color>
-					<Text><![CDATA[3D]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>20</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-			</Presentation>
-
-				</Group>
 				<Text>
 					<Id>1793552738837</Id>
 					<Name><![CDATA[text3]]></Name>
@@ -7816,7 +7765,158 @@ gray : black]]></FillColorCode>
 				</Path></Presentation>
 
 					<Z>0</Z>
-				</Network></Presentation>
+				</Network><Group>
+					<Id>1793545548340</Id>
+					<Name><![CDATA[panelGroup]]></Name>
+					<X>500</X><Y>20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<Rectangle>
+					<Id>1793544563427</Id>
+					<Name><![CDATA[rectangle]]></Name>
+					<X>-500</X><Y>-20</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-4144960</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>1000</Width>
+					<Height>50</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16777216</FillColor>
+					<FillMaterial>null</FillMaterial>
+				<WidthCode><![CDATA[tabBarWidth()]]></WidthCode></Rectangle>
+				<Rectangle>
+					<Id>1793544580893</Id>
+					<Name><![CDATA[rectangle1]]></Name>
+					<X>-375</X><Y>-20</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[navigate(viewLogic);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-4144960</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>145</Width>
+					<Height>50</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16777216</FillColor>
+					<FillColorCode><![CDATA[selectedViewArea == viewLogic ?
+gray : black]]></FillColorCode>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Text>
+					<Id>1793544600185</Id>
+					<Name><![CDATA[text]]></Name>
+					<X>-490</X><Y>-5</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-1</Color>
+					<Text><![CDATA[ЛР5 Конвеер]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>16</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Rectangle>
+					<Id>1793544647112</Id>
+					<Name><![CDATA[rectangle2]]></Name>
+					<X>-230</X><Y>-20</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[navigate(view3D);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-4144960</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>100</Width>
+					<Height>50</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-16777216</FillColor>
+					<FillColorCode><![CDATA[selectedViewArea == view3D ?
+gray : black]]></FillColorCode>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Text>
+					<Id>1793544750228</Id>
+					<Name><![CDATA[text1]]></Name>
+					<X>-350</X><Y>-6</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-1</Color>
+					<Text><![CDATA[2D и схема]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>20</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1793544815044</Id>
+					<Name><![CDATA[text2]]></Name>
+					<X>-190</X><Y>-6</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-1</Color>
+					<Text><![CDATA[3D]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>20</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group></Presentation>
 
 				</Level>
 			</Presentation>
@@ -7824,19 +7924,19 @@ gray : black]]></FillColorCode>
 				<Area>
 					<Id>1793543330830</Id>
 					<Name><![CDATA[viewLogic]]></Name>
-					<X>0</X><Y>0</Y>
+					<X><![CDATA[-700]]></X><Y><![CDATA[-160]]></Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<Title/>
-					<Width>1000</Width>
-					<Height>600</Height>
+					<Width><![CDATA[1333]]></Width>
+					<Height><![CDATA[800]]></Height>
 				</Area>
 				<Area>
 					<Id>1793543359984</Id>
 					<Name><![CDATA[view3D]]></Name>
-					<X>1150</X><Y>0</Y>
+					<X><![CDATA[5000]]></X><Y>0</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7847,7 +7947,14 @@ gray : black]]></FillColorCode>
 				</Area>
 			</Areas>
 
-		<StartupCode/></ActiveObjectClass>
+		<StartupCode><![CDATA[
+class AnyLabFixedTabs extends com.anylogic.engine.DynamicEvent {
+    AnyLabFixedTabs() { super(Main.this,.15); }
+    @Override public void execute() { anchorTabs(); new AnyLabFixedTabs(); }
+}
+new AnyLabFixedTabs();
+
+navigate(viewLogic);]]></StartupCode></ActiveObjectClass>
 		<!--   =========   Active Object Class   ========  -->
 		<ActiveObjectClass>
 			<Id>1793541544634</Id>
@@ -7960,7 +8067,7 @@ gray : black]]></FillColorCode>
 					<X>100</X><Y>50</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>
@@ -7975,7 +8082,7 @@ gray : black]]></FillColorCode>
 					<X>100</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>
@@ -7990,7 +8097,7 @@ gray : black]]></FillColorCode>
 					<X>100</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>
@@ -8005,7 +8112,7 @@ gray : black]]></FillColorCode>
 					<X><![CDATA[100]]></X><Y><![CDATA[200]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>
@@ -8019,7 +8126,7 @@ gray : black]]></FillColorCode>
 					<X><![CDATA[100]]></X><Y><![CDATA[250]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>
@@ -8033,7 +8140,35 @@ gray : black]]></FillColorCode>
 					<X><![CDATA[100]]></X><Y><![CDATA[300]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261536</Id>
+					<Name><![CDATA[cargoRole]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[400]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable><Variable Class="PlainVariable">
+					<Id>1793559261537</Id>
+					<Name><![CDATA[cargoReady]]></Name>
+					<X><![CDATA[100]]></X><Y><![CDATA[400]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>
@@ -8058,775 +8193,798 @@ gray : black]]></FillColorCode>
 					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
 
 			<Presentation>
-				<Figure3D>
-					<Id>1793542072412</Id>
-					<Name><![CDATA[box_1_open]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_open.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-						<Color><![CDATA[-15092048]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && !isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D>
-				<Figure3D>
-					<Id>1793542079459</Id>
-					<Name><![CDATA[box_1_closed]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_closed.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-						<Color><![CDATA[-15092048]]></Color></ColorMapping>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_28]]></Name>
-							<OriginalColor>-7172293</OriginalColor>
-						<Color><![CDATA[-882116]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && !isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D>
-				<Figure3D>
-					<Id>1793542878377</Id>
-					<Name><![CDATA[box_1_closed1]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_closed.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-							<Color><![CDATA[-14395444]]></Color>
-						</ColorMapping>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_28]]></Name>
-							<OriginalColor>-7172293</OriginalColor>
-						<Color><![CDATA[-882116]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D>
-				<Figure3D>
-					<Id>1793542881461</Id>
-					<Name><![CDATA[box_1_open1]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_open.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-							<Color><![CDATA[-14395444]]></Color>
-						</ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && isManuallyAdded && !isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D>
 
 
 
-			<Figure3D>
-					<Id>1793559261330</Id>
-					<Name><![CDATA[assemblypallet]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/pallet.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[Material_Surf]]></Name>
-							<OriginalColor>-3363451</OriginalColor>
-						</ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<ApplyShading>true</ApplyShading>
-				<VisibleCode><![CDATA[!isComponent && !isManuallyAdded]]></VisibleCode></Figure3D><Rectangle>
-					<Id>1793559261515</Id>
-					<Name><![CDATA[assemblyPallet2D]]></Name>
-					<X><![CDATA[-25]]></X><Y><![CDATA[-25]]></Y>
+
+
+
+
+			<Rectangle>
+					<Id>1793559261834</Id>
+					<Name><![CDATA[palletSlat0]]></Name>
+					<X><![CDATA[-19]]></X><Y><![CDATA[-18]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && !isManuallyAdded]]></VisibleCode>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[0]]></Z>
+					<ZHeight><![CDATA[3]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-5536163]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[38]]></Width>
+					<Height><![CDATA[10]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-5536163]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261835</Id>
+					<Name><![CDATA[palletSlat1]]></Name>
+					<X><![CDATA[-19]]></X><Y><![CDATA[-5]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[0]]></Z>
+					<ZHeight><![CDATA[3]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-5536163]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[38]]></Width>
+					<Height><![CDATA[10]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-5536163]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261836</Id>
+					<Name><![CDATA[palletSlat2]]></Name>
+					<X><![CDATA[-19]]></X><Y><![CDATA[8]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[0]]></Z>
+					<ZHeight><![CDATA[3]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-5536163]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[38]]></Width>
+					<Height><![CDATA[10]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-5536163]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261837</Id>
+					<Name><![CDATA[palletRail1]]></Name>
+					<X><![CDATA[-16]]></X><Y><![CDATA[-19]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[3]]></Z>
+					<ZHeight><![CDATA[2]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-7575226]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[6]]></Width>
+					<Height><![CDATA[38]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-7575226]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261838</Id>
+					<Name><![CDATA[palletRail2]]></Name>
+					<X><![CDATA[10]]></X><Y><![CDATA[-19]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[3]]></Z>
+					<ZHeight><![CDATA[2]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-7575226]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[6]]></Width>
+					<Height><![CDATA[38]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-7575226]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261839</Id>
+					<Name><![CDATA[sheet]]></Name>
+					<X><![CDATA[-16]]></X><Y><![CDATA[-16]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z><![CDATA[5]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-3633]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[50]]></Width>
-					<Height><![CDATA[50]]></Height>
+					<Width><![CDATA[32]]></Width>
+					<Height><![CDATA[32]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-5863584]]></FillColor>
+					<FillColor><![CDATA[-3633]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261331</Id>
-					<Name><![CDATA[assemblyrectangle]]></Name>
-					<X>-15</X><Y>-15</Y>
+				<VisibleCode><![CDATA[cargoReady && ((cargoRole==0 && hasPalletSheet) || (cargoRole==3 && !isManuallyAdded))]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261840</Id>
+					<Name><![CDATA[boxfloor]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[-15]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<VisibleCode><![CDATA[!isComponent && !isManuallyAdded && (hasPalletSheet)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>7</Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>30</Width>
-					<Height>30</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-5171</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Figure3D>
-					<Id>1793559261332</Id>
-					<Name><![CDATA[blueSleeve]]></Name>
-					<X><![CDATA[0]]></X><Y><![CDATA[0]]></Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z><![CDATA[0]]></Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/blue_sleeve.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-						<Color><![CDATA[-15092048]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)]]></VisibleCode>
-				<ZCode><![CDATA[8]]></ZCode></Figure3D><Rectangle>
-					<Id>1793559261334</Id>
-					<Name><![CDATA[carton2D]]></Name>
-					<X><![CDATA[-20]]></X><Y><![CDATA[-20]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && !isManuallyAdded && !isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[8]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[6]]></Z>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[40]]></Width>
-					<Height><![CDATA[40]]></Height>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[30]]></Height>
 					<Rotation>0.0</Rotation>
 					<FillColor><![CDATA[-15092048]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261335</Id>
-					<Name><![CDATA[cartonTape2D]]></Name>
-					<X><![CDATA[-5]]></X><Y><![CDATA[-20]]></Y>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261841</Id>
+					<Name><![CDATA[boxfront]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[-15]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[9]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[7]]></Z>
+					<ZHeight><![CDATA[17]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[10]]></Width>
-					<Height><![CDATA[40]]></Height>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[2]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261842</Id>
+					<Name><![CDATA[boxback]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[13]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[7]]></Z>
+					<ZHeight><![CDATA[17]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[2]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261843</Id>
+					<Name><![CDATA[boxleft]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[-13]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[7]]></Z>
+					<ZHeight><![CDATA[17]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[2]]></Width>
+					<Height><![CDATA[26]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261844</Id>
+					<Name><![CDATA[boxright]]></Name>
+					<X><![CDATA[13]]></X><Y><![CDATA[-13]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[7]]></Z>
+					<ZHeight><![CDATA[17]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[2]]></Width>
+					<Height><![CDATA[26]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261845</Id>
+					<Name><![CDATA[flapfront]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[-24]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[24]]></Z>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[9]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && !isSealed]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261846</Id>
+					<Name><![CDATA[flapback]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[15]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[24]]></Z>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[9]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && !isSealed]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261847</Id>
+					<Name><![CDATA[flapleft]]></Name>
+					<X><![CDATA[-24]]></X><Y><![CDATA[-13]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[24]]></Z>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[9]]></Width>
+					<Height><![CDATA[26]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && !isSealed]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261848</Id>
+					<Name><![CDATA[flapright]]></Name>
+					<X><![CDATA[15]]></X><Y><![CDATA[-13]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[24]]></Z>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[9]]></Width>
+					<Height><![CDATA[26]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && !isSealed]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261849</Id>
+					<Name><![CDATA[closedLid]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[-15]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[24]]></Z>
+					<ZHeight><![CDATA[1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[30]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isSealed]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261850</Id>
+					<Name><![CDATA[tape3D]]></Name>
+					<X><![CDATA[-3]]></X><Y><![CDATA[-15]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[25]]></Z>
+					<ZHeight><![CDATA[0.3]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-882116]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[6]]></Width>
+					<Height><![CDATA[30]]></Height>
 					<Rotation>0.0</Rotation>
 					<FillColor><![CDATA[-882116]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261333</Id>
-					<Name><![CDATA[blueSleeve2D]]></Name>
-					<X><![CDATA[-9]]></X><Y><![CDATA[-9]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isSealed]]></VisibleCode></Rectangle><Oval>
+					<Id>1793559261851</Id>
+					<Name><![CDATA[component3D]]></Name>
+					<X><![CDATA[0]]></X><Y><![CDATA[0]]></Y>
+					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)]]></VisibleCode>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[9]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[0]]></Z>
+					<ZHeight><![CDATA[8]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-14129199]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[18]]></Width>
-					<Height><![CDATA[18]]></Height>
+					<RadiusX><![CDATA[5]]></RadiusX>
+					<RadiusY><![CDATA[5]]></RadiusY>
 					<Rotation>0.0</Rotation>
 					<FillColor><![CDATA[-14129199]]></FillColor>
+
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261517</Id>
-					<Name><![CDATA[categoryMarkManualBody]]></Name>
-					<X><![CDATA[-20]]></X><Y><![CDATA[-20]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed)]]></VisibleCode><ZCode><![CDATA[cargoRole==1 ? 0 : 8]]></ZCode></Oval><Oval>
+					<Id>1793559261852</Id>
+					<Name><![CDATA[bore3D]]></Name>
+					<X><![CDATA[0]]></X><Y><![CDATA[0]]></Y>
+					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && !isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[8]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[8.1]]></Z>
+					<ZHeight><![CDATA[0.1]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15717557]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[40]]></Width>
-					<Height><![CDATA[40]]></Height>
+					<RadiusX><![CDATA[2.6]]></RadiusX>
+					<RadiusY><![CDATA[2.6]]></RadiusY>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14395444]]></FillColor>
+					<FillColor><![CDATA[-15717557]]></FillColor>
+
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261518</Id>
-					<Name><![CDATA[categoryMarkFragileBody]]></Name>
-					<X><![CDATA[-20]]></X><Y><![CDATA[-20]]></Y>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed)]]></VisibleCode><ZCode><![CDATA[cargoRole==1 ? 8.1 : 16.1]]></ZCode></Oval><Rectangle>
+					<Id>1793559261853</Id>
+					<Name><![CDATA[carton2D]]></Name>
+					<X><![CDATA[-15]]></X><Y><![CDATA[-15]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[8]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[26]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15092048]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[40]]></Width>
-					<Height><![CDATA[40]]></Height>
+					<Width><![CDATA[30]]></Width>
+					<Height><![CDATA[30]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-15092048]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3]]></VisibleCode><FillColorCode><![CDATA[isFragile ? new java.awt.Color(242,138,60) : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color(25,182,176))]]></FillColorCode></Rectangle><Rectangle>
+					<Id>1793559261854</Id>
+					<Name><![CDATA[openInterior2D]]></Name>
+					<X><![CDATA[-11]]></X><Y><![CDATA[-11]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[27]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-3633]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[22]]></Width>
+					<Height><![CDATA[22]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-3633]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && !isSealed]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261855</Id>
+					<Name><![CDATA[tape2D]]></Name>
+					<X><![CDATA[-3]]></X><Y><![CDATA[-15]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[27]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-882116]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[6]]></Width>
+					<Height><![CDATA[30]]></Height>
 					<Rotation>0.0</Rotation>
 					<FillColor><![CDATA[-882116]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Figure3D>
-					<Id>1793559261519</Id>
-					<Name><![CDATA[categoryMarkFragilebox_1_open]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isSealed]]></VisibleCode></Rectangle><Oval>
+					<Id>1793559261856</Id>
+					<Name><![CDATA[component2D]]></Name>
+					<X><![CDATA[0]]></X><Y><![CDATA[0]]></Y>
+					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_open.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-						<Color><![CDATA[-882116]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && !isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D><Figure3D>
-					<Id>1793559261520</Id>
-					<Name><![CDATA[categoryMarkFragilebox_1_closed]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_closed.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-						<Color><![CDATA[-882116]]></Color></ColorMapping>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_28]]></Name>
-							<OriginalColor>-7172293</OriginalColor>
-						<Color><![CDATA[-1]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && !isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D><Figure3D>
-					<Id>1793559261521</Id>
-					<Name><![CDATA[categoryMarkFragilebox_1_closed1]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_closed.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-							<Color><![CDATA[-882116]]></Color>
-						</ColorMapping>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_28]]></Name>
-							<OriginalColor>-7172293</OriginalColor>
-						<Color><![CDATA[-1]]></Color></ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[isSealed && isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D><Figure3D>
-					<Id>1793559261522</Id>
-					<Name><![CDATA[categoryMarkFragilebox_1_open1]]></Name>
-					<X>0</X><Y>0</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_3D]]></DrawMode>
-					<X>0</X><Y>0</Y><Z>0</Z>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<ResourceReference>
-						<PackageName><![CDATA[лр5]]></PackageName>
-						<ClassName><![CDATA[3d/box_1_open.dae]]></ClassName>
-					</ResourceReference>
-					<ColorTable>
-						<ColorMapping>
-							<Name><![CDATA[MA_material_27]]></Name>
-							<OriginalColor>-2107044</OriginalColor>
-							<Color><![CDATA[-882116]]></Color>
-						</ColorMapping>
-					</ColorTable>
-					<AutoScale>true</AutoScale>
-					<Scale>1.0</Scale>
-					<Rotation>0.0</Rotation>
-					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose/>
-					<ApplyShading>true</ApplyShading>
-					<InternalLighting>OFF</InternalLighting>
-					<IgnoreSceneLights>false</IgnoreSceneLights>
-					<VisibleCode><![CDATA[!isSealed && isManuallyAdded && isFragile && !isComponent && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-				</Figure3D><Rectangle>
-					<Id>1793559261523</Id>
-					<Name><![CDATA[categoryMarkTop]]></Name>
-					<X><![CDATA[-21]]></X><Y><![CDATA[-21]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[28]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-14129199]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[42]]></Width>
-					<Height><![CDATA[5]]></Height>
+					<RadiusX><![CDATA[5]]></RadiusX>
+					<RadiusY><![CDATA[5]]></RadiusY>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-39680]]></FillColor>
+					<FillColor><![CDATA[-14129199]]></FillColor>
+
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261524</Id>
-					<Name><![CDATA[categoryMarkBottom]]></Name>
-					<X><![CDATA[-21]]></X><Y><![CDATA[16]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed)]]></VisibleCode></Oval><Oval>
+					<Id>1793559261857</Id>
+					<Name><![CDATA[bore2D]]></Name>
+					<X><![CDATA[0]]></X><Y><![CDATA[0]]></Y>
+					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[29]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-15717557]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[42]]></Width>
-					<Height><![CDATA[5]]></Height>
+					<RadiusX><![CDATA[2.5]]></RadiusX>
+					<RadiusY><![CDATA[2.5]]></RadiusY>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-39680]]></FillColor>
+					<FillColor><![CDATA[-15717557]]></FillColor>
+
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261525</Id>
-					<Name><![CDATA[categoryMarkLeft]]></Name>
-					<X><![CDATA[-21]]></X><Y><![CDATA[-16]]></Y>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed)]]></VisibleCode></Oval><Rectangle>
+					<Id>1793559261858</Id>
+					<Name><![CDATA[glassRim]]></Name>
+					<X><![CDATA[-6]]></X><Y><![CDATA[-9]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[5]]></Width>
-					<Height><![CDATA[32]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-39680]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261526</Id>
-					<Name><![CDATA[categoryMarkRight]]></Name>
-					<X><![CDATA[16]]></X><Y><![CDATA[-16]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[5]]></Width>
-					<Height><![CDATA[32]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-39680]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261527</Id>
-					<Name><![CDATA[categoryMarkGlassRim]]></Name>
-					<X><![CDATA[-8]]></X><Y><![CDATA[-12]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[16]]></Width>
-					<Height><![CDATA[4]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14670538]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261528</Id>
-					<Name><![CDATA[categoryMarkGlassBowl]]></Name>
-					<X><![CDATA[-6]]></X><Y><![CDATA[-8]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[30]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-14079440]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
 					<Width><![CDATA[12]]></Width>
-					<Height><![CDATA[9]]></Height>
+					<Height><![CDATA[3]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14670538]]></FillColor>
+					<FillColor><![CDATA[-14079440]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261529</Id>
-					<Name><![CDATA[categoryMarkGlassStem]]></Name>
-					<X><![CDATA[-2]]></X><Y><![CDATA[1]]></Y>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isFragile]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261859</Id>
+					<Name><![CDATA[glassBowl]]></Name>
+					<X><![CDATA[-5]]></X><Y><![CDATA[-6]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[30]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-14079440]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[4]]></Width>
-					<Height><![CDATA[8]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14670538]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261530</Id>
-					<Name><![CDATA[categoryMarkGlassFoot]]></Name>
-					<X><![CDATA[-7]]></X><Y><![CDATA[9]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isFragile && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[14]]></Width>
-					<Height><![CDATA[4]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-14670538]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261531</Id>
-					<Name><![CDATA[categoryMarkPStem]]></Name>
-					<X><![CDATA[-15]]></X><Y><![CDATA[-12]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[4]]></Width>
-					<Height><![CDATA[25]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-1]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261532</Id>
-					<Name><![CDATA[categoryMarkPTop]]></Name>
-					<X><![CDATA[-11]]></X><Y><![CDATA[-12]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[11]]></Width>
-					<Height><![CDATA[4]]></Height>
-					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-1]]></FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261533</Id>
-					<Name><![CDATA[categoryMarkPRight]]></Name>
-					<X><![CDATA[-3]]></X><Y><![CDATA[-8]]></Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[4]]></Width>
+					<Width><![CDATA[10]]></Width>
 					<Height><![CDATA[7]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-1]]></FillColor>
+					<FillColor><![CDATA[-14079440]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261534</Id>
-					<Name><![CDATA[categoryMarkPMid]]></Name>
-					<X><![CDATA[-11]]></X><Y><![CDATA[-1]]></Y>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isFragile]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261860</Id>
+					<Name><![CDATA[glassStem]]></Name>
+					<X><![CDATA[-1]]></X><Y><![CDATA[1]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[!isComponent && isManuallyAdded && (hasAssemblyPart || isManuallyAdded)]]></VisibleCode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[44]]></Z>
-					<ZHeight><![CDATA[1]]></ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[30]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-14079440]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[11]]></Width>
-					<Height><![CDATA[4]]></Height>
+					<Width><![CDATA[2]]></Width>
+					<Height><![CDATA[6]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-1]]></FillColor>
+					<FillColor><![CDATA[-14079440]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle><Rectangle>
-					<Id>1793559261535</Id>
-					<Name><![CDATA[categoryMarkSleeveBore]]></Name>
-					<X><![CDATA[-4]]></X><Y><![CDATA[-4]]></Y>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isFragile]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261861</Id>
+					<Name><![CDATA[glassFoot]]></Name>
+					<X><![CDATA[-5]]></X><Y><![CDATA[7]]></Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
 					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
-					<VisibleCode><![CDATA[isComponent || (!isSealed && hasAssemblyPart && !isManuallyAdded)]]></VisibleCode>
+
 					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z><![CDATA[10]]></Z>
-					<ZHeight>1</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor/>
+					<Z><![CDATA[30]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-14079440]]></LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width><![CDATA[8]]></Width>
-					<Height><![CDATA[8]]></Height>
+					<Width><![CDATA[10]]></Width>
+					<Height><![CDATA[2]]></Height>
 					<Rotation>0.0</Rotation>
-					<FillColor><![CDATA[-15258283]]></FillColor>
+					<FillColor><![CDATA[-14079440]]></FillColor>
 					<FillMaterial>null</FillMaterial>
-				</Rectangle></Presentation>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isFragile]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261862</Id>
+					<Name><![CDATA[manualStem]]></Name>
+					<X><![CDATA[-10]]></X><Y><![CDATA[-8]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[31]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-1]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[3]]></Width>
+					<Height><![CDATA[17]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-1]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isManuallyAdded]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261863</Id>
+					<Name><![CDATA[manualTop]]></Name>
+					<X><![CDATA[-7]]></X><Y><![CDATA[-8]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[31]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-1]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[9]]></Width>
+					<Height><![CDATA[3]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-1]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isManuallyAdded]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261864</Id>
+					<Name><![CDATA[manualRight]]></Name>
+					<X><![CDATA[0]]></X><Y><![CDATA[-5]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[31]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-1]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[3]]></Width>
+					<Height><![CDATA[5]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-1]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isManuallyAdded]]></VisibleCode></Rectangle><Rectangle>
+					<Id>1793559261865</Id>
+					<Name><![CDATA[manualMid]]></Name>
+					<X><![CDATA[-7]]></X><Y><![CDATA[0]]></Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel><![CDATA[false]]></ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D]]></DrawMode>
+
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z><![CDATA[31]]></Z>
+					<ZHeight><![CDATA[0]]></ZHeight>
+					<LineWidth><![CDATA[0]]></LineWidth>
+					<LineColor><![CDATA[-1]]></LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width><![CDATA[9]]></Width>
+					<Height><![CDATA[3]]></Height>
+					<Rotation>0.0</Rotation>
+					<FillColor><![CDATA[-1]]></FillColor>
+					<FillMaterial>null</FillMaterial>
+				<VisibleCode><![CDATA[cargoReady && cargoRole==3 && isManuallyAdded]]></VisibleCode></Rectangle></Presentation>
 
 				</Level>
 			</Presentation>
 
-		</ActiveObjectClass>
+		<Functions><Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1793559261607</Id>
+					<Name><![CDATA[refreshCargo]]></Name>
+					<X>100</X><Y>700</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag><![CDATA[true]]></PublicFlag>
+					<PresentationFlag><![CDATA[false]]></PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+
+					<Body><![CDATA[palletSlat0.setVisible(cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2);
+palletSlat0.updateDynamicProperties();
+palletSlat1.setVisible(cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2);
+palletSlat1.updateDynamicProperties();
+palletSlat2.setVisible(cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2);
+palletSlat2.updateDynamicProperties();
+palletRail1.setVisible(cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2);
+palletRail1.updateDynamicProperties();
+palletRail2.setVisible(cargoReady && !isManuallyAdded && cargoRole!=1 && cargoRole!=2);
+palletRail2.updateDynamicProperties();
+sheet.setVisible(cargoReady && ((cargoRole==0 && hasPalletSheet) || (cargoRole==3 && !isManuallyAdded)));
+sheet.updateDynamicProperties();
+boxfloor.setVisible(cargoReady && cargoRole==3);
+boxfloor.updateDynamicProperties();
+boxfront.setVisible(cargoReady && cargoRole==3);
+boxfront.updateDynamicProperties();
+boxback.setVisible(cargoReady && cargoRole==3);
+boxback.updateDynamicProperties();
+boxleft.setVisible(cargoReady && cargoRole==3);
+boxleft.updateDynamicProperties();
+boxright.setVisible(cargoReady && cargoRole==3);
+boxright.updateDynamicProperties();
+flapfront.setVisible(cargoReady && cargoRole==3 && !isSealed);
+flapfront.updateDynamicProperties();
+flapback.setVisible(cargoReady && cargoRole==3 && !isSealed);
+flapback.updateDynamicProperties();
+flapleft.setVisible(cargoReady && cargoRole==3 && !isSealed);
+flapleft.updateDynamicProperties();
+flapright.setVisible(cargoReady && cargoRole==3 && !isSealed);
+flapright.updateDynamicProperties();
+closedLid.setVisible(cargoReady && cargoRole==3 && isSealed);
+closedLid.updateDynamicProperties();
+tape3D.setVisible(cargoReady && cargoRole==3 && isSealed);
+tape3D.updateDynamicProperties();
+component3D.setVisible(cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed));
+component3D.updateDynamicProperties();
+bore3D.setVisible(cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed));
+bore3D.updateDynamicProperties();
+carton2D.setVisible(cargoReady && cargoRole==3);
+carton2D.updateDynamicProperties();
+openInterior2D.setVisible(cargoReady && cargoRole==3 && !isSealed);
+openInterior2D.updateDynamicProperties();
+tape2D.setVisible(cargoReady && cargoRole==3 && isSealed);
+tape2D.updateDynamicProperties();
+component2D.setVisible(cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed));
+component2D.updateDynamicProperties();
+bore2D.setVisible(cargoReady && cargoRole==1 || (cargoReady && cargoRole==3 && !isSealed));
+bore2D.updateDynamicProperties();
+glassRim.setVisible(cargoReady && cargoRole==3 && isFragile);
+glassRim.updateDynamicProperties();
+glassBowl.setVisible(cargoReady && cargoRole==3 && isFragile);
+glassBowl.updateDynamicProperties();
+glassStem.setVisible(cargoReady && cargoRole==3 && isFragile);
+glassStem.updateDynamicProperties();
+glassFoot.setVisible(cargoReady && cargoRole==3 && isFragile);
+glassFoot.updateDynamicProperties();
+manualStem.setVisible(cargoReady && cargoRole==3 && isManuallyAdded);
+manualStem.updateDynamicProperties();
+manualTop.setVisible(cargoReady && cargoRole==3 && isManuallyAdded);
+manualTop.updateDynamicProperties();
+manualRight.setVisible(cargoReady && cargoRole==3 && isManuallyAdded);
+manualRight.updateDynamicProperties();
+manualMid.setVisible(cargoReady && cargoRole==3 && isManuallyAdded);
+manualMid.updateDynamicProperties();]]></Body>
+				</Function></Functions><StartupCode><![CDATA[refreshCargo();]]></StartupCode></ActiveObjectClass>
 	<ActiveObjectClass>
 			<Id>1793559261336</Id>
 			<Name><![CDATA[Forklift]]></Name>
@@ -9164,11 +9322,11 @@ gray : black]]></FillColorCode>
 			</Parameters>
 			<PresentationProperties>
 				<EnableZoomAndPanning><![CDATA[true]]></EnableZoomAndPanning>
-				<ExecutionMode><![CDATA[virtualTime]]></ExecutionMode>
+				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
 				<Title><![CDATA[ConveyorLine : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
-				<RealTimeScale>1.0</RealTimeScale>
+				<RealTimeScale><![CDATA[1]]></RealTimeScale>
 			</PresentationProperties>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>

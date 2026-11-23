@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 *************************************************
 	         AnyLogic Project File
 *************************************************
--->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.10.202609231424" AlpVersion="8.9.10">
+--><AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.9.202607020720" AlpVersion="8.9.9">
 <Model>
 	<Id>1791105626168</Id>
 	<Name><![CDATA[лр3з1]]></Name>
@@ -34,7 +32,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -574,7 +572,7 @@ traceln();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -584,7 +582,7 @@ traceln();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
     			<HistogramData>
 					<Id>1791138893726</Id>
@@ -608,7 +606,7 @@ traceln();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -618,7 +616,7 @@ traceln();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
     			<HistogramData>
 					<Id>1791138902586</Id>
@@ -642,7 +640,7 @@ traceln();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -652,7 +650,7 @@ traceln();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
     			<HistogramData>
 					<Id>1791138911890</Id>
@@ -676,7 +674,7 @@ traceln();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -686,7 +684,7 @@ traceln();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
 			</AnalysisData>
 
@@ -1784,7 +1782,7 @@ zАгентаБилет=agent.z;]]></Code>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -2143,13 +2141,13 @@ zАгентаБилет=agent.z;]]></Code>
 		<SimulationExperiment ActiveObjectClassId="1791105626172">
 			<Id>1791105626183</Id>
 			<Name><![CDATA[Simulation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Presentation>

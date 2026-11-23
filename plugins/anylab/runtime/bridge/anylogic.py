@@ -167,6 +167,19 @@ def prepare(args, out, result, build, token):
         else:
             shutil.copy2(source, dest)
     put(ex, "VmArgs", field(ex, "VmArgs") + " -Danylab.run=" + token)
+    try:
+        try:
+            from .console_capture import agent_jar
+        except ImportError:
+            from console_capture import agent_jar
+        home,_=locate()
+        jar=agent_jar(home)
+        if jar:
+            console=out/"console.log"
+            put(ex,"VmArgs",field(ex,"VmArgs")+' "-javaagent:'+str(jar)+'='+str(console)+'"')
+            result["console_log"]=str(console)
+    except (OSError,subprocess.SubprocessError) as error:
+        result["console_capture_error"]=str(error)
     pp = direct(ex, "PresentationProperties")
     if pp:
         old = field(pp[0], "Title")
@@ -180,6 +193,9 @@ def prepare(args, out, result, build, token):
     if args.metrics:
         metrics_hook(ex, out, args.metrics, token, root_type)
         result["metrics_csv"] = str(out / "metrics.csv")
+    if is_simulation:
+        status_path=json.dumps(str(out / "engine-state.json"),ensure_ascii=False)
+        hook(ex,"AfterSimulationRunCode",'try { java.nio.file.Files.writeString(java.nio.file.Path.of('+status_path+'), "{\\\"state\\\":\\\""+getEngine().getState()+"\\\",\\\"time\\\":"+getEngine().time()+"}"); } catch(java.io.IOException e) { throw new RuntimeException(e); }')
     hook(ex, "AfterSimulationRunCode" if is_simulation else "AfterExperimentCode", mark(out / "finished.pid"))
     if is_simulation:
         put(ex, "BypassInitialScreen", "true")
@@ -263,6 +279,16 @@ def run(args):
                 if not result[phase] and (out / (phase + ".pid")).is_file():
                     result[phase] = True
                     result[phase + "_seconds"] = round(time.monotonic() - start, 3)
+            if (out / "engine-state.json").is_file():
+                try:
+                    engine_state=json.loads((out/"engine-state.json").read_text(encoding="utf-8"))
+                    result["engine_state"]=engine_state["state"]
+                    result["model_time_reached"]=engine_state["time"]
+                    if engine_state["state"]=="ERROR":
+                        result.update(state="runtime_error",finished=False,error="AnyLogic engine entered ERROR; the end callback does not prove successful completion.")
+                        break
+                except (ValueError,KeyError):
+                    pass
             if result[args.until]:
                 result["state"] = "finished" if result["finished"] else "started"
                 break
@@ -280,7 +306,7 @@ def run(args):
     except (Exception, KeyboardInterrupt) as exc:
         result.update(state="error", error=str(exc) or type(exc).__name__)
     finally:
-        if launched and (args.close or result["state"] in {"timeout", "error"}):
+        if launched and (args.close or result["state"] in {"timeout", "error", "runtime_error"}):
             if result["state"] in {"timeout", "error"}:
                 (out / "cancelled").touch()
             try:

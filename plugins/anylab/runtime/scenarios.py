@@ -94,6 +94,36 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     name="ConveyorLine" if full_line else "ConveyorPacking"
     put(model,"Name",name)
     put(pp,"Title",name+" : Simulation")
+    # The supplied canonical projects already contain the complete checked flow.
+    # Re-cloning presentation and tutorial blocks on every use is unnecessary and
+    # can leave stale preview/resource references. Fill these projects in place.
+    carton=next((a for a in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass") if field(a,"Name")=="Carton"),None)
+    canonical=carton is not None and any(field(v,"Name")=="cargoRole" for v in children(child(carton,"Variables"),"Variable"))
+    has_shipping=any(field(n,"Name")=="warehouseNetwork" for n in main.getElementsByTagName("Network"))
+    if canonical and has_shipping==full_line:
+        from cargo import validate_cargo
+        validate_cargo(main)
+        fragile_rgb="155,74,140" if palette=="orange_cream_blue" else "242,138,60"
+        fill="isFragile ? new java.awt.Color("+fragile_rgb+") : (isManuallyAdded ? new java.awt.Color(36,87,204) : new java.awt.Color("+str(int(body_color[1:3],16))+","+str(int(body_color[3:5],16))+","+str(int(body_color[5:7],16))+"))"
+        if layout=="compact_straight":
+            loading=next(n for n in main.getElementsByTagName("Conveyor") if field(n,"Name")=="loadingBelt")
+            points=anchors(loading);shorten=points[-1][0]-110
+            if shorten>0:
+                put(loading,"X",str(float(field(loading,"X"))+shorten))
+                set_points(loading,route_curve([(0,0,0),(110,0,0)]))
+                # Keep the assembly offset and perpendicular intersection aligned.
+                for node in list(main.getElementsByTagName("Conveyor"))+list(main.getElementsByTagName("Text")):
+                    if field(node,"Name") in {"partFeeder","loadingText"}:put(node,"X",str(float(field(node,"X"))+shorten))
+        for shape in children(child(carton,"Presentation/Level/Presentation")):
+            label=field(shape,"Name")
+            if field(shape,"FillColorCode"):put(shape,"FillColorCode",fill)
+            if label in {"component2D","component3D"}:put(shape,"FillColor",str(_argb(details[component])))
+            if label in {"tape2D","tape3D"}:put(shape,"FillColor",str(_argb(accent_color)))
+        dest=Path(destination).resolve()
+        with new_directory(dest) as stage:
+            copy_resources(path,stage,False)
+            (stage/(name+".alp")).write_bytes(doc.toxml(encoding="UTF-8"))
+        return dict(model=str(dest/(name+".alp")),rate_per_minute=rate,horizon_seconds=horizon,seed=seed,full_line=full_line,palette=palette,layout=layout,component=component,canonical_template=True)
     assets = []
     if full_line:
         belts=children(child(network,"Presentation"),"Conveyor")
@@ -113,6 +143,9 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     distinguish_cartons(doc,model,main,details[component])
     from conveyor import restore_tabbed_views
     restore_tabbed_views(doc,model,main)
+    from cargo import apply_cargo, validate_cargo
+    apply_cargo(doc,model,main,body_color,accent_color,details[component])
+    validate_cargo(main)
     # Preserve the reference's 2D previews for staff and vehicles. Only
     # Carton uses custom vector icons instead of imported mesh previews.
     for agent in children(child(model,"ActiveObjectClasses"),"ActiveObjectClass"):
@@ -228,18 +261,20 @@ def conveyor_capacity(source,destination,rates=(4,8,12,16,20),horizon=900,seed=7
                      "main_throughput_per_minute":round(main_finished*60/horizon,3),
                      "offered_main_expected":expected_main,"admission_ratio":round(main_accepted/expected_main,4),
                      "completion_ratio":round(throughput/arrivals,4) if arrivals else 1.0,
-                     "sustainable":main_accepted>=expected_main*.95 and backlog<=max(3,math.ceil(arrivals*.05)),
+                     "admission_within_5pct":main_accepted>=expected_main*.95,
                      "finished":True,"run":str(run_dir)})
-    sustainable=[r for r in rows if r.get("sustainable")]
+    admitted=[r for r in rows if r.get("admission_within_5pct")]
     peak=max((r["main_throughput_per_minute"] for r in rows if "main_throughput_per_minute" in r),default=None)
     saturation=next((r["rate_per_minute"] for r in sorted(rows,key=lambda r:r.get("rate_per_minute",float("inf")))
                      if peak is not None and r.get("main_throughput_per_minute",0)>=peak*.95),None)
     result={"runs":rows,"tested_levels":len(rows),"requested_levels":len(values),
-            "max_sustainable_rate":max((r["rate_per_minute"] for r in sustainable),default=None),
+            "max_sustainable_rate":None,
+            "stability_verified":False,
+            "max_tested_admission_rate":max((r["rate_per_minute"] for r in admitted),default=None),
             "measured_peak_throughput_per_minute":peak,"saturation_onset_rate":saturation,
             "elapsed_seconds":round(time.monotonic()-started,2),
             "complete":len(rows)==len(values) and all(r.get("finished") for r in rows)}
-    result["interpretation"]="Source.count() is admitted flow; compare it with offered rate. The sustainable rate is a tested grid bound, not an exact stochastic capacity. Manual arrivals are reported separately."
+    result["interpretation"]="Source.count() is admitted flow; compare it with offered rate. A finite-horizon grid does not establish stability; max_sustainable_rate is null until replications and backlog trends are checked. Manual arrivals are reported separately."
     with (dest/"capacity.csv").open("w",encoding="utf-8-sig",newline="") as stream:
         writer=csv.DictWriter(stream,fieldnames=sorted({k for row in rows for k in row}))
         writer.writeheader();writer.writerows(rows)

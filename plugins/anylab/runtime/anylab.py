@@ -417,7 +417,7 @@ COMMANDS = {
                            ("source","destination","rate"), {"source":"string","destination":"string","rate":"number",
                                                              "horizon":"number","seed":"integer","full_line":"boolean",
                                                              "palette":"string","layout":"string","component":"string"}),
-    "conveyor_capacity": ("Измерить устойчивую интенсивность и пропускную способность полного конвейера в ограниченном бюджете.",
+    "conveyor_capacity": ("Измерить выпуск и область насыщения полного конвейера на сетке интенсивностей в ограниченном бюджете.",
                           ("source","destination"), {"source":"string","destination":"string","rates":"array",
                                                         "horizon":"number","seed":"integer","minutes":"number"}),
     "finish_lab_report": ("Заполнить отчёт из подготовленного комплекта. Титул берётся из lab-plan.json.",

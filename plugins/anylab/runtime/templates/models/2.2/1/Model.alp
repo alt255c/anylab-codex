@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 *************************************************
 	         AnyLogic Project File
 *************************************************
--->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.10.202609231424" AlpVersion="8.9.10">
+--><AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.9.202607020720" AlpVersion="8.9.9">
 <Model>
 	<Id>1790446174792</Id>
 	<Name><![CDATA[SMCS2_2]]></Name>
@@ -34,7 +32,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -135,7 +133,7 @@
 					</Value>
 					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
+						<Code/>
 						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 					</ComputationTimeCode>
 					<ComputationDate>1790496000000</ComputationDate>
@@ -155,7 +153,7 @@
 					</Value>
 					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
+						<Code/>
 						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 					</ComputationTimeCode>
 					<ComputationDate>1790496000000</ComputationDate>
@@ -175,7 +173,7 @@
 					</Value>
 					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
+						<Code/>
 						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 					</ComputationTimeCode>
 					<ComputationDate>1790496000000</ComputationDate>
@@ -195,7 +193,7 @@
 					</Value>
 					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
+						<Code/>
 						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 					</ComputationTimeCode>
 					<ComputationDate>1790496000000</ComputationDate>
@@ -215,7 +213,7 @@
 					</Value>
 					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
+						<Code/>
 						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 					</ComputationTimeCode>
 					<ComputationDate>1790496000000</ComputationDate>
@@ -235,7 +233,7 @@
 					</Value>
 					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
+						<Code/>
 						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
 					</ComputationTimeCode>
 					<ComputationDate>1790496000000</ComputationDate>
@@ -881,7 +879,7 @@ public double getDb_2() { return db_2; }]]></AdditionalClassCode>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -1098,7 +1096,7 @@ public double getDb_2() { return db_2; }]]></AdditionalClassCode>
 		<SimulationExperiment ActiveObjectClassId="1790446174796">
 			<Id>1790446174802</Id>
 			<Name><![CDATA[Simulation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -1121,7 +1119,7 @@ traceln("Пропускная способность = " + throughput + "%");
 root.Пропускная_способность = throughput;]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Presentation>
@@ -1183,7 +1181,7 @@ root.Пропускная_способность = throughput;]]></AfterSimulati
 		<ParamVariationExperiment ActiveObjectClassId="1790446174796">
 			<Id>1790456079268</Id>
 			<Name><![CDATA[VariationNoRep]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -1198,7 +1196,7 @@ double tp = (root.Время_в_S0 * 4 + root.Время_в_S1 * 3
 MyCollection.add(new MyAgent(root.P1, tp));]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="CollectionVariable">
@@ -1821,7 +1819,7 @@ if (N != 0) {
 		<ParamVariationExperiment ActiveObjectClassId="1790446174796">
 			<Id>1790458178074</Id>
 			<Name><![CDATA[VariationRep]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -1836,7 +1834,7 @@ double tp = (root.Время_в_S0 * 4 + root.Время_в_S1 * 3
 MyCollection.add(new MyAgent(root.P1, tp));]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="CollectionVariable">

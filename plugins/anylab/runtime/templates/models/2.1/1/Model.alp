@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 *************************************************
 	         AnyLogic Project File
 *************************************************
--->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.10.202609231424" AlpVersion="8.9.10">
+--><AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.9.202607020720" AlpVersion="8.9.9">
 <Model>
 	<Id>1789817636919</Id>
 	<Name><![CDATA[SMCS2_1]]></Name>
@@ -34,7 +32,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -390,13 +388,13 @@ if (ПопалА && ПопалБ) АБ_убиты++;]]></EntryAction>
 		<SimulationExperiment ActiveObjectClassId="1789817636923">
 			<Id>1789817636931</Id>
 			<Name><![CDATA[Simulation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Presentation>

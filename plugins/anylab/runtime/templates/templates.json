@@ -229,16 +229,20 @@
     "models": {
       "6.1": [
         {
-          "kind": "installed-example",
-          "query": "Gas Station",
-          "label": "Штатный пример AnyLogic"
+          "kind": "alp",
+          "file": "models/6.1/1/Model.alp",
+          "fields": "models/6.1/1/Model.fill.json",
+          "source": "Самостоятельный обезличенный шаблон АЗС",
+          "label": "Четыре колонки"
         }
       ],
       "6.2": [
         {
-          "kind": "previous-task",
-          "task": "6.1",
-          "label": "Доработать проект первого задания"
+          "kind": "alp",
+          "file": "models/6.2/1/Model.alp",
+          "fields": "models/6.2/1/Model.fill.json",
+          "source": "Самостоятельный обезличенный шаблон АЗС",
+          "label": "Четыре колонки и оплата водителем"
         }
       ]
     },

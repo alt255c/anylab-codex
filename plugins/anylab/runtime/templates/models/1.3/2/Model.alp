@@ -1061,12 +1061,12 @@
 								<EntityEmbeddedObject>
 									<Id>1789722030564</Id>
 									<ActiveObjectClass>
-										<PackageName><![CDATA[smcs1_3]]></PackageName>
+										<PackageName><![CDATA[smcs1_4]]></PackageName>
 										<ClassName><![CDATA[MyAgent]]></ClassName>
 									</ActiveObjectClass>
 									<GenericParameterSubstitute>
 										<GenericParameterSubstituteReference>
-											<PackageName><![CDATA[smcs1_3]]></PackageName>
+											<PackageName><![CDATA[smcs1_4]]></PackageName>
 											<ClassName><![CDATA[MyAgent]]></ClassName>
 											<ItemName><![CDATA[1789721825822]]></ItemName>
 										</GenericParameterSubstituteReference>

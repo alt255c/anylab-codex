@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
 *************************************************
 	         AnyLogic Project File
 *************************************************
--->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.10.202609231424" AlpVersion="8.9.10">
+--><AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.9.202607020720" AlpVersion="8.9.9">
 <Model>
 	<Id>1792243724314</Id>
 	<Name><![CDATA[лр4з2]]></Name>
@@ -35,7 +33,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -4430,7 +4428,7 @@ viewArea.navigateTo();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -4440,7 +4438,7 @@ viewArea.navigateTo();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
     			<HistogramData>
 					<Id>1792276167210</Id>
@@ -4464,7 +4462,7 @@ viewArea.navigateTo();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -4474,7 +4472,7 @@ viewArea.navigateTo();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
     			<HistogramData>
 					<Id>1792276170762</Id>
@@ -4498,7 +4496,7 @@ viewArea.navigateTo();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -4508,7 +4506,7 @@ viewArea.navigateTo();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
     			<HistogramData>
 					<Id>1792276198522</Id>
@@ -4532,7 +4530,7 @@ viewArea.navigateTo();]]></Body>
 							<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
 						</RecurrenceCode>
 					</RecurrenceProperties>
-					<Value><![CDATA[]]></Value>
+					<Value/>
 					<NumberOfIntervals>10</NumberOfIntervals>
 					<MinMaxAutodetect>true</MinMaxAutodetect>
 					<RangeMinExpression><![CDATA[0]]></RangeMinExpression>
@@ -4542,7 +4540,7 @@ viewArea.navigateTo();]]></Body>
 					<CalculatePercentiles>false</CalculatePercentiles>
 					<LowPercent>10</LowPercent>
 					<HighPercent>10</HighPercent>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 				</HistogramData>
 			</AnalysisData>
 
@@ -16178,7 +16176,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16220,7 +16218,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16262,7 +16260,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16304,7 +16302,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16346,7 +16344,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16388,7 +16386,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16426,7 +16424,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16464,7 +16462,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16502,7 +16500,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16540,7 +16538,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16578,7 +16576,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16616,7 +16614,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16654,7 +16652,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16692,7 +16690,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16730,7 +16728,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16768,7 +16766,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>123.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16806,7 +16804,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16844,7 +16842,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16882,7 +16880,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16920,7 +16918,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -16958,7 +16956,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>270.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17000,7 +16998,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17042,7 +17040,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17084,7 +17082,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17126,7 +17124,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17168,7 +17166,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17210,7 +17208,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.9</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17248,7 +17246,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>90.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17286,7 +17284,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>90.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17324,7 +17322,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>90.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17362,7 +17360,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>90.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17400,7 +17398,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>90.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17438,7 +17436,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17476,7 +17474,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17514,7 +17512,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17552,7 +17550,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17590,7 +17588,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17628,7 +17626,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17666,7 +17664,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17704,7 +17702,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17742,7 +17740,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -17780,7 +17778,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>65.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19675,7 +19673,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.3</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19725,7 +19723,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.3</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19775,7 +19773,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.3</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19825,7 +19823,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.3</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19875,7 +19873,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.3</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19925,7 +19923,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.3</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -19983,7 +19981,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20041,7 +20039,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20099,7 +20097,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20157,7 +20155,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20215,7 +20213,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20273,7 +20271,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20331,7 +20329,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20389,7 +20387,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>180.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20447,7 +20445,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20505,7 +20503,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20563,7 +20561,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20621,7 +20619,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20679,7 +20677,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20737,7 +20735,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20795,7 +20793,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -20853,7 +20851,7 @@ if (MaxОчередьКассаSide1 < ОчередьКассаSide1) {
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -24999,7 +24997,7 @@ window3d.setNavigationMode(WINDOW_3D_NAVIGATION_FULL);]]></ActionCode>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 					<Width>4200</Width>
 					<Height>3000</Height>
 				</Area>
@@ -25011,7 +25009,7 @@ window3d.setNavigationMode(WINDOW_3D_NAVIGATION_FULL);]]></ActionCode>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 					<Width>6000</Width>
 					<Height>2920</Height>
 				</Area>
@@ -25023,7 +25021,7 @@ window3d.setNavigationMode(WINDOW_3D_NAVIGATION_FULL);]]></ActionCode>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<Title><![CDATA[]]></Title>
+					<Title/>
 					<Width>5600</Width>
 					<Height>2760</Height>
 				</Area>
@@ -25052,7 +25050,7 @@ funAvatar(typePerson);]]></StartupCode>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
-            <EnvironmentResourceRef></EnvironmentResourceRef>
+            <EnvironmentResourceRef/>
             <EnvironmentType>NONE</EnvironmentType>
             <EnvironmentRotationX>0</EnvironmentRotationX>
             <EnvironmentRotationY>0</EnvironmentRotationY>
@@ -25258,7 +25256,7 @@ funAvatar(typePerson);]]></StartupCode>
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -25324,7 +25322,7 @@ funAvatar(typePerson);]]></StartupCode>
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -25390,7 +25388,7 @@ funAvatar(typePerson);]]></StartupCode>
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -25444,7 +25442,7 @@ funAvatar(typePerson);]]></StartupCode>
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -25514,7 +25512,7 @@ funAvatar(typePerson);]]></StartupCode>
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -25564,7 +25562,7 @@ funAvatar(typePerson);]]></StartupCode>
 					<Scale>1.0</Scale>
 					<Rotation>0.0</Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
-					<SelectedAnimationPose></SelectedAnimationPose>
+					<SelectedAnimationPose/>
 					<ApplyShading>true</ApplyShading>
 					<InternalLighting>OFF</InternalLighting>
 					<IgnoreSceneLights>false</IgnoreSceneLights>
@@ -25790,13 +25788,13 @@ funAvatar(typePerson);]]></StartupCode>
 		<SimulationExperiment ActiveObjectClassId="1792243724318">
 			<Id>1792243724324</Id>
 			<Name><![CDATA[Simulation]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Presentation>
@@ -25903,7 +25901,7 @@ funAvatar(typePerson);]]></StartupCode>
 		<ParamVariationExperiment ActiveObjectClassId="1792243724318">
 			<Id>1794141298702</Id>
 			<Name><![CDATA[ВарьированиеВремявТЦ]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<InitialSetupCode><![CDATA[MyCollection.clear();
 
 Время05.reset();
@@ -25921,7 +25919,7 @@ funAvatar(typePerson);]]></StartupCode>
 ));]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="CollectionVariable">
@@ -27473,7 +27471,7 @@ for (Object obj : MyCollection) {
 		<ParamVariationExperiment ActiveObjectClassId="1792243724318">
 			<Id>1794680093797</Id>
 			<Name><![CDATA[ВлияниеПотокаМетроНаТц]]></Name>
-			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<CommandLineArguments/>
 			<InitialSetupCode><![CDATA[MyCollection.clear();
 ВремяПотокМетро.reset();]]></InitialSetupCode>
 			<MaximumMemory>2048</MaximumMemory>
@@ -27488,7 +27486,7 @@ for (Object obj : MyCollection) {
 ));]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
-			<VmArgs><![CDATA[]]></VmArgs>
+			<VmArgs/>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 			<Variables>
 				<Variable Class="CollectionVariable">
