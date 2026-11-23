@@ -1,5 +1,6 @@
 """Target-window capture for AnyLogic IDE and its Chromium animation windows."""
 import ctypes as c
+import hashlib
 from ctypes import wintypes as w
 import json
 import os
@@ -211,6 +212,12 @@ def command(args, home):
         else:
             shot.save(temp, "PNG")
         temp.rename(out)
+        if args.cmd == "capture":
+            out.with_name(out.name + ".capture.json").write_text(json.dumps({
+                "kind": "anylogic-window-capture", "file": str(out),
+                "sha256": hashlib.sha256(out.read_bytes()).hexdigest(),
+                "window": window, "dimensions": shot.size,
+            }, ensure_ascii=False, indent=2), encoding="utf8")
     finally:
         temp.unlink(missing_ok=True)
     print(json.dumps(dict(file=str(out), window=window, dimensions=shot.size), ensure_ascii=False))

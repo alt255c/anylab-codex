@@ -230,6 +230,13 @@ def finish_lab_report(workspace, destination, paragraphs, images):
         missing = sorted(set(required_text) - set(updates), key=int)
         missing_images = sorted(set(required_images) - set(images), key=int)
         raise ValueError(f"Проверьте карту полей. Абзацы: {missing[:24]}. Изображения: {missing_images[:24]}.")
+    from capture_figures import validate_capture_figure
+    for key, requirement in required_images.items():
+        if requirement.get("source_kind") == "anylogic-window-capture":
+            try:
+                validate_capture_figure(images[key])
+            except ValueError as error:
+                raise ValueError(f"{requirement['field']}: нужен снимок настоящих блоков AnyLogic. {error}") from error
     body = [str(v) if not isinstance(v,list) else "".join(v) for k,v in paragraphs.items()
             if k in required_text and required_text[k]["section"] != "Титульный лист"
             and len((str(v) if not isinstance(v,list) else "".join(v)).split()) >= 6]
@@ -360,6 +367,7 @@ def dispatch(action, params):
     from template_fill import fill_report
     from reference_docx import inspect_reference, refill_reference
     from scenarios import conveyor_scenario, conveyor_capacity
+    from capture_figures import capture_figure
     import experiments
     import materials
     import projects
@@ -370,6 +378,7 @@ def dispatch(action, params):
         "conveyor_scenario": conveyor_scenario,
         "conveyor_capacity": conveyor_capacity,
         "finish_lab_report": finish_lab_report,
+        "capture_figure": capture_figure,
         "stage_template": stage_template,
         "fill_model": fill_model,
         "fill_report": fill_report,
@@ -423,6 +432,8 @@ COMMANDS = {
     "finish_lab_report": ("Заполнить отчёт из подготовленного комплекта. Титул берётся из lab-plan.json.",
                           ("workspace","destination","paragraphs","images"),
                           {"workspace":"string","destination":"string","paragraphs":"object","images":"object"}),
+    "capture_figure": ("Обрезать или собрать вертикально настоящие кадры capture без перерисовки. sources: объекты path и необязательный box [left,top,right,bottom].",
+                       ("sources","destination"), {"sources":"array","destination":"string"}),
     "stage_template": ("Скопировать готовую модель ALP и её ресурсы в новый рабочий каталог.", ("lab","task","destination"), {"lab":"integer","task":"string","destination":"string","model":"integer","root":"string"}),
     "fill_model": ("Заполнить переменные и свойства блоков в копии готового ALP.", ("lab","task","destination","values"),
                    {"lab":"integer","task":"string","destination":"string","values":"object","model":"integer","root":"string"}),
