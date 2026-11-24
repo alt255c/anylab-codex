@@ -1,4 +1,5 @@
 """Scenario options for the open-course assignments."""
+import json
 import math
 import shutil
 from pathlib import Path
@@ -34,9 +35,11 @@ def course_options(lab, station=None, station_plan=None, addition=None):
 
 def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=False,
                       palette="blue_turquoise_orange", layout="extended_offset",
-                      component="blue_sleeve"):
+                      component="blue_sleeve", scene=None):
     """Build the lab's finite measurement profile and optional loading/unloading line."""
     from projects import copy_resources, new_directory
+    from lr5_scene import apply_scene, scene_options
+    config = scene_options(scene)
     if any(isinstance(n,bool) or not isinstance(n,(int,float)) or not math.isfinite(n) or n<=0
            for n in (rate,horizon)):
         raise ValueError("Интенсивность и горизонт должны быть положительными")
@@ -45,13 +48,13 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     palettes={"blue_turquoise_orange":("#19B6B0","#F28A3C"),
               "orange_cream_blue":("#E88448","#2867B2"),
               "green_sand_coral":("#49866F","#E57556")}
-    details={"blue_sleeve":"#2867D1","orange_sleeve":"#F28A3C","silver_spool":"#9AA7B3"}
+    details={"blue_sleeve":"#2867D1","orange_sleeve":"#F28A3C","silver_spool":"#9AA7B3","brick":"#AD5744"}
     if palette not in palettes:
         raise ValueError("Выберите палитру: blue_turquoise_orange, orange_cream_blue, green_sand_coral")
-    if layout not in {"extended_offset","compact_straight"}:
-        raise ValueError("Выберите геометрию: extended_offset или compact_straight")
+    if layout not in {"extended_offset","compact_straight","smooth_s"}:
+        raise ValueError("Выберите геометрию: extended_offset, compact_straight или smooth_s")
     if component not in details:
-        raise ValueError("Выберите деталь: blue_sleeve, orange_sleeve или silver_spool")
+        raise ValueError("Выберите деталь: blue_sleeve, orange_sleeve, silver_spool или brick")
     path = Path(source).resolve(strict=True)
     doc, model = load(path)
     resources = child(model,"ModelResources")
@@ -102,14 +105,30 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     has_shipping=any(field(n,"Name")=="warehouseNetwork" for n in main.getElementsByTagName("Network"))
     if canonical and has_shipping!=full_line:
         raise ValueError('Выберите самостоятельный шаблон 5.2 для full_line=true или шаблон 5.1 для full_line=false из prepare_lab.')
+    if not canonical and (config or layout == "smooth_s" or component == "brick"):
+        raise ValueError("Расширенное оформление требует штатного шаблона ЛР5 из prepare_lab")
     if canonical and has_shipping==full_line:
+        profile_file = path.parent / "scene.json"
+        if profile_file.is_file():
+            if scene is not None or (palette, layout, component) != ("blue_turquoise_orange", "extended_offset", "blue_sleeve"):
+                raise ValueError("Для нового оформления начните с шаблона. Готовый ALP сохраняет согласованную сцену.")
+            profile = json.loads(profile_file.read_text(encoding="utf8"))
+            if profile.get("model") != path.name:
+                raise ValueError("scene.json относится к другому проекту")
+            dest = Path(destination).resolve()
+            with new_directory(dest) as stage:
+                copy_resources(path, stage, False)
+                (stage / (name + ".alp")).write_bytes(doc.toxml(encoding="UTF-8"))
+                shutil.copy2(profile_file, stage / "scene.json")
+            return {**profile, "model": str(dest / (name + ".alp")), "rate_per_minute": rate,
+                    "horizon_seconds": horizon, "seed": seed, "canonical_template": True}
         from lr5_revision import revise, add_variation
         revise(doc,model,main,full_line)
         add_variation(doc,model,main,full_line)
         from cargo import validate_cargo
         validate_cargo(main)
         fragile_color="#9B4A8C" if palette=="orange_cream_blue" else "#F28A3C"
-        if layout=="compact_straight" and full_line:
+        if layout in {"compact_straight", "smooth_s"} and full_line:
             loading=next(n for n in main.getElementsByTagName("Conveyor") if field(n,"Name")=="loadingBelt")
             points=anchors(loading);shorten=points[-1][0]-110
             if shorten>0:
@@ -136,11 +155,18 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
                 for key in ("FillColor","LineColor"):put(shape,key,str(_argb(details[component])))
             if label in {"tape2D","tape3D"}:
                 for key in ("FillColor","LineColor"):put(shape,key,str(_argb(accent_color)))
-        dest=Path(destination).resolve()
+        if scene is not None or layout == "smooth_s" or component == "brick":
+            apply_scene(doc, main, carton, config, component, layout, full_line)
+            validate_cargo(main)
+        profile = dict(model=name + ".alp", full_line=full_line, palette=palette, layout=layout,
+                       component=component, scene=config)
+        dest = Path(destination).resolve()
         with new_directory(dest) as stage:
-            copy_resources(path,stage,False)
-            (stage/(name+".alp")).write_bytes(doc.toxml(encoding="UTF-8"))
-        return dict(model=str(dest/(name+".alp")),rate_per_minute=rate,horizon_seconds=horizon,seed=seed,full_line=full_line,palette=palette,layout=layout,component=component,canonical_template=True)
+            copy_resources(path, stage, False)
+            (stage / (name + ".alp")).write_bytes(doc.toxml(encoding="UTF-8"))
+            (stage / "scene.json").write_text(json.dumps(profile, ensure_ascii=False, indent=2), encoding="utf8")
+        return {**profile, "model": str(dest / (name + ".alp")), "rate_per_minute": rate,
+                "horizon_seconds": horizon, "seed": seed, "canonical_template": True}
     assets = []
     if full_line:
         belts=children(child(network,"Presentation"),"Conveyor")

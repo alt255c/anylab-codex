@@ -5,7 +5,7 @@ from pathlib import Path
 from xml.dom import minidom
 
 import anylab
-from bridge.anylogic import close_owned, direct, field, put
+from bridge.anylogic import close_run_tree, direct, field, put
 
 
 def presentation_copy(model, folder, three_d, speed=1, camera=None):
@@ -61,16 +61,12 @@ def record_demo(model, root, files, seconds, three_d, minutes, speed=1, screensh
             time.sleep(.5)
         raise ValueError("Окно симуляции не появилось для записи")
     finally:
-        close_owned(evidence["project"].removeprefix("AnyLab_"))
-        if evidence.get("owned_ide_pid"):
-            import subprocess
-            subprocess.run(["taskkill","/PID",str(evidence["owned_ide_pid"]),"/F"],
-                           stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        close_run_tree(evidence)
 
 
 def tour_timing(seconds,full=False):
     """Spend most of the recording on assembly and the two packing routes."""
-    two=min(12.0,seconds*.25)
+    two=min(15.0,seconds*.25)
     scale=(seconds-two)/84.0
     weights=[6,16,12,22,8,6,2] if full else [6,18,14,26,8,2]
     holds=[value*scale for value in weights]
@@ -80,9 +76,11 @@ def tour_timing(seconds,full=False):
     return {"two_d_seconds":two,"holds":holds,"moves":moves,"starts":starts}
 
 
-def record_tour(model, destination, seconds=96, speed=3, warmup=30):
+def record_tour(model, destination, seconds=96, speed=2, warmup=30, profile="hd"):
     """One live run: 2D first, then a camera travelling over the conveyor."""
-    import json, subprocess, os
+    import json, os
+    if profile not in {"hd", "light", "window"}:
+        raise ValueError("Профиль видео: hd, light или window")
     if not isinstance(seconds,int) or not 10 <= seconds <= 120:
         raise ValueError("Продолжительность tour: 10–120 секунд")
     if not isinstance(speed,(int,float)) or not 0.1 <= speed <= 20:
@@ -146,8 +144,8 @@ class AnyLabLiveCameraTour extends com.anylogic.engine.DynamicEvent {
         }
         if (!tour3D[0]) {
             double t2 = tourEpoch[0] < 0 ? 0 : Math.max(0,System.nanoTime()/1e9-tourEpoch[0]);
-            double u2 = Math.max(0,Math.min(1,(t2-TWO*.2)/(TWO*.6)));
-            u2=u2*u2*(3-2*u2);
+            double u2 = Math.max(0,Math.min(1,(t2-TWO*.05)/(TWO*.9)));
+            u2=u2*u2*u2*(10+u2*(-15+6*u2));
             double left=-700+PAN*u2;
             viewLogic.setX(left);
             viewLogic.navigateTo();
@@ -204,14 +202,15 @@ new AnyLabLiveCameraTour();
                         time.sleep(.2)
                     else: raise TimeoutError("Не получен сигнал начала записи")
                 marker.touch()
-                anylab.native(["record","--window",window["hwnd"],"--out",root/"demo.mp4","--seconds",seconds])
+                time.sleep(.7)
+                fps = 7 if profile == "light" else 12
+                anylab.native(["record", "--window", window["hwnd"], "--out", root/"demo.mp4",
+                               "--seconds", seconds, "--profile", profile, "--fps", fps])
                 time.sleep(4)
                 anylab.native(["capture","--window",window["hwnd"],"--out",root/"scene.png"])
-                (root/"tour.json").write_text(json.dumps({"live_single_run":True,"seconds":seconds,"2d_seconds":timing["two_d_seconds"],"camera_route":route,"hold_seconds":timing["holds"],"station_start_seconds":timing["starts"],"warmup_wall_seconds":warmup,"warmup_speed":12,"playback_speed":speed,"angles_degrees":route[0][3:5],"agreed_plan":chosen_plan},indent=2),encoding="utf-8")
+                (root/"tour.json").write_text(json.dumps({"live_single_run":True,"capture_profile":profile,"capture_fps":fps,"seconds":seconds,"2d_seconds":timing["two_d_seconds"],"camera_route":route,"hold_seconds":timing["holds"],"station_start_seconds":timing["starts"],"warmup_wall_seconds":warmup,"warmup_speed":12,"playback_speed":speed,"angles_degrees":route[0][3:5],"agreed_plan":chosen_plan},indent=2),encoding="utf-8")
                 return {"video":str(root/"demo.mp4"),"tour":str(root/"tour.json")}
             time.sleep(.5)
         raise RuntimeError("Окно записи не появилось")
     finally:
-        close_owned(evidence["project"].removeprefix("AnyLab_"))
-        if evidence.get("owned_ide_pid"):
-            subprocess.run(["taskkill","/PID",str(evidence["owned_ide_pid"]),"/F"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        close_run_tree(evidence)

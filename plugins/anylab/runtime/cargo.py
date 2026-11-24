@@ -227,7 +227,9 @@ def validate_cargo(main):
             raise ValueError('Заготовка должна останавливаться у работника на ленте')
         if 'agent.boxFormed=true;' not in code('foldBox','onExit') or 'boxFormed=true' in code('fitPart','onExit'):
             raise ValueError('Коробка формируется после задержки у работника, а не в месте подачи детали')
-        if 'conveyorEnter' in blocks and (code('conveyorEnter','conveyor')!='loadingBelt' or code('liftUp','entityLocation')!='palletBuffer'):
+        has_separate_inlet = any(field(b, "Name") == "loadingBelt" for b in main.getElementsByTagName("Conveyor"))
+        expected_inlet = "loadingBelt" if has_separate_inlet else "conveyor"
+        if 'conveyorEnter' in blocks and (code('conveyorEnter','conveyor') != expected_inlet or code('liftUp','entityLocation') != 'palletBuffer'):
             raise ValueError('Поддон должен поступать на входную ленту через ConveyorEnter')
     for name,role in (("source",0),("partSource",1),("sheetSource",2),("source1",3),("stockPallets",4)):
         if name not in blocks and name in {"sheetSource","stockPallets"}:continue

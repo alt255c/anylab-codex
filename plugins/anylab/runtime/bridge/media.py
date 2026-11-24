@@ -162,31 +162,30 @@ def encoder():
     return exe
 
 
-def record(hwnd, pid, first, path, seconds, fps):
-    width, height = first.size
+def record(hwnd, pid, first, path, seconds, fps, profile="window"):
+    from PIL import Image, ImageOps
+
+    canvas = {"hd": (1920, 1080), "light": (1120, 630)}.get(profile, first.size)
+    width, height = canvas
+
+    def fit(frame):
+        return ImageOps.pad(frame, canvas, method=Image.Resampling.BILINEAR, color="white") if frame.size != canvas else frame
+
     cmd = [encoder(), "-hide_banner", "-loglevel", "error", "-n", "-f", "rawvideo",
            "-pixel_format", "rgb24", "-video_size", f"{width}x{height}", "-framerate", str(fps),
            "-i", "pipe:0", "-an", "-vf", "pad=ceil(iw/2)*2:ceil(ih/2)*2", "-c:v", "libx264",
-           "-pix_fmt", "yuv420p", "-preset", "ultrafast", "-crf", "19", "-movflags", "+faststart", str(path)]
+           "-pix_fmt", "yuv420p", "-preset", "ultrafast", "-threads", "1" if profile == "light" else "2",
+           "-crf", "18" if profile == "hd" else "21" if profile == "light" else "19", "-movflags", "+faststart", str(path)]
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     try:
         start = time.monotonic()
-        current = first
+        current = fit(first)
         for index in range(seconds * fps):
             due = start + index / fps
             if index:
                 if time.monotonic() <= due + 1 / fps:
                     time.sleep(max(0.0, due - time.monotonic()))
-                    current = frame(hwnd, pid)
-                    if current.size != first.size:
-                        # DPI/desktop changes can resize a Chromium client while
-                        # it is being captured. Keep one canvas and the entire
-                        # image, preserving aspect ratio instead of stretching
-                        # it or discarding an otherwise valid demonstration.
-                        from PIL import ImageOps, Image
-                        current = ImageOps.pad(current,first.size,
-                                               method=Image.Resampling.LANCZOS,
-                                               color="white")
+                    current = fit(frame(hwnd, pid))
             process.stdin.write(current.tobytes())
         process.stdin.close()
         if process.wait(timeout=30):
@@ -216,13 +215,18 @@ def command(args, home):
     out.parent.mkdir(exist_ok=True, parents=True)
     temp = out.with_name("." + uuid.uuid4().hex + suffix)
     try:
+        profile = getattr(args, "profile", "window")
+        if args.cmd == "record" and profile == "hd":
+            show = bind(user, "ShowWindowAsync", w.BOOL, w.HWND, c.c_int)
+            show(args.window, 3)
+            time.sleep(.5)
         shot = frame(args.window, window["pid"])
         if shot.width < 4 or shot.height < 4 or all(lo == hi for lo, hi in shot.getextrema()):
             raise ValueError("Windows вернула пустой кадр. Восстановите окно и дождитесь анимации.")
         if args.cmd == "record":
             if not (1 <= args.seconds <= 900 and 1 <= args.fps <= 60):
                 raise ValueError("Допустимая длительность 1..900 секунд, частота 1..60 кадров/с.")
-            record(args.window, window["pid"], shot, temp, args.seconds, args.fps)
+            record(args.window, window["pid"], shot, temp, args.seconds, args.fps, profile)
         else:
             shot.save(temp, "PNG")
         temp.rename(out)

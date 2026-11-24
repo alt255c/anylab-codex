@@ -27,3 +27,18 @@ def load_plan(source, route, timing, seconds):
     starts=[first]
     for hold in holds[:-1]:starts.append(starts[-1]+hold+move)
     return chosen,dict(two_d_seconds=first,holds=holds,moves=[move]*(len(chosen)-1),starts=starts),plan
+
+
+def planned_seconds(model):
+    """Use the user-approved camera timings when seconds is omitted."""
+    path = Path(model).parent / "video-plan.json"
+    if not path.is_file():
+        return 96
+    plan = json.loads(path.read_text(encoding="utf8"))
+    holds = plan.get("hold_seconds")
+    if not isinstance(holds, list) or not holds or not all(type(n) in (int, float) for n in holds):
+        raise ValueError("Укажите hold_seconds в video-plan.json")
+    duration = plan.get("two_d_seconds", 12) + sum(holds) + plan.get("transition_seconds", 2) * (len(holds) - 1)
+    if not math.isfinite(duration) or not math.isclose(duration, round(duration), abs_tol=.01):
+        raise ValueError("Длительность плана видео должна быть целым числом секунд")
+    return round(duration)

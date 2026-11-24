@@ -298,12 +298,8 @@ def examples(query="",limit=20):
             if all(word.casefold() in p.stem.casefold() for word in query.split())][:limit]
 
 
-def video(model, destination, seconds=None, three_d=True, speed=None, screenshot=False, camera=None, warmup=None, shots=None, tour=False):
+def video(model, destination, seconds=None, three_d=True, speed=None, screenshot=False, camera=None, warmup=None, shots=None, tour=False, profile=None):
     from video_demo import record_demo
-    if speed is None:
-        speed = 3 if tour else 1
-    if seconds is None:
-        seconds = 96 if tour else 20
     if warmup is None:
         warmup = 30 if tour else 3
     if tour:
@@ -311,9 +307,16 @@ def video(model, destination, seconds=None, three_d=True, speed=None, screenshot
         _,tour_model=load(Path(model))
         if not any(n.firstChild and n.firstChild.data=='Carton' for n in tour_model.getElementsByTagName('Name')):
             from scene_tour import record_scene_tour
-            return record_scene_tour(model,destination,seconds,speed,warmup)
+            return record_scene_tour(model,destination,96 if seconds is None else seconds,
+                                     3 if speed is None else speed,warmup)
         from video_demo import record_tour
-        return record_tour(model,destination,seconds,speed,warmup)
+        from video_plan import planned_seconds
+        duration = planned_seconds(model) if seconds is None else seconds
+        return record_tour(model, destination, duration, 2 if speed is None else speed, warmup, profile or "hd")
+    if seconds is None:
+        seconds = 20
+    if speed is None:
+        speed = 1
     if shots is not None:
         from video_story import record_story
         return record_story(model,destination,shots)
@@ -374,6 +377,7 @@ def dispatch(action, params):
     from template_fill import fill_report
     from reference_docx import inspect_reference, refill_reference
     from scenarios import conveyor_scenario, conveyor_capacity
+    from lr5_bundle import bundle_lab5
     from capture_figures import capture_figure
     import experiments
     import materials
@@ -384,6 +388,7 @@ def dispatch(action, params):
         "prepare_lab": prepare_lab,
         "conveyor_scenario": conveyor_scenario,
         "conveyor_capacity": conveyor_capacity,
+        "bundle_lab5": bundle_lab5,
         "finish_lab_report": finish_lab_report,
         "capture_figure": capture_figure,
         "stage_template": stage_template,
@@ -432,10 +437,13 @@ COMMANDS = {
     "conveyor_scenario": ("Подготовить прогон ЛР5. Полный режим добавляет сборку с поперечной подачей детали и разгрузку по трём складам.",
                            ("source","destination","rate"), {"source":"string","destination":"string","rate":"number",
                                                              "horizon":"number","seed":"integer","full_line":"boolean",
-                                                             "palette":"string","layout":"string","component":"string"}),
+                                                             "palette":"string","layout":"string","component":"string","scene":"object"}),
     "conveyor_capacity": ("Измерить выпуск и область насыщения полного конвейера на сетке интенсивностей в ограниченном бюджете.",
                           ("source","destination"), {"source":"string","destination":"string","rates":"array",
                                                         "horizon":"number","seed":"integer","minutes":"number"}),
+    "bundle_lab5": ("Собрать ЛР5 с двумя ALP и двумя видео, общим отчётом и CSV.",
+                    ("destination","student","model_1","model_2","video_1","video_2","docx","pdf","capacity"),
+                    {k:"string" for k in ("destination","student","model_1","model_2","video_1","video_2","docx","pdf","capacity","evidence")}),
     "finish_lab_report": ("Заполнить отчёт из подготовленного комплекта. Титул берётся из lab-plan.json.",
                           ("workspace","destination","paragraphs","images"),
                           {"workspace":"string","destination":"string","paragraphs":"object","images":"object"}),
@@ -450,7 +458,7 @@ COMMANDS = {
     "refill_reference": ("Заменить содержимое в оригинальной структуре DOCX, сохранив оформление.", ("template","destination","values"),
                          {"template":"string","destination":"string","values":"object"}),
     "examples": ("Найти установленные примеры AnyLogic (по словам в английском названии).", (), {"query":"string","limit":"integer"}),
-    "video": ("Записать демонстрацию одним планом или списком shots с 2D, 3D и крупными планами.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean","speed":"number","screenshot":"boolean","camera":"object","warmup":"number","shots":"array", "tour":"boolean"}),
+    "video": ("Записать демонстрацию одним планом или списком shots с 2D, 3D и крупными планами.", ("model","destination"), {"model":"string","destination":"string","seconds":"integer","three_d":"boolean","speed":"number","screenshot":"boolean","camera":"object","warmup":"number","shots":"array", "tour":"boolean","profile":"string"}),
     "index": ("Обновить индекс материалов. По умолчанию берётся список из sources.json.", (), {"paths":"array"}),
     "sources": ("Показать доступные и отсутствующие материалы, включая модели внутри архивов.", (), {}),
     "search": ("Найти фрагменты материалов и координаты источников.", ("query",), {"query":"string", "limit":"integer"}),

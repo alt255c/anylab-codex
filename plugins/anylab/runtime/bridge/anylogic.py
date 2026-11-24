@@ -1,5 +1,6 @@
 """Build and run a trusted ALP through the installed AnyLogic IDE on Windows."""
 import argparse
+import base64
 import csv
 import hashlib
 import importlib.util
@@ -174,9 +175,10 @@ def prepare(args, out, result, build, token):
             from console_capture import agent_jar
         home,_=locate()
         jar=agent_jar(home)
-        if jar:
+        if jar and str(jar).isascii():
             console=out/"console.log"
-            put(ex,"VmArgs",field(ex,"VmArgs")+' "-javaagent:'+str(jar)+'='+str(console)+'"')
+            encoded = base64.urlsafe_b64encode(str(console).encode("utf8")).decode("ascii")
+            put(ex,"VmArgs",field(ex,"VmArgs")+' "-javaagent:'+str(jar)+'=utf8:'+encoded+'"')
             result["console_log"]=str(console)
     except (OSError,subprocess.SubprocessError) as error:
         result["console_capture_error"]=str(error)
@@ -227,6 +229,39 @@ def close_owned(token):
                           capture_output=True, text=True, timeout=20, check=True)
     return [int(line) for line in proc.stdout.split() if line.isdigit()]
 
+def close_run_tree(evidence):
+    """Kill only the isolated IDE and processes owned by this AnyLab run."""
+    token = evidence["project"].removeprefix("AnyLab_")
+    if not re.fullmatch(r"[0-9a-f]{12}", token):
+        raise ValueError("Неверный идентификатор прогона AnyLab")
+    ide_pid = evidence.get("owned_ide_pid")
+    if ide_pid:
+        # PID alone can be reused. The command line also has to name this run.
+        script = (
+            f'$item=Get-CimInstance Win32_Process -Filter "ProcessId={int(ide_pid)}"; '
+            f'if ($item.Name -eq "AnyLogic.exe" -and $item.CommandLine -like "*AnyLab_{token}.alp*") '
+            '{ & taskkill.exe /T /F /PID $item.ProcessId 2>$null | Out-Null }'
+        )
+        subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
+                       capture_output=True, timeout=20, check=False)
+    closed = close_owned(token)
+    browser_profile = evidence.get("owned_browser_profile")
+    if browser_profile:
+        # A browser can outlive its Java parent. Match the entire isolated profile,
+        # never a regular Chrome process or an explicitly shared IDE workspace.
+        script = (
+            "$profile=$env:ANYLAB_OWNED_BROWSER_PROFILE; "
+            "$items=Get-CimInstance Win32_Process | Where-Object Name -eq 'chrome.exe'; "
+            "foreach ($item in $items) { "
+            "if ($item.CommandLine -and $item.CommandLine.IndexOf($profile, "
+            "[StringComparison]::OrdinalIgnoreCase) -ge 0) { "
+            "& taskkill.exe /T /F /PID $item.ProcessId 2>$null | Out-Null } }"
+        )
+        env = {**os.environ, "ANYLAB_OWNED_BROWSER_PROFILE": browser_profile}
+        subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
+                       capture_output=True, timeout=20, check=False, env=env)
+    return closed
+
 
 def build_paths(project):
     workspace = os.environ.get("ANYLAB_IDE_WORKSPACE")
@@ -275,6 +310,8 @@ def run(args):
                          cwd=home, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         if workspace:
             result["owned_ide_pid"] = ide_process.pid
+            if Path(workspace).resolve() == out / "ide-workspace":
+                result["owned_browser_profile"] = str(out / "ide-workspace" / "chromium" / "userData")
         launched = True
         result["state"] = "waiting"
         save_result(out, result)
@@ -317,7 +354,7 @@ def run(args):
             if result["state"] in {"timeout", "error"}:
                 (out / "cancelled").touch()
             try:
-                result["closed_runtime_pids"] = close_owned(token)
+                result["closed_runtime_pids"] = close_run_tree(result)
             except (OSError, subprocess.SubprocessError) as exc:
                 result["cleanup_error"] = str(exc)
             if result.get("owned_ide_pid") and ide_process.poll() is None:
@@ -353,6 +390,7 @@ def main():
         if command == "record":
             p.add_argument("--seconds", type=int, default=20)
             p.add_argument("--fps", type=int, default=20)
+            p.add_argument("--profile", choices=["window", "hd", "light"], default="window")
     args = parser.parse_args()
     if args.cmd == "run":
         if not 1 <= args.timeout <= 900:
