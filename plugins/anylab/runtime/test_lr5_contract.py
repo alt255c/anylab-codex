@@ -36,6 +36,7 @@ class LabFiveContract(unittest.TestCase):
                 self.assertEqual(path.parentNode.parentNode.tagName,'Network')
                 self.assertTrue(path.hasAttribute('SourceId'))
             self.assertEqual(param(blocks['fromConveyorStart'],'targetPositionOnConveyor'),'foldPoint')
+            self.assertEqual(param(blocks['partTravel'],'removeFromConveyor'),'false')
             self.assertEqual(param(blocks['fromConveyorStart'],'removeFromConveyor'),'false')
             self.assertEqual(param(blocks['foldBox'],'delayTime'),'4')
             self.assertIn('agent.boxFormed=true;',param(blocks['foldBox'],'onExit'))

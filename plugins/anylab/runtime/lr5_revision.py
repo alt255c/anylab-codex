@@ -43,6 +43,10 @@ def revise(doc, model, main, full):
         set_param(editor.blocks['source1'],'arrivalType','self.MANUAL')
         rate=by_name(child(editor.blocks['source1'],'Parameters'),'Parameter')['rate']
         for old in children(rate,'Value'):rate.removeChild(old)
+        # Keep the sleeve on its belt while Combine waits for the pallet.
+        # Removing it early releases the occupied space, so later sleeves
+        # would all be drawn at the same handover coordinates.
+        set_param(editor.blocks['partTravel'],'removeFromConveyor','false')
         return main
     # A perpetual UI event must not run in a parameter experiment: destroying
     # its root between iterations can otherwise loop in DynamicEvent.onDestroy.

@@ -1,5 +1,5 @@
 {
-  "version": "0.4.6",
+  "version": "0.4.7",
   "date": "2026-11-24",
   "anylogic": "8.9.9.202607020720",
   "scope": "Bounded baseline Java compilation and execution for each template; measurement copies use virtual time and bounded horizons. This is not certification of every variant or every parameter experiment.",
@@ -141,11 +141,11 @@
       "task": "5.1",
       "model": 1,
       "template": "models/5.1/1/Model.alp",
-      "template_sha256": "4048b73daa69853491bab3d28e6831acf2bddfbfd87484f7e98e87def6c9a1aa",
+      "template_sha256": "04935f36478e6b0ca1d17f3573fe9a5413c284be74f3a898d00aaebce7d9d730",
       "engine_state": "FINISHED",
       "reached_model_time": 900.0,
       "time_unit": "Second",
-      "run_input_sha256": "76b1efcd5aa262d7dbab1d91291e4aac3740d134002c3ca4a940e40efc8dbc18",
+      "run_input_sha256": "d99bfa6fa37693cd0b4e497c3f0311fcaa571f65e98d25b8771daebb927930d3",
       "generated_java_files": 7,
       "compiled_class_files": 96,
       "metrics": {
@@ -164,17 +164,17 @@
       },
       "recording_compiled": true,
       "recording_model_sha256": "bff727cc52c2d886b47ad92ddc8f59a0c6ae225cfe6e9d7b1f570c718fb0d0f7",
-      "validation_note": "900 model seconds, rate 8/min, seed 73, 15 manual button commands in a separate acceptance copy. The worker and label were subsequently repositioned only visually; the shipped geometry also compiled in fresh video and capture runs. Full model Capacity passed all seven points."
+      "validation_note": "0.4.7: partTravel retains the sleeve on its belt until Combine consumption. Both 900-second acceptance runs passed, with all measured counters unchanged from 0.4.6; no packaging errors. This hotfix does not include re-recorded videos or a repeat Capacity sweep."
     },
     {
       "task": "5.2",
       "model": 1,
       "template": "models/5.2/1/ConveyorLine.alp",
-      "template_sha256": "f0971508cb6f74070f57f0a59623a0b28881c8f6ff4e3881060d076503cd224b",
+      "template_sha256": "f2e1c23ecbf9d6b6f2c66aa30b6964552fd3020c22574cfbe036f3d6c1cef59f",
       "engine_state": "FINISHED",
       "reached_model_time": 900.0,
       "time_unit": "Second",
-      "run_input_sha256": "e39d62f57dccc29002bd527f112109b91214ca03a34569ba4f8cdbd3180e376b",
+      "run_input_sha256": "d8415cf918201b35e150565a7fe29413b086e8838b8409e6b251c712201c6792",
       "generated_java_files": 8,
       "compiled_class_files": 111,
       "metrics": {
@@ -197,7 +197,7 @@
       },
       "recording_compiled": true,
       "recording_model_sha256": "64b9e43ba324c58b87a718fa8dd212d0469cd1afb5ac680e161d97a85e02fadf",
-      "validation_note": "900 model seconds, rate 8/min, seed 73, 15 manual button commands in a separate acceptance copy. The worker and label were subsequently repositioned only visually; the shipped geometry also compiled in fresh video and capture runs. Full model Capacity passed all seven points."
+      "validation_note": "0.4.7: partTravel retains the sleeve on its belt until Combine consumption. Both 900-second acceptance runs passed, with all measured counters unchanged from 0.4.6; no packaging errors. This hotfix does not include re-recorded videos or a repeat Capacity sweep."
     },
     {
       "task": "6.1",
@@ -308,7 +308,9 @@
     "sheet_loading_seconds": 8,
     "box_forming_seconds": 4,
     "video_review": "New live videos checked: 2D pass, flat blank and sleeve before worker, open carton after worker, sealed output and seated drivers in 5.2",
-    "report_pipeline_smoke": "prepare_lab + finish_lab_report; all text matches reviewed 9-page report; current native diagrams accepted"
+    "report_pipeline_smoke": "prepare_lab + finish_lab_report; all text matches reviewed 9-page report; current native diagrams accepted",
+    "part_handover": "partTravel.removeFromConveyor=false; physical belt occupancy retained while waiting for fitPart",
+    "hotfix047": "Both finite baseline runs passed; counters unchanged. Existing video review and Capacity measurements are from 0.4.6."
   },
   "scene_tours": {
     "profiles": [

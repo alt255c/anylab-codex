@@ -2354,7 +2354,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[removeFromConveyor]]></Name>
-						<Value Class="CodeValue"><Code><![CDATA[true]]></Code></Value></Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[false]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[removeFromSpace]]></Name>
 						</Parameter>

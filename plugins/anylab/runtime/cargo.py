@@ -221,6 +221,8 @@ def validate_cargo(main):
     if code("fromConveyorStart","sourceType")!="self.SOURCE_CURRENT_POSITION" or code("loadingTravel","removeFromConveyor")!="false":
         raise ValueError("Поддон должен непрерывно оставаться на основной ленте при сборке")
     if 'foldBox' in blocks:
+        if code('partTravel','removeFromConveyor')!='false':
+            raise ValueError('Деталь должна занимать место на ленте до приёма в fitPart, иначе очередь накладывается')
         if code('fromConveyorStart','targetPositionOnConveyor')!='foldPoint' or code('fromConveyorStart','removeFromConveyor')!='false':
             raise ValueError('Заготовка должна останавливаться у работника на ленте')
         if 'agent.boxFormed=true;' not in code('foldBox','onExit') or 'boxFormed=true' in code('fitPart','onExit'):
