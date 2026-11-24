@@ -56,10 +56,10 @@ class LoadingRegression(unittest.TestCase):
             doc,model=load(path)
             carton=by_name(child(model,"ActiveObjectClasses"),"ActiveObjectClass")["Carton"]
             shapes=by_name(child(carton,"Presentation/Level/Presentation"),"Rectangle")
-            def visible(name,role,sealed,manual=False,fragile=False,ready=True):
+            def visible(name,role,sealed,manual=False,fragile=False,ready=True,formed=True):
                 expression=field(shapes[name],"VisibleCode").replace("&&"," and ").replace("||"," or ")
                 expression=re.sub(r"!(?!=)"," not ",expression).strip()
-                return eval(expression,{"__builtins__":{}},dict(cargoReady=ready,cargoRole=role,isSealed=sealed,isManuallyAdded=manual,isFragile=fragile,hasPalletSheet=True,hasAssemblyPart=role==3))
+                return eval(expression,{"__builtins__":{}},dict(cargoReady=ready,cargoRole=role,isSealed=sealed,isManuallyAdded=manual,isFragile=fragile,hasPalletSheet=True,hasAssemblyPart=role==3,boxFormed=formed))
             for role in (0,1,2,3,4):
                 for sealed in (False,True):
                     for manual in (False,True):
@@ -68,6 +68,9 @@ class LoadingRegression(unittest.TestCase):
                             self.assertEqual(sum(visible(prefix+"flapfront",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role==3 and not sealed))
                             self.assertEqual(sum(visible(prefix+"carton2D",role,sealed,manual,fragile) for prefix in ("","fragile_","manual_")),int(role==3))
             self.assertFalse(visible("carton2D",3,False,ready=False))
+            self.assertFalse(visible('carton2D',3,False,formed=False))
+            self.assertTrue(visible('sheet',3,False,formed=False))
+            self.assertFalse(visible('sheet',3,False,formed=True))
             self.assertFalse(carton.getElementsByTagName("Figure3D"),"Cargo must not share cached mesh materials")
             self.assertEqual(float(field(shapes["manual_boxfloor"],"Z")),0)
             self.assertEqual(float(field(shapes["manual_closedLid"],"Z")),18)
@@ -77,7 +80,7 @@ class LoadingRegression(unittest.TestCase):
                 self.assertEqual(int(field(shapes[name],"FillColor")),argb(color))
                 self.assertEqual(field(shapes[name],"FillColor"),field(shapes[name],"LineColor"))
 
-    def test_manual_lane_waits_clear_of_main_and_stock_is_replenished(self):
+    def test_manual_lane_waits_clear_of_main_and_native_pallet_buffer(self):
         from models import anchors
         for path in self.models():
             _,model=load(path);main=self.main(model)
@@ -91,9 +94,10 @@ class LoadingRegression(unittest.TestCase):
 
             blocks=by_name(child(main,"EmbeddedObjects"),"EmbeddedObject")
             if '5.2' in str(path):
-                self.assertIn("stockPallets.inject(6)",field(main,"StartupCode"))
-                self.assertIn("stockPallets.inject(1)",field(child(by_name(child(blocks["fitPallet"],"Parameters"),"Parameter")["onExit"],"Value"),"Code"))
-                self.assertIn('sheetTravel',blocks)
+                from lr5_revision import param
+                self.assertNotIn('stockPallets',blocks)
+                self.assertEqual(param(blocks['palletStockBuffer'],'capacity'),'10')
+                self.assertEqual(param(blocks['conveyorEnter'],'conveyor'),'loadingBelt')
             else:
                 self.assertNotIn('stockPallets',blocks)
                 self.assertNotIn('sheetSource',blocks)
@@ -126,7 +130,7 @@ class VideoRegression(unittest.TestCase):
             main=by_name(child(prepared,"ActiveObjectClasses"),"ActiveObjectClass")["Main"]
             startup=field(main,"StartupCode")
             self.assertIn(original,startup)
-            self.assertIn("stockPallets.inject(6);",startup)
+            self.assertIn('AnyLabFixedTabs',startup)
             raise RuntimeError("inspection complete")
         with tempfile.TemporaryDirectory() as folder:
             with patch("anylab.run_model",side_effect=inspect_prepared):

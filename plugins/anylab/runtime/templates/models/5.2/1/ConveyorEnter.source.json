@@ -1,0 +1,24 @@
+{
+  "example": "AnyLogic/basicmodels/ConveyorEnter/ConveyorEnter.alp",
+  "sha256": "58e1b01f724515d8d4a017c690dd97018af5a44758475d2c4bcc61b7f5d33b5e",
+  "reused": [
+    "palletBuffer1",
+    "hold",
+    "liftUp",
+    "conveyorEnter",
+    "sheetBuffer",
+    "putSheetOnPallet",
+    "addSheet",
+    "path1",
+    "path",
+    "palletBuffer",
+    "palletSheetBuffer"
+  ],
+  "adaptations": [
+    "Carton cargo type",
+    "existing 15px belt elevation",
+    "one sheet and part requested per pallet",
+    "4-second worker folding stage",
+    "existing middle section and ConveyorExit unloading"
+  ]
+}

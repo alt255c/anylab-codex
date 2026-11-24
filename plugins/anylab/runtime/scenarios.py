@@ -116,8 +116,9 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
                 put(loading,"X",str(float(field(loading,"X"))+shorten))
                 set_points(loading,route_curve([(0,0,0),(110,0,0)]))
                 # Keep the assembly offset and perpendicular intersection aligned.
-                for node in list(main.getElementsByTagName("Conveyor"))+list(main.getElementsByTagName("Text")):
-                    if field(node,"Name") in {"partFeeder","loadingText"}:put(node,"X",str(float(field(node,"X"))+shorten))
+                for node in main.getElementsByTagName('*'):
+                    if field(node,"Name") in {"partFeeder","loadingText","loadingNetwork","palletBuffer","palletSheetBuffer","palletLiftPath","sheetLoadPath","nativeLoadingLabel"}:
+                        put(node,"X",str(float(field(node,"X"))+shorten))
         for shape in children(child(carton,"Presentation/Level/Presentation")):
             label=field(shape,"Name")
             if "box" in label.lower() or "flap" in label or "closedLid" in label or "carton2D" in label:

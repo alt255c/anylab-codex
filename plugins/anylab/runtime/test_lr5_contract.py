@@ -25,9 +25,21 @@ class LabFiveContract(unittest.TestCase):
             if task=='5.1':
                 self.assertNotIn('stockPallets',blocks);self.assertNotIn('fitSheet',blocks)
             else:
-                self.assertEqual(param(blocks['loadingTravel'],'targetPositionOnConveyor'),'sheetJoin')
-                self.assertEqual(param(blocks['sheetTravel'],'targetPositionOnConveyor'),'assemblyJoin')
-                self.assertIn('stockPallets',blocks)
+                self.assertEqual(param(blocks['loadingTravel'],'sourceType'),'self.SOURCE_CURRENT_POSITION')
+                self.assertEqual(param(blocks['loadingTravel'],'targetPositionOnConveyor'),'assemblyJoin')
+                self.assertEqual(field(child(blocks['conveyorEnter'],'ActiveObjectClass'),'ClassName'),'ConveyorEnter')
+                self.assertEqual(param(blocks['liftUp'],'delayTime'),'7')
+                self.assertEqual(param(blocks['putSheetOnPallet'],'delayTime'),'8')
+                self.assertEqual(param(blocks['source'],'locationNode'),'palletBuffer')
+                self.assertNotIn('fitPallet',blocks)
+                path=next(n for n in main.getElementsByTagName('Path') if field(n,'Name')=='palletLiftPath')
+                self.assertEqual(path.parentNode.parentNode.tagName,'Network')
+                self.assertTrue(path.hasAttribute('SourceId'))
+            self.assertEqual(param(blocks['fromConveyorStart'],'targetPositionOnConveyor'),'foldPoint')
+            self.assertEqual(param(blocks['fromConveyorStart'],'removeFromConveyor'),'false')
+            self.assertEqual(param(blocks['foldBox'],'delayTime'),'4')
+            self.assertIn('agent.boxFormed=true;',param(blocks['foldBox'],'onExit'))
+            self.assertNotIn('boxFormed=true',param(blocks['fitPart'],'onExit'))
             for link in children(child(main,'Connectors'),'Connector'):
                 points=[(float(field(p,'X')),float(field(p,'Y'))) for p in children(child(link,'Points'),'Point')]
                 for a,b in zip(points,points[1:]):

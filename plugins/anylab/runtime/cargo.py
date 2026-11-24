@@ -220,6 +220,13 @@ def validate_cargo(main):
     def code(block,key):return field(by_name(child(blocks[block],"Parameters"),"Parameter")[key],"Value/Code")
     if code("fromConveyorStart","sourceType")!="self.SOURCE_CURRENT_POSITION" or code("loadingTravel","removeFromConveyor")!="false":
         raise ValueError("Поддон должен непрерывно оставаться на основной ленте при сборке")
+    if 'foldBox' in blocks:
+        if code('fromConveyorStart','targetPositionOnConveyor')!='foldPoint' or code('fromConveyorStart','removeFromConveyor')!='false':
+            raise ValueError('Заготовка должна останавливаться у работника на ленте')
+        if 'agent.boxFormed=true;' not in code('foldBox','onExit') or 'boxFormed=true' in code('fitPart','onExit'):
+            raise ValueError('Коробка формируется после задержки у работника, а не в месте подачи детали')
+        if 'conveyorEnter' in blocks and (code('conveyorEnter','conveyor')!='loadingBelt' or code('liftUp','entityLocation')!='palletLiftPath'):
+            raise ValueError('Поддон должен поступать на входную ленту через ConveyorEnter')
     for name,role in (("source",0),("partSource",1),("sheetSource",2),("source1",3),("stockPallets",4)):
         if name not in blocks and name in {"sheetSource","stockPallets"}:continue
         if f"agent.cargoRole={role};" not in code(name,"onAtExit"):

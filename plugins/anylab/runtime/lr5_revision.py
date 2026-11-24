@@ -37,6 +37,13 @@ def connect(editor, a, b, port='in', source_port='out', bends=()):
 
 def revise(doc, model, main, full):
     editor=LineEditor(doc,model,main)
+    if 'foldBox' in editor.blocks:
+        # The native ConveyorEnter chain and folding stage are already stored
+        # in the template. Never rebuild them using the older synthetic inlet.
+        set_param(editor.blocks['source1'],'arrivalType','self.MANUAL')
+        rate=by_name(child(editor.blocks['source1'],'Parameters'),'Parameter')['rate']
+        for old in children(rate,'Value'):rate.removeChild(old)
+        return main
     # A perpetual UI event must not run in a parameter experiment: destroying
     # its root between iterations can otherwise loop in DynamicEvent.onDestroy.
     startup=field(main,'StartupCode').replace('\nnew AnyLabFixedTabs();',
