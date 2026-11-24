@@ -1,5 +1,5 @@
 {
-  "version": "0.4.7",
+  "version": "0.4.8",
   "date": "2026-11-24",
   "anylogic": "8.9.9.202607020720",
   "scope": "Bounded baseline Java compilation and execution for each template; measurement copies use virtual time and bounded horizons. This is not certification of every variant or every parameter experiment.",
@@ -322,5 +322,11 @@
     "pipeline": "single live run, 2D then smooth 3D; 3-second transitions and holds >=3 seconds",
     "verification": "Java compilation, startup and captured MP4 frames inspected for each baseline template. User-modified layouts require view review again.",
     "source_models_preserved": true
+  },
+  "workspace_isolation": {
+    "default": "<run>/ide-workspace",
+    "override": "ANYLAB_IDE_WORKSPACE",
+    "owned_ide_cleanup": true,
+    "regression_tests": 23
   }
 }

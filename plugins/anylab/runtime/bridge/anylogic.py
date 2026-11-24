@@ -237,6 +237,10 @@ def build_paths(project):
         yield folder
 
 
+def isolated_workspace(out):
+    return Path(os.environ.get("ANYLAB_IDE_WORKSPACE") or Path(out) / "ide-workspace").resolve()
+
+
 def save_result(out, result):
     temp = out / "result.tmp"
     temp.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -257,6 +261,9 @@ def run(args):
                   runtime_pid=None, until=args.until, timeout_seconds=args.timeout)
     launched = False
     try:
+        # Always isolate generated Eclipse projects from the user's workspace.
+        # Restoring many old AnyLab projects there can break IDE startup.
+        os.environ["ANYLAB_IDE_WORKSPACE"] = str(isolated_workspace(out))
         home, build = locate()
         model = prepare(args, out, result, build, token)
         project = result["project"]

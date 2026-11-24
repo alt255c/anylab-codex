@@ -111,7 +111,13 @@ def frame(hwnd, pid):
         if not (mem and bmp):
             raise OSError("CreateCompatibleBitmap")
         old = select(mem, bmp)
-        if not render(hwnd, mem, 2):
+        rendered = False
+        for attempt in range(3):
+            if render(hwnd, mem, 2):
+                rendered = True
+                break
+            time.sleep(.05)
+        if not rendered:
             raise OSError("Windows не смогла отрисовать окно.")
         select(mem, old)
         old = None
