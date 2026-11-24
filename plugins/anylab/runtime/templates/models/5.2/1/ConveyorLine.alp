@@ -364,9 +364,9 @@
 
 
 			<Connector>
-					<Id>1793559262351</Id>
-					<Name><![CDATA[link1793559262351]]></Name>
-					<X><![CDATA[-1220]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262385</Id>
+					<Name><![CDATA[link1793559262385]]></Name>
+					<X><![CDATA[-1260]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -396,9 +396,9 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262352</Id>
-					<Name><![CDATA[link1793559262352]]></Name>
-					<X><![CDATA[-1050]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262386</Id>
+					<Name><![CDATA[link1793559262386]]></Name>
+					<X><![CDATA[-1090]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -428,9 +428,9 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262353</Id>
-					<Name><![CDATA[link1793559262353]]></Name>
-					<X><![CDATA[-910]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262387</Id>
+					<Name><![CDATA[link1793559262387]]></Name>
+					<X><![CDATA[-950]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -460,9 +460,9 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[140]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262354</Id>
-					<Name><![CDATA[link1793559262354]]></Name>
-					<X><![CDATA[-730]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262388</Id>
+					<Name><![CDATA[link1793559262388]]></Name>
+					<X><![CDATA[-770]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -492,9 +492,9 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262355</Id>
-					<Name><![CDATA[link1793559262355]]></Name>
-					<X><![CDATA[-570]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262389</Id>
+					<Name><![CDATA[link1793559262389]]></Name>
+					<X><![CDATA[-610]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -512,6 +512,38 @@
 					<TargetEmbeddedObjectReference>
 						<PackageName><![CDATA[лр5]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[toSheetLoading]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+
+
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point></Points>
+				</Connector><Connector>
+					<Id>1793559262390</Id>
+					<Name><![CDATA[link1793559262390]]></Name>
+					<X><![CDATA[-450]]></X><Y><![CDATA[910]]></Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[toSheetLoading]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[fitSheet]]></ItemName>
 					</TargetEmbeddedObjectReference>
 					<TargetConnectableItemReference>
@@ -524,9 +556,9 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262356</Id>
-					<Name><![CDATA[link1793559262356]]></Name>
-					<X><![CDATA[-420]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262391</Id>
+					<Name><![CDATA[link1793559262391]]></Name>
+					<X><![CDATA[-300]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -554,11 +586,11 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[220]]></X><Y><![CDATA[0]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262357</Id>
-					<Name><![CDATA[link1793559262357]]></Name>
-					<X><![CDATA[-160]]></X><Y><![CDATA[910]]></Y>
+					<Id>1793559262392</Id>
+					<Name><![CDATA[link1793559262392]]></Name>
+					<X><![CDATA[-130]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -586,10 +618,10 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[450]]></X><Y><![CDATA[0]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[420]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262358</Id>
-					<Name><![CDATA[link1793559262358]]></Name>
+					<Id>1793559262393</Id>
+					<Name><![CDATA[link1793559262393]]></Name>
 					<X><![CDATA[310]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -620,8 +652,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262359</Id>
-					<Name><![CDATA[link1793559262359]]></Name>
+					<Id>1793559262394</Id>
+					<Name><![CDATA[link1793559262394]]></Name>
 					<X><![CDATA[480]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -652,8 +684,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262360</Id>
-					<Name><![CDATA[link1793559262360]]></Name>
+					<Id>1793559262395</Id>
+					<Name><![CDATA[link1793559262395]]></Name>
 					<X><![CDATA[640]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -684,8 +716,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262361</Id>
-					<Name><![CDATA[link1793559262361]]></Name>
+					<Id>1793559262396</Id>
+					<Name><![CDATA[link1793559262396]]></Name>
 					<X><![CDATA[800]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -716,8 +748,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262362</Id>
-					<Name><![CDATA[link1793559262362]]></Name>
+					<Id>1793559262397</Id>
+					<Name><![CDATA[link1793559262397]]></Name>
 					<X><![CDATA[-1060]]></X><Y><![CDATA[1050]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -748,8 +780,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262363</Id>
-					<Name><![CDATA[link1793559262363]]></Name>
+					<Id>1793559262398</Id>
+					<Name><![CDATA[link1793559262398]]></Name>
 					<X><![CDATA[-890]]></X><Y><![CDATA[1050]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -780,8 +812,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[120]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262364</Id>
-					<Name><![CDATA[link1793559262364]]></Name>
+					<Id>1793559262399</Id>
+					<Name><![CDATA[link1793559262399]]></Name>
 					<X><![CDATA[-730]]></X><Y><![CDATA[1050]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -810,10 +842,10 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[290]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[290]]></X><Y><![CDATA[-120]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[370]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[370]]></X><Y><![CDATA[-120]]></Y></Point><Point><X><![CDATA[410]]></X><Y><![CDATA[-120]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262365</Id>
-					<Name><![CDATA[link1793559262365]]></Name>
+					<Id>1793559262400</Id>
+					<Name><![CDATA[link1793559262400]]></Name>
 					<X><![CDATA[-170]]></X><Y><![CDATA[1210]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -844,8 +876,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[290]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262366</Id>
-					<Name><![CDATA[link1793559262366]]></Name>
+					<Id>1793559262401</Id>
+					<Name><![CDATA[link1793559262401]]></Name>
 					<X><![CDATA[160]]></X><Y><![CDATA[1210]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -874,10 +906,10 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[-280]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[90]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[90]]></X><Y><![CDATA[-280]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[-280]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262367</Id>
-					<Name><![CDATA[link1793559262367]]></Name>
+					<Id>1793559262402</Id>
+					<Name><![CDATA[link1793559262402]]></Name>
 					<X><![CDATA[750]]></X><Y><![CDATA[1050]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -908,8 +940,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[100]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262368</Id>
-					<Name><![CDATA[link1793559262368]]></Name>
+					<Id>1793559262403</Id>
+					<Name><![CDATA[link1793559262403]]></Name>
 					<X><![CDATA[890]]></X><Y><![CDATA[1050]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -940,8 +972,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[90]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262369</Id>
-					<Name><![CDATA[link1793559262369]]></Name>
+					<Id>1793559262404</Id>
+					<Name><![CDATA[link1793559262404]]></Name>
 					<X><![CDATA[1020]]></X><Y><![CDATA[1050]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -970,10 +1002,10 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[30]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[30]]></X><Y><![CDATA[-80]]></Y></Point><Point><X><![CDATA[-140]]></X><Y><![CDATA[-80]]></Y></Point><Point><X><![CDATA[-140]]></X><Y><![CDATA[-140]]></Y></Point><Point><X><![CDATA[-90]]></X><Y><![CDATA[-140]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[-130]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[-130]]></X><Y><![CDATA[-140]]></Y></Point><Point><X><![CDATA[-90]]></X><Y><![CDATA[-140]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262370</Id>
-					<Name><![CDATA[link1793559262370]]></Name>
+					<Id>1793559262405</Id>
+					<Name><![CDATA[link1793559262405]]></Name>
 					<X><![CDATA[950]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1004,8 +1036,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262371</Id>
-					<Name><![CDATA[link1793559262371]]></Name>
+					<Id>1793559262406</Id>
+					<Name><![CDATA[link1793559262406]]></Name>
 					<X><![CDATA[940]]></X><Y><![CDATA[920]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1034,10 +1066,10 @@
 					<Points>
 
 
-					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[0]]></X><Y><![CDATA[60]]></Y></Point><Point><X><![CDATA[280]]></X><Y><![CDATA[60]]></Y></Point><Point><X><![CDATA[280]]></X><Y><![CDATA[-10]]></Y></Point><Point><X><![CDATA[320]]></X><Y><![CDATA[-10]]></Y></Point></Points>
+					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[280]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[280]]></X><Y><![CDATA[-10]]></Y></Point><Point><X><![CDATA[320]]></X><Y><![CDATA[-10]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262372</Id>
-					<Name><![CDATA[link1793559262372]]></Name>
+					<Id>1793559262407</Id>
+					<Name><![CDATA[link1793559262407]]></Name>
 					<X><![CDATA[1120]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1068,8 +1100,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[140]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262373</Id>
-					<Name><![CDATA[link1793559262373]]></Name>
+					<Id>1793559262408</Id>
+					<Name><![CDATA[link1793559262408]]></Name>
 					<X><![CDATA[1300]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1100,8 +1132,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262374</Id>
-					<Name><![CDATA[link1793559262374]]></Name>
+					<Id>1793559262409</Id>
+					<Name><![CDATA[link1793559262409]]></Name>
 					<X><![CDATA[1470]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1132,8 +1164,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[110]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262375</Id>
-					<Name><![CDATA[link1793559262375]]></Name>
+					<Id>1793559262410</Id>
+					<Name><![CDATA[link1793559262410]]></Name>
 					<X><![CDATA[1620]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1164,8 +1196,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[110]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262376</Id>
-					<Name><![CDATA[link1793559262376]]></Name>
+					<Id>1793559262411</Id>
+					<Name><![CDATA[link1793559262411]]></Name>
 					<X><![CDATA[1770]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1196,8 +1228,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[110]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262377</Id>
-					<Name><![CDATA[link1793559262377]]></Name>
+					<Id>1793559262412</Id>
+					<Name><![CDATA[link1793559262412]]></Name>
 					<X><![CDATA[1920]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1228,8 +1260,8 @@
 
 					<Point><X><![CDATA[0]]></X><Y><![CDATA[0]]></Y></Point><Point><X><![CDATA[130]]></X><Y><![CDATA[0]]></Y></Point></Points>
 				</Connector><Connector>
-					<Id>1793559262378</Id>
-					<Name><![CDATA[link1793559262378]]></Name>
+					<Id>1793559262413</Id>
+					<Name><![CDATA[link1793559262413]]></Name>
 					<X><![CDATA[2090]]></X><Y><![CDATA[910]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1835,7 +1867,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				<EmbeddedObject>
 					<Id>1793543993450</Id>
 					<Name><![CDATA[source]]></Name>
-					<X><![CDATA[-1250]]></X><Y><![CDATA[900]]></Y>
+					<X><![CDATA[-1290]]></X><Y><![CDATA[900]]></Y>
 					<Label><X>-5</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2619,7 +2651,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.cargoRole=2; agent.isComponent=false; agent.isFragile=false; agent.isManuallyAdded=false; agent.isSealed=false; agent.cargoReady=true; agent.refreshCargo();]]></Code>
+								<Code><![CDATA[agent.cargoRole=2; agent.isComponent=false; agent.isFragile=false; agent.isManuallyAdded=false; agent.isSealed=false; agent.cargoReady=false; agent.refreshCargo();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -4509,7 +4541,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559262334</Id>
 					<Name><![CDATA[palletStockBuffer]]></Name>
-					<X><![CDATA[-1090]]></X><Y><![CDATA[890]]></Y>
+					<X><![CDATA[-1130]]></X><Y><![CDATA[890]]></Y>
 					<Label><X>-20</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4626,7 +4658,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559262335</Id>
 					<Name><![CDATA[loadingGate]]></Name>
-					<X><![CDATA[-930]]></X><Y><![CDATA[900]]></Y>
+					<X><![CDATA[-970]]></X><Y><![CDATA[900]]></Y>
 					<Label><X>-5</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4703,7 +4735,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559262336</Id>
 					<Name><![CDATA[liftUp]]></Name>
-					<X><![CDATA[-770]]></X><Y><![CDATA[890]]></Y>
+					<X><![CDATA[-810]]></X><Y><![CDATA[890]]></Y>
 					<Label><X>5</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4739,7 +4771,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						<Parameter>
 							<Name><![CDATA[entityLocation]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[palletLiftPath]]></Code>
+								<Code><![CDATA[palletBuffer]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -4812,7 +4844,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559262337</Id>
 					<Name><![CDATA[conveyorEnter]]></Name>
-					<X><![CDATA[-610]]></X><Y><![CDATA[900]]></Y>
+					<X><![CDATA[-650]]></X><Y><![CDATA[900]]></Y>
 					<Label><X>-20</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5079,7 +5111,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						<Parameter>
 							<Name><![CDATA[entityLocation]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[sheetLoadPath]]></Code>
+								<Code><![CDATA[palletSheetBuffer]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5096,10 +5128,10 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[agent.cargoReady=true; agent.refreshCargo();]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
-						</Parameter>
+						<Value Class="CodeValue"><Code><![CDATA[agent.cargoReady=false; agent.refreshCargo();]]></Code></Value></Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 						</Parameter>
@@ -5152,7 +5184,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559262340</Id>
 					<Name><![CDATA[fitSheet]]></Name>
-					<X><![CDATA[-450]]></X><Y><![CDATA[900]]></Y>
+					<X><![CDATA[-330]]></X><Y><![CDATA[900]]></Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5286,7 +5318,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</EmbeddedObject><EmbeddedObject>
 					<Id>1793559262341</Id>
 					<Name><![CDATA[loadingTravel]]></Name>
-					<X><![CDATA[-200]]></X><Y><![CDATA[900]]></Y>
+					<X><![CDATA[-170]]></X><Y><![CDATA[900]]></Y>
 					<Label><X>-10</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5406,6 +5438,135 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 					<InitializationType>SPECIFIED_NUMBER</InitializationType>
 					<InitializationDatabaseTableQuery>
 						<Id>1793559262342</Id>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject><EmbeddedObject>
+					<Id>1793559262383</Id>
+					<Name><![CDATA[toSheetLoading]]></Name>
+					<X><![CDATA[-490]]></X><Y><![CDATA[900]]></Y>
+					<Label><X>-10</X><Y>-25</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+						<ClassName><![CDATA[Convey]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.material_handling]]></PackageName>
+							<ClassName><![CDATA[Convey]]></ClassName>
+							<ItemName><![CDATA[1504168429638]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[sourceType]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[self.SOURCE_CURRENT_POSITION]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[sourcePositionOnConveyor]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[assemblyJoin]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[sourceConveyor]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[loadingBelt]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[sourceOffsetFromBeginning]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[sourceOffset]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[changeOrientation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[orientation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetType]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[self.TARGET_POSITION_ON_CONVEYOR]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetPositionOnConveyor]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[sheetJoin]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetConveyor]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetOffsetFromBeginning]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetOffset]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetStation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[targetCustomStation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[routeIs]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[conveyorsToAvoid]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[conveyorsToInclude]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[conveyorSequence]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[removeFromConveyor]]></Name>
+						<Value Class="CodeValue"><Code><![CDATA[false]]></Code></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[removeFromSpace]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnter]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onAtExit]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExit]]></Name>
+						<Value Class="CodeValue"><Code/></Value></Parameter>
+						<Parameter>
+							<Name><![CDATA[onRemove]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onCancel]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InitialLocationType>XYZ</InitialLocationType>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<Id>1793559262384</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -6765,7 +6926,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 				</Turntable><Conveyor TargetId="1793559261289">
 					<Id>1793559261292</Id>
 					<Name><![CDATA[loadingBelt]]></Name>
-					<X><![CDATA[-310.6666666666667]]></X><Y><![CDATA[250]]></Y>
+					<X><![CDATA[-430.6666666666667]]></X><Y><![CDATA[250]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6889,7 +7050,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 
 
 
-					<Point><X>0</X><Y>0</Y><Z>0</Z></Point><Point><X>-36</X><Y>0</Y><Z>0</Z></Point><Point><X>36</X><Y>0</Y><Z>0</Z></Point><Point><X>144</X><Y>0</Y><Z>0</Z></Point><Point><X>108</X><Y>0</Y><Z>0</Z></Point><Point><X>180</X><Y>0</Y><Z>0</Z></Point></Points>
+					<Point><X>0</X><Y>0</Y><Z>0</Z></Point><Point><X>-66</X><Y>0</Y><Z>0</Z></Point><Point><X>66</X><Y>0</Y><Z>0</Z></Point><Point><X>264</X><Y>0</Y><Z>0</Z></Point><Point><X>198</X><Y>0</Y><Z>0</Z></Point><Point><X>330</X><Y>0</Y><Z>0</Z></Point></Points>
 
 
 
@@ -6958,7 +7119,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset><![CDATA[102.0]]></Offset>
+					<Offset><![CDATA[222]]></Offset>
 				</PositionOnConveyor><PositionOnConveyor>
 					<Id>1793559262166</Id>
 					<Name><![CDATA[sheetJoin]]></Name>
@@ -7024,7 +7185,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset><![CDATA[45]]></Offset>
+					<Offset><![CDATA[100]]></Offset>
 				</PositionOnConveyor><PositionOnConveyor>
 					<Id>1793559262343</Id>
 					<Name><![CDATA[palletEntry]]></Name>
@@ -7090,7 +7251,7 @@ if(getPresentation().isZoomAndPanningEnabled() && view != null && view.getPresen
 						<QuantityColumn>
 						</QuantityColumn>
 					</EmbeddedObject>
-					<Offset><![CDATA[40]]></Offset>
+					<Offset><![CDATA[20]]></Offset>
 				</PositionOnConveyor></Presentation></Conveyor><Conveyor>
 					<Id>1793559261302</Id>
 					<Name><![CDATA[partFeeder]]></Name>
@@ -9593,7 +9754,7 @@ gray : black]]></FillColorCode>
 					</ColorTable>
 					<AutoScale>true</AutoScale>
 					<Scale>1.0</Scale>
-					<Rotation>136.0</Rotation>
+					<Rotation><![CDATA[270.0]]></Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
 					<SelectedAnimationPose>idle</SelectedAnimationPose>
 					<AnimationPose><![CDATA[carry]]></AnimationPose>
@@ -9635,7 +9796,7 @@ gray : black]]></FillColorCode>
 				</Text><Text>
 					<Id>1793559262350</Id>
 					<Name><![CDATA[nativeLoadingLabel]]></Name>
-					<X><![CDATA[-405.6666666666667]]></X><Y><![CDATA[358.0]]></Y>
+					<X>-525.6666666666667</X><Y><![CDATA[358.0]]></Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9665,7 +9826,7 @@ gray : black]]></FillColorCode>
 			<Presentation><PointNode>
 					<Id>1793559262346</Id>
 					<Name><![CDATA[palletBuffer]]></Name>
-					<X><![CDATA[-340.6666666666667]]></X><Y><![CDATA[310.0]]></Y>
+					<X>-460.6666666666667</X><Y><![CDATA[310.0]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9684,13 +9845,13 @@ gray : black]]></FillColorCode>
 				<VisibleCode><![CDATA[false]]></VisibleCode></PointNode><PointNode>
 					<Id>1793559262347</Id>
 					<Name><![CDATA[palletSheetBuffer]]></Name>
-					<X><![CDATA[-320.6666666666667]]></X><Y><![CDATA[200.0]]></Y>
+					<X>-350.6666666667</X><Y><![CDATA[200.0]]></Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z><![CDATA[0]]></Z>
+					<Z><![CDATA[17]]></Z>
 					<FakeNode>false</FakeNode>
 					<Lock>false</Lock>
 					<Color>-14774017</Color>
@@ -9700,86 +9861,159 @@ gray : black]]></FillColorCode>
 						<Value Class="Double">10</Value>
 						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 					</SpeedLimitValue>
-				<VisibleCode><![CDATA[false]]></VisibleCode></PointNode><Path SourceId="1793559262346">
-					<Id>1793559262348</Id>
-					<Name><![CDATA[palletLiftPath]]></Name>
-					<X><![CDATA[-340.6666666666667]]></X><Y><![CDATA[310.0]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<Z><![CDATA[16]]></Z>
-					<LineColor>-14774017</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineWidth>2</LineWidth>
-					<PathType>dashedLine</PathType>
-
-					<Width Class="UnitValue">
-						<Value Class="Double">1</Value>
-						<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
-					</Width>
-					<Points>
-
-
-
-
-
-
-
-
-
-					<Point><X>0</X><Y>0</Y><Z>0</Z></Point><Point><X>-10</X><Y>5</Y><Z>0</Z></Point><Point><X>10</X><Y>-5</Y><Z>0</Z></Point><Point><X>40</X><Y>-20</Y><Z>0</Z></Point><Point><X>34.4529980377477</X><Y>-11.6794970566216</Y><Z>0</Z></Point><Point><X>45.5470019622523</X><Y>-28.3205029433784</Y><Z>0</Z></Point><Point><X>40</X><Y>-60</Y><Z>0</Z></Point><Point><X>40</X><Y>-50</Y><Z>0</Z></Point><Point><X>40</X><Y>-70</Y><Z>0</Z></Point></Points>
-					<Bidirectional>true</Bidirectional>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="UnitValue">
-						<Value Class="Double">10</Value>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
-					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
-				<VisibleCode><![CDATA[false]]></VisibleCode></Path><Path SourceId="1793559262347">
-					<Id>1793559262349</Id>
-					<Name><![CDATA[sheetLoadPath]]></Name>
-					<X><![CDATA[-320.6666666666667]]></X><Y><![CDATA[200.0]]></Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<Z><![CDATA[0]]></Z>
-					<LineColor>-14774017</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineWidth>2</LineWidth>
-					<PathType>dashedLine</PathType>
-
-					<Width Class="UnitValue">
-						<Value Class="Double">1</Value>
-						<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
-					</Width>
-					<Points>
-
-
-
-
-
-
-
-
-
-					<Point><X>0</X><Y>0</Y><Z>0</Z></Point><Point><X>-5</X><Y>-2.5</Y><Z>-5.25</Z></Point><Point><X>5</X><Y>2.5</Y><Z>5.25</Z></Point><Point><X>20</X><Y>10</Y><Z>21</Z></Point><Point><X>16.2877781596557</X><Y>3.81296359942618</Y><Z>18.401444711759</Z></Point><Point><X>23.7122218403443</X><Y>16.1870364005738</Y><Z>23.598555288241</Z></Point><Point><X>30</X><Y>50</Y><Z>21</Z></Point><Point><X>27.5</X><Y>40</Y><Z>21</Z></Point><Point><X>32.5</X><Y>60</Y><Z>21</Z></Point></Points>
-					<Bidirectional>true</Bidirectional>
-					<SpeedLimit>false</SpeedLimit>
-					<SpeedLimitValue Class="UnitValue">
-						<Value Class="Double">10</Value>
-						<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
-					</SpeedLimitValue>
-					<LimitNumberOfTransporters>false</LimitNumberOfTransporters>
-					<LimitNumberOfTransportersValue>10</LimitNumberOfTransportersValue>
-				<VisibleCode><![CDATA[false]]></VisibleCode></Path></Presentation>
+				<VisibleCode><![CDATA[false]]></VisibleCode></PointNode></Presentation>
 
 					<Z>0</Z>
-				</Network></Presentation>
+				</Network><Figure3D>
+					<Id>1793559262380</Id>
+					<Name><![CDATA[palletLoadingWorker]]></Name>
+					<X>-495.0</X><Y>310</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+					<X>-495.0</X><Y>310</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[3d/worker_2_m.glb]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[body]]></Name>
+							<OriginalColor>-3445958</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[eyes]]></Name>
+							<OriginalColor>-1</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[hair]]></Name>
+							<OriginalColor>-15528181</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[jumpsuit]]></Name>
+							<OriginalColor>-15198694</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[shoes]]></Name>
+							<OriginalColor>-11524592</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>true</AutoScale>
+					<Scale>1.0</Scale>
+					<Rotation>315</Rotation>
+					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
+					<SelectedAnimationPose><![CDATA[stand_desk]]></SelectedAnimationPose>
+					<AnimationPose><![CDATA[carry]]></AnimationPose>
+					<AnimationPose><![CDATA[drive]]></AnimationPose>
+					<AnimationPose><![CDATA[idle]]></AnimationPose>
+					<AnimationPose><![CDATA[lie]]></AnimationPose>
+					<AnimationPose><![CDATA[lie_side]]></AnimationPose>
+					<AnimationPose><![CDATA[run_right]]></AnimationPose>
+					<AnimationPose><![CDATA[run_left]]></AnimationPose>
+					<AnimationPose><![CDATA[sit_desk]]></AnimationPose>
+					<AnimationPose><![CDATA[sit]]></AnimationPose>
+					<AnimationPose><![CDATA[stand_desk]]></AnimationPose>
+					<AnimationPose><![CDATA[stand]]></AnimationPose>
+					<AnimationPose><![CDATA[walk_right]]></AnimationPose>
+					<AnimationPose><![CDATA[walk_left]]></AnimationPose>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+				</Figure3D><Figure3D>
+					<Id>1793559262381</Id>
+					<Name><![CDATA[sheetLoadingWorker]]></Name>
+					<X>-350.6666666667</X><Y>166</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+					<X>-350.6666666667</X><Y>166</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[3d/worker_2_m.glb]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[body]]></Name>
+							<OriginalColor>-3445958</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[eyes]]></Name>
+							<OriginalColor>-1</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[hair]]></Name>
+							<OriginalColor>-15528181</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[jumpsuit]]></Name>
+							<OriginalColor>-15198694</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[shoes]]></Name>
+							<OriginalColor>-11524592</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>true</AutoScale>
+					<Scale>1.0</Scale>
+					<Rotation>90</Rotation>
+					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
+					<SelectedAnimationPose><![CDATA[stand_desk]]></SelectedAnimationPose>
+					<AnimationPose><![CDATA[carry]]></AnimationPose>
+					<AnimationPose><![CDATA[drive]]></AnimationPose>
+					<AnimationPose><![CDATA[idle]]></AnimationPose>
+					<AnimationPose><![CDATA[lie]]></AnimationPose>
+					<AnimationPose><![CDATA[lie_side]]></AnimationPose>
+					<AnimationPose><![CDATA[run_right]]></AnimationPose>
+					<AnimationPose><![CDATA[run_left]]></AnimationPose>
+					<AnimationPose><![CDATA[sit_desk]]></AnimationPose>
+					<AnimationPose><![CDATA[sit]]></AnimationPose>
+					<AnimationPose><![CDATA[stand_desk]]></AnimationPose>
+					<AnimationPose><![CDATA[stand]]></AnimationPose>
+					<AnimationPose><![CDATA[walk_right]]></AnimationPose>
+					<AnimationPose><![CDATA[walk_left]]></AnimationPose>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+				</Figure3D><Figure3D>
+					<Id>1793559262382</Id>
+					<Name><![CDATA[sheetLoadingTable]]></Name>
+					<X>-350.6666666667</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode><![CDATA[SHAPE_DRAW_2D3D]]></DrawMode>
+					<X>-350.6666666667</X><Y>200</Y><Z>0</Z>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<ResourceReference>
+						<PackageName><![CDATA[лр5]]></PackageName>
+						<ClassName><![CDATA[3d/table.dae]]></ClassName>
+					</ResourceReference>
+					<ColorTable>
+						<ColorMapping>
+							<Name><![CDATA[material0]]></Name>
+							<OriginalColor>-14391175</OriginalColor>
+						</ColorMapping>
+						<ColorMapping>
+							<Name><![CDATA[material1]]></Name>
+							<OriginalColor>-11184811</OriginalColor>
+						</ColorMapping>
+					</ColorTable>
+					<AutoScale>true</AutoScale>
+					<Scale>0.65</Scale>
+					<Rotation>0</Rotation>
+					<AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
+					<SelectedAnimationPose/>
+					<ApplyShading>true</ApplyShading>
+					<InternalLighting>OFF</InternalLighting>
+					<IgnoreSceneLights>false</IgnoreSceneLights>
+				</Figure3D></Presentation>
 
 				</Level>
 			</Presentation>

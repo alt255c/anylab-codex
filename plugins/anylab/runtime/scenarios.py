@@ -113,12 +113,20 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
             loading=next(n for n in main.getElementsByTagName("Conveyor") if field(n,"Name")=="loadingBelt")
             points=anchors(loading);shorten=points[-1][0]-110
             if shorten>0:
+                positions={field(n,'Name'):n for n in main.getElementsByTagName('PositionOnConveyor')}
+                old_join=float(field(positions['assemblyJoin'],'Offset'))
                 put(loading,"X",str(float(field(loading,"X"))+shorten))
                 set_points(loading,route_curve([(0,0,0),(110,0,0)]))
+                put(positions['assemblyJoin'],'Offset','102')
+                if 'sheetJoin' in positions:put(positions['sheetJoin'],'Offset','65')
                 # Keep the assembly offset and perpendicular intersection aligned.
                 for node in main.getElementsByTagName('*'):
-                    if field(node,"Name") in {"partFeeder","loadingText","loadingNetwork","palletBuffer","palletSheetBuffer","palletLiftPath","sheetLoadPath","nativeLoadingLabel"}:
+                    if field(node,'Name') in {'partFeeder','loadingText'}:
+                        put(node,'X',str(float(field(node,'X'))+shorten+102-old_join))
+                    elif field(node,"Name") in {"loadingNetwork","palletBuffer","palletLiftPath","sheetLoadPath","nativeLoadingLabel","palletLoadingWorker"}:
                         put(node,"X",str(float(field(node,"X"))+shorten))
+                    elif field(node,'Name') in {'palletSheetBuffer','sheetLoadingWorker','sheetLoadingTable'}:
+                        put(node,'X',str(float(field(loading,'X'))+45))
         for shape in children(child(carton,"Presentation/Level/Presentation")):
             label=field(shape,"Name")
             if "box" in label.lower() or "flap" in label or "closedLid" in label or "carton2D" in label:

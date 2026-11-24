@@ -227,14 +227,17 @@ def validate_cargo(main):
             raise ValueError('Заготовка должна останавливаться у работника на ленте')
         if 'agent.boxFormed=true;' not in code('foldBox','onExit') or 'boxFormed=true' in code('fitPart','onExit'):
             raise ValueError('Коробка формируется после задержки у работника, а не в месте подачи детали')
-        if 'conveyorEnter' in blocks and (code('conveyorEnter','conveyor')!='loadingBelt' or code('liftUp','entityLocation')!='palletLiftPath'):
+        if 'conveyorEnter' in blocks and (code('conveyorEnter','conveyor')!='loadingBelt' or code('liftUp','entityLocation')!='palletBuffer'):
             raise ValueError('Поддон должен поступать на входную ленту через ConveyorEnter')
     for name,role in (("source",0),("partSource",1),("sheetSource",2),("source1",3),("stockPallets",4)):
         if name not in blocks and name in {"sheetSource","stockPallets"}:continue
         if f"agent.cargoRole={role};" not in code(name,"onAtExit"):
             raise ValueError("Неверная роль источника "+name)
     positions={field(p,"Name"):p for p in main.getElementsByTagName("PositionOnConveyor")}
-    for name,offset in (("partStart",0),("partJoin",185),("assemblyJoin",102)):
+    belts={field(b,'Name'):b for b in main.getElementsByTagName('Conveyor')}
+    inlet=belts.get('loadingBelt',belts['conveyor'])
+    join=float(field(belts['partFeeder'],'X'))-float(field(inlet,'X'))+20
+    for name,offset in (("partStart",0),("partJoin",185),("assemblyJoin",join)):
         if abs(float(field(positions[name],"Offset"))-offset)>1e-6:raise ValueError("Неверная точка центрирования "+name)
     if "inject" not in code("source","onBeforeArrival"):raise ValueError("Комплектующие должны поступать до приёма поддона Combine")
     if code("manualTravel","sourceConveyor")!="manualFeeder" or code("manualTravel","targetPositionOnConveyor")!="manualJoin":

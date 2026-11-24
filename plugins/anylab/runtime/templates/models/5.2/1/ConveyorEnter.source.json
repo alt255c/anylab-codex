@@ -9,8 +9,6 @@
     "sheetBuffer",
     "putSheetOnPallet",
     "addSheet",
-    "path1",
-    "path",
     "palletBuffer",
     "palletSheetBuffer"
   ],
@@ -19,6 +17,8 @@
     "existing 15px belt elevation",
     "one sheet and part requested per pallet",
     "4-second worker folding stage",
-    "existing middle section and ConveyorExit unloading"
+    "existing middle section and ConveyorExit unloading",
+    "Manual loading presentation: two operators; Delay locations changed from aerial Paths to stationary palletBuffer / sheet table node",
+    "Bare pallet moves from palletEntry to sheetJoin in toSheetLoading; second operator adds sheet downstream. Unused aerial loading paths removed."
   ]
 }

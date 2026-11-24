@@ -5828,7 +5828,7 @@ gray : black]]></FillColorCode>
 					</ColorTable>
 					<AutoScale>true</AutoScale>
 					<Scale>1.0</Scale>
-					<Rotation>136.0</Rotation>
+					<Rotation><![CDATA[270.0]]></Rotation>
 					<AxisOrder>YZX_AXIS_ORDER</AxisOrder>
 					<SelectedAnimationPose>idle</SelectedAnimationPose>
 					<AnimationPose><![CDATA[carry]]></AnimationPose>

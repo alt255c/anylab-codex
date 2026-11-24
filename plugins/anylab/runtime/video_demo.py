@@ -126,6 +126,8 @@ new AnyLabDemoManualInput();
 ''')
     route=([[-590,470,230,35,-45],[-390,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[1060,450,210,35,-45],[1250,700,400,35,-45],[-500,1550,1300,35,-45]] if full else
            [[-180,430,230,35,-45],[-180,360,160,35,-45],[50,350,200,35,-45],[380,420,220,35,-45],[620,470,300,35,-45],[-350,1050,800,35,-45]])
+    from video_plan import load_plan
+    route,timing,chosen_plan=load_plan(model,route,timing,seconds)
     literal="new double[][]{"+",".join("{"+",".join(str(v) for v in row)+"}" for row in route)+"}"
     marker=root/"begin-tour"
     code="""
@@ -205,7 +207,7 @@ new AnyLabLiveCameraTour();
                 anylab.native(["record","--window",window["hwnd"],"--out",root/"demo.mp4","--seconds",seconds])
                 time.sleep(4)
                 anylab.native(["capture","--window",window["hwnd"],"--out",root/"scene.png"])
-                (root/"tour.json").write_text(json.dumps({"live_single_run":True,"seconds":seconds,"2d_seconds":timing["two_d_seconds"],"camera_route":route,"hold_seconds":timing["holds"],"station_start_seconds":timing["starts"],"warmup_wall_seconds":warmup,"warmup_speed":12,"playback_speed":speed,"angles_degrees":[35,-45]},indent=2),encoding="utf-8")
+                (root/"tour.json").write_text(json.dumps({"live_single_run":True,"seconds":seconds,"2d_seconds":timing["two_d_seconds"],"camera_route":route,"hold_seconds":timing["holds"],"station_start_seconds":timing["starts"],"warmup_wall_seconds":warmup,"warmup_speed":12,"playback_speed":speed,"angles_degrees":route[0][3:5],"agreed_plan":chosen_plan},indent=2),encoding="utf-8")
                 return {"video":str(root/"demo.mp4"),"tour":str(root/"tour.json")}
             time.sleep(.5)
         raise RuntimeError("Окно записи не появилось")

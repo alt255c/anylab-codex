@@ -54,10 +54,17 @@ def prepare_scene_tour(source, folder, seconds=96, speed=3, warmup=20):
     put(child(exp,'ModelTimeProperties'),'FinalTime','100000')
     first=min(12,seconds*.2);move=3.;hold=(seconds-first-move*(len(route)-1))/len(route)
     if hold<3:raise ValueError('Недостаточно времени для остановок камеры; увеличьте seconds')
+    from video_plan import load_plan
+    route,timing,chosen_plan=load_plan(source,route,dict(two_d_seconds=first,holds=[hold]*len(route),moves=[move]*(len(route)-1),starts=[first+i*(hold+move) for i in range(len(route))]),seconds)
+    first=timing['two_d_seconds']
+    move=timing['moves'][0]
+    labels=chosen_plan.get('stop_labels',labels) if chosen_plan else labels
     marker=folder/'begin-tour'
     literal='new double[][]{'+','.join('{'+','.join(map(str,p))+'}' for p in route)+'}'
     code='''
 final double[][] sceneRoute=ROUTE;
+final double[] sceneHolds=HOLDS_ARRAY;
+final double[] sceneStarts=STARTS_ARRAY;
 final double[] sceneStart={-1};
 anylabTour2D.navigateTo();
 getPresentation().setZoomAndPanningEnabled(false);
@@ -73,9 +80,9 @@ class AnyLabSceneTour extends com.anylogic.engine.DynamicEvent {
   }
   else{
    anylabTour3D.navigateTo();
-   double elapsed=t-FIRST;int at=Math.min(sceneRoute.length-1,(int)(elapsed/(HOLD+MOVE)));
+   int at=0; while(at<sceneRoute.length-1 && t>=sceneStarts[at+1])at++;
    int next=Math.min(sceneRoute.length-1,at+1);
-   double u=Math.max(0,Math.min(1,(elapsed-at*(HOLD+MOVE)-HOLD)/MOVE));u=u*u*(3-2*u);
+   double u=Math.max(0,Math.min(1,(t-sceneStarts[at]-sceneHolds[at])/MOVE));u=u*u*(3-2*u);
    double[] v=new double[5];
    for(int k=0;k<5;k++){
     double delta=sceneRoute[next][k]-sceneRoute[at][k];
@@ -88,10 +95,10 @@ class AnyLabSceneTour extends com.anylogic.engine.DynamicEvent {
  }
 }
 new AnyLabSceneTour();
-'''.replace('ROUTE',literal).replace('MARKER',json.dumps(str(marker),ensure_ascii=False)).replace('FIRST',str(first)).replace('HOLD',str(hold)).replace('MOVE',str(move)).replace('CAMERA',camera).replace('DURATION',str(seconds)).replace('PANSTART',str(bounds[0])).replace('PANDIST','2100' if profile in {'4.1','4.2'} else '0')
+'''.replace('ROUTE',literal).replace('MARKER',json.dumps(str(marker),ensure_ascii=False)).replace('FIRST',str(first)).replace('HOLDS_ARRAY','new double[]{'+','.join(map(str,timing['holds']))+'}').replace('STARTS_ARRAY','new double[]{'+','.join(map(str,timing['starts']))+'}').replace('MOVE',str(move)).replace('CAMERA',camera).replace('DURATION',str(seconds)).replace('PANSTART',str(bounds[0])).replace('PANDIST','2100' if profile in {'4.1','4.2'} else '0')
     put(main,'StartupCode',field(main,'StartupCode')+code)
     target.write_bytes(doc.toxml(encoding='UTF-8'))
-    manifest=dict(profile=profile,route=route,labels=labels,seconds=seconds,two_d_seconds=first,hold_seconds=hold,transition_seconds=move,live_single_run=True,source=str(Path(source).resolve()))
+    manifest=dict(profile=profile,route=route,labels=labels,seconds=seconds,two_d_seconds=first,hold_seconds=(timing['holds'] if chosen_plan else hold),station_hold_seconds=timing['holds'],transition_seconds=move,live_single_run=True,source=str(Path(source).resolve()))
     (folder/'tour.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf8')
     return target,field(exp,'Name'),marker,manifest
 
