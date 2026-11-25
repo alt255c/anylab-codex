@@ -178,3 +178,42 @@ def add_variation(doc,model,main,full):
     put(child(experiment,'PresentationProperties'),'Title','Производительность конвейера')
     put(child(experiment,'ReplicationsProperties'),'UseReplication','false')
     child(model,'Experiments').appendChild(experiment)
+
+
+FRAGILITY_ASSIGNMENT = (
+    "agent.isFragile = fragilityRandom.nextDouble() < 0.10; "
+    "if (agent.isFragile) fragileEntered++; "
+)
+
+
+def isolate_fragility(doc, model, main, carton):
+    """Assign fragility to main orders without consuming auxiliary agents' draws."""
+    editor = LineEditor(doc, model, main)
+    variables = child(main, 'Variables')
+    named = by_name(variables, 'Variable')
+    source = editor.blocks['source']
+    on_exit = param(source, 'onAtExit')
+    if on_exit.startswith(FRAGILITY_ASSIGNMENT):
+        if not {'fragilityRandom', 'fragileEntered'} <= named.keys():
+            raise ValueError('Из основного потока удалены переменные генерации хрупких заказов')
+        return
+    if any(key in named for key in ('fragilityRandom', 'fragileEntered')):
+        raise ValueError('Обнаружена другая настройка генерации хрупких заказов')
+    if 'isFragile' in on_exit:
+        raise ValueError('Согласуйте существующую настройку isFragile в основном источнике')
+    flag = by_name(child(carton, 'Variables'), 'Variable')['isFragile']
+    init = child(flag, 'Properties/InitialValue')
+    if field(init, 'Code') not in ('randomTrue(0.1)', 'false'):
+        raise ValueError('Согласуйте изменённую вероятность хрупкости перед подготовкой сценария')
+    put(init, 'Code', 'false')
+    for name, kind, expression in (
+        ('fragilityRandom', 'java.util.Random', 'new java.util.Random(73L)'),
+        ('fragileEntered', 'int', '0'),
+    ):
+        variable = editor.clone(named['packedFragile'], name)
+        put(variable, 'PresentationFlag', 'false')
+        properties = child(variable, 'Properties')
+        put(properties, 'Type', kind)
+        put(child(properties, 'InitialValue'), 'Code', expression)
+        variables.appendChild(variable)
+    set_param(source, 'onAtExit', FRAGILITY_ASSIGNMENT + on_exit)

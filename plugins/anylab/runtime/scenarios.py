@@ -108,6 +108,8 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     if not canonical and (config or layout == "smooth_s" or component == "brick"):
         raise ValueError("Расширенное оформление требует штатного шаблона ЛР5 из prepare_lab")
     if canonical and has_shipping==full_line:
+        from lr5_revision import isolate_fragility
+        isolate_fragility(doc, model, main, carton)
         profile_file = path.parent / "scene.json"
         if profile_file.is_file():
             if scene is not None or (palette, layout, component) != ("blue_turquoise_orange", "extended_offset", "blue_sleeve"):
@@ -188,7 +190,9 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     restore_tabbed_views(doc,model,main)
     from cargo import apply_cargo, validate_cargo
     apply_cargo(doc,model,main,body_color,accent_color,details[component])
-    from lr5_revision import add_variation
+    from lr5_revision import add_variation, isolate_fragility
+    carton = next(a for a in children(child(model, "ActiveObjectClasses")) if field(a, "Name") == "Carton")
+    isolate_fragility(doc, model, main, carton)
     add_variation(doc,model,main,full_line)
     validate_cargo(main)
     # Preserve the reference's 2D previews for staff and vehicles. Only
@@ -279,6 +283,8 @@ def conveyor_capacity(source,destination,rates=(4,8,12,16,20),horizon=900,seed=7
                               until="finished",close=True,metrics={
                                "main_arrivals":"source.count()",
                                "manual_arrivals":"source1.count()",
+                               "fragile_entered":"fragileEntered",
+                               "fragile_packed":"packedFragile",
                                "ordinary":"ordinaryDelivered",
                                "fragile":"fragileDelivered",
                                "manual":"manualDelivered"})
@@ -302,6 +308,9 @@ def conveyor_capacity(source,destination,rates=(4,8,12,16,20),horizon=900,seed=7
         main_accepted=int(float(result["main_arrivals"]))
         rows.append({"rate_per_minute":float(rate),"main_arrivals":main_accepted,
                      "manual_arrivals":int(float(result["manual_arrivals"])),"arrivals":arrivals,"finished_boxes":throughput,
+                     "fragile_entered":int(float(result["fragile_entered"])),
+                     "fragile_packed":int(float(result["fragile_packed"])),
+                     "fragile_delivered":int(float(result["fragile"])),
                      "backlog":backlog,"throughput_per_minute":round(throughput*60/horizon,3),
                      "main_throughput_per_minute":round(main_finished*60/horizon,3),
                      "offered_main_expected":expected_main,"admission_ratio":round(main_accepted/expected_main,4),
