@@ -162,7 +162,7 @@ def encoder():
     return exe
 
 
-def record(hwnd, pid, first, path, seconds, fps, profile="window"):
+def record(hwnd, pid, first, path, seconds, fps, profile="window", marker=None, finish=None):
     from PIL import Image, ImageOps
 
     canvas = {"hd": (1920, 1080), "light": (1120, 630)}.get(profile, first.size)
@@ -178,9 +178,13 @@ def record(hwnd, pid, first, path, seconds, fps, profile="window"):
            "-crf", "18" if profile == "hd" else "21" if profile == "light" else "19", "-movflags", "+faststart", str(path)]
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     try:
+        if marker:
+            marker.touch(exist_ok=False)
         start = time.monotonic()
         current = fit(first)
         for index in range(seconds * fps):
+            if finish and finish.is_file():
+                break
             due = start + index / fps
             if index:
                 if time.monotonic() <= due + 1 / fps:
@@ -194,6 +198,56 @@ def record(hwnd, pid, first, path, seconds, fps, profile="window"):
         if process.poll() is None:
             process.kill()
             process.wait()
+
+
+def record_graphics(hwnd, path, seconds, fps, marker):
+    """Use the window compositor when this FFmpeg ships Windows Graphics Capture."""
+    program=encoder()
+    filters=subprocess.run([program,"-hide_banner","-filters"],capture_output=True,check=True,timeout=10).stdout
+    if b"gfxcapture" not in filters:
+        return False
+    source=f"gfxcapture=hwnd={hwnd}:capture_cursor=0:max_framerate={fps},hwdownload,format=bgra"
+    command=[program,"-hide_banner","-loglevel","error","-n","-stats_period","0.20","-progress","pipe:1",
+             "-f","lavfi","-i",source,"-t",str(seconds),"-an","-vf",
+             "scale=1920:1080:force_original_aspect_ratio=decrease:flags=fast_bilinear,"
+             "pad=1920:1080:(ow-iw)/2:(oh-ih)/2:white,format=yuv420p,setsar=1",
+             "-c:v","libx264","-preset","ultrafast","-threads","3","-crf","18","-r",str(fps),
+             "-fps_mode","cfr","-movflags","+faststart",str(path)]
+    process=subprocess.Popen(command,stdout=subprocess.PIPE)
+    import threading
+    started=threading.Event()
+    elapsed=0
+
+    def monitor():
+        nonlocal elapsed
+        for line in process.stdout:
+            key, _, value=line.strip().partition(b"=")
+            if key==b"frame" and value.isdigit() and int(value)>0:
+                started.set()
+            if key==b"out_time_us" and value.isdigit():
+                elapsed=int(value)
+
+    reader=threading.Thread(target=monitor,daemon=True)
+    reader.start()
+    try:
+        if not started.wait(6):
+            return False
+        if marker:
+            marker.touch(exist_ok=False)
+        if process.wait(timeout=seconds+30):
+            raise RuntimeError("Ошибка захвата окна после начала записи")
+        reader.join(timeout=1)
+        if elapsed < (seconds-1)*1_000_000:
+            raise RuntimeError(f"Записано {elapsed/1_000_000:.1f} из {seconds} с. Окно AnyLogic закрылось или захват прервался.")
+        return True
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait()
+        reader.join(timeout=1)
+        process.stdout.close()
+        if not started.is_set():
+            path.unlink(missing_ok=True)
 
 
 def command(args, home):
@@ -226,7 +280,13 @@ def command(args, home):
         if args.cmd == "record":
             if not (1 <= args.seconds <= 900 and 1 <= args.fps <= 60):
                 raise ValueError("Допустимая длительность 1..900 секунд, частота 1..60 кадров/с.")
-            record(args.window, window["pid"], shot, temp, args.seconds, args.fps, profile)
+            marker=args.start_marker
+            if marker and marker.exists():
+                raise ValueError("Маркер записи уже существует")
+            graphics=os.environ.get("ANYLAB_GRAPHICS_CAPTURE")=="1"
+            finish=args.finish_marker
+            if finish or profile!="hd" or not graphics or not record_graphics(args.window,temp,args.seconds,args.fps,marker):
+                record(args.window, window["pid"], shot, temp, args.seconds, args.fps, profile,marker,finish)
         else:
             shot.save(temp, "PNG")
         temp.rename(out)

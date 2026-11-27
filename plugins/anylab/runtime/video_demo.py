@@ -5,7 +5,7 @@ from pathlib import Path
 from xml.dom import minidom
 
 import anylab
-from bridge.anylogic import close_run_tree, direct, field, put
+from bridge.anylogic import close_recording_run, direct, field, put
 
 
 def presentation_copy(model, folder, three_d, speed=1, camera=None):
@@ -61,7 +61,7 @@ def record_demo(model, root, files, seconds, three_d, minutes, speed=1, screensh
             time.sleep(.5)
         raise ValueError("Окно симуляции не появилось для записи")
     finally:
-        close_run_tree(evidence)
+        close_recording_run(evidence,root/"video-run")
 
 
 def tour_timing(seconds,full=False):
@@ -81,8 +81,8 @@ def record_tour(model, destination, seconds=96, speed=2, warmup=30, profile="hd"
     import json, os
     if profile not in {"hd", "light", "window"}:
         raise ValueError("Профиль видео: hd, light или window")
-    if not isinstance(seconds,int) or not 10 <= seconds <= 120:
-        raise ValueError("Продолжительность tour: 10–120 секунд")
+    if not isinstance(seconds,int) or not 10 <= seconds <= 150:
+        raise ValueError("Продолжительность tour: 10–150 секунд")
     if not isinstance(speed,(int,float)) or not 0.1 <= speed <= 20:
         raise ValueError("Скорость tour: 0.1–20")
     if not isinstance(warmup,(int,float)) or not 0 <= warmup <= 120:
@@ -95,6 +95,9 @@ def record_tour(model, destination, seconds=96, speed=2, warmup=30, profile="hd"
     main=next(a for a in children(child(model_xml,"ActiveObjectClasses"),"ActiveObjectClass") if field(a,"Name")=="Main")
     if not any(field(a,"Name")=="Carton" for a in children(child(model_xml,"ActiveObjectClasses"),"ActiveObjectClass")):
         raise ValueError("Кинопроход tour настроен для конвейеров ЛР5")
+    from conveyor import LineEditor
+    from logic_view import add_logic_view
+    add_logic_view(LineEditor(doc,model_xml,main))
     full=any(field(n,"Name")=="warehouseNetwork" for n in main.getElementsByTagName("Network"))
     timing=tour_timing(seconds,full)
     window=next(w for w in main.getElementsByTagName("Control") if w.getAttribute("Type")=="Window3D")
@@ -103,8 +106,8 @@ def record_tour(model, destination, seconds=96, speed=2, warmup=30, profile="hd"
     put(window,"FarClippingDistance","10000")
     # A fitted overview belongs only to the recording copy, not the ALP profile.
     areas={field(a,"Name"):a for a in children(child(main,"Areas"),"Area")}
-    width=1333
-    for key,value in {"X":"-700","Y":"-160","Width":str(width),"Height":"800"}.items():
+    width=2700 if full else 1950
+    for key,value in {"X":"-700","Y":"-400","Width":str(width),"Height":str(width*.6)}.items():
         put(areas["viewLogic"],key,value)
     put(areas["view3D"],"X","5000")
     put(window,"X","5000")
@@ -112,7 +115,7 @@ def record_tour(model, destination, seconds=96, speed=2, warmup=30, profile="hd"
     # Keep operational initialization (including the real pallet inventory).
     # Recording setup only appends view settings; replacing StartupCode can
     # silently leave the loading line without supplies while manual flow runs.
-    put(main,"StartupCode",field(main,"StartupCode")+"\nselectedViewArea=viewLogic; viewLogic.navigateTo(); getPresentation().setZoomAndPanningEnabled(false); panelGroup.setScale("+str(1/zoom)+"); panelGroup.setPos("+str(-700+width/2)+","+str(-160+20/zoom)+"); rectangle.setWidth(1000);")
+    put(main,"StartupCode",field(main,"StartupCode")+"\nselectedViewArea=viewLogic; viewLogic.navigateTo(); getPresentation().setZoomAndPanningEnabled(false); panelGroup.setScale("+str(1/zoom)+"); panelGroup.setPos("+str(-700+width/2)+","+str(-400+20/zoom)+"); rectangle.setWidth(1000);")
     # Demonstration operates the same manual entry as the button; the delivered
     # model keeps Source.MANUAL and does not introduce an automatic arrival rate.
     put(main,"StartupCode",field(main,"StartupCode")+'''
@@ -131,6 +134,7 @@ new AnyLabDemoManualInput();
     code="""
 final double[] tourEpoch = {-1};
 final boolean[] tour3D = {false};
+final boolean[] tourDiagram = {false};
 final double[][] tourRoute = ROUTE;
 final double[] tourStarts = STARTS;
 final double[] tourHolds = HOLDS;
@@ -142,18 +146,12 @@ class AnyLabLiveCameraTour extends com.anylogic.engine.DynamicEvent {
             getEngine().setRealTimeScale(SPEED);
             tourEpoch[0] = System.nanoTime() / 1e9;
         }
-        if (!tour3D[0]) {
-            double t2 = tourEpoch[0] < 0 ? 0 : Math.max(0,System.nanoTime()/1e9-tourEpoch[0]);
-            double u2 = Math.max(0,Math.min(1,(t2-TWO*.05)/(TWO*.9)));
-            u2=u2*u2*u2*(10+u2*(-15+6*u2));
-            double left=-700+PAN*u2;
-            viewLogic.setX(left);
-            viewLogic.navigateTo();
-            panelGroup.setScale(1/ZOOM);
-            panelGroup.setPos(left+WIDTH/2,TOP+20/ZOOM);
-        }
         if (tourEpoch[0] >= 0) {
             double elapsed = System.nanoTime() / 1e9 - tourEpoch[0];
+            if (elapsed >= TWO*.54 && elapsed < TWO && !tourDiagram[0]) {
+                anylabBlockDiagram.navigateTo();
+                tourDiagram[0] = true;
+            }
             if (elapsed >= DURATION+2.5) {
                 viewLogic.setX(-700); viewLogic.setY(-400);
                 viewLogic.setWidth(OVERVIEW); viewLogic.setHeight(OVERVIEW*.6);
@@ -164,7 +162,6 @@ class AnyLabLiveCameraTour extends com.anylogic.engine.DynamicEvent {
             }
             if (elapsed >= TWO) {
                 if (!tour3D[0]) { panelGroup.setScale(1); navigate(view3D); tour3D[0] = true; }
-                view3D.navigateTo();
                 panelGroup.setPos(5500,20);
                 int station=0;
                 while(station<tourRoute.length-1 && elapsed>=tourStarts[station+1]) station++;
@@ -185,7 +182,7 @@ class AnyLabLiveCameraTour extends com.anylogic.engine.DynamicEvent {
     }
 }
 new AnyLabLiveCameraTour();
-""".replace("ROUTE",literal).replace("STARTS","new double[]{"+",".join(map(str,timing["starts"]))+"}").replace("HOLDS","new double[]{"+",".join(map(str,timing["holds"]))+"}").replace("SPEED",str(speed)).replace("MARKER",json.dumps(str(marker),ensure_ascii=False)).replace("ZOOM",str(zoom)).replace("OVERVIEW",str(2700 if full else 1900)).replace("TOP","-160").replace("PAN",str(1450 if full else 650)).replace("WIDTH",str(width)).replace("TWO",str(timing["two_d_seconds"])).replace("DURATION",str(seconds))
+""".replace("ROUTE",literal).replace("STARTS","new double[]{"+",".join(map(str,timing["starts"]))+"}").replace("HOLDS","new double[]{"+",".join(map(str,timing["holds"]))+"}").replace("SPEED",str(speed)).replace("MARKER",json.dumps(str(marker),ensure_ascii=False)).replace("OVERVIEW",str(width)).replace("TWO",str(timing["two_d_seconds"])).replace("DURATION",str(seconds))
     put(main,"StartupCode",field(main,"StartupCode")+code)
     path.write_bytes(doc.toxml(encoding="UTF-8"))
     evidence=anylab.run_model(path,root/"video-run",experiment,180,until="started",close=False)
@@ -201,16 +198,13 @@ new AnyLabLiveCameraTour();
                         if (root/"record-now").exists(): break
                         time.sleep(.2)
                     else: raise TimeoutError("Не получен сигнал начала записи")
-                marker.touch()
-                time.sleep(.7)
-                fps = 7 if profile == "light" else 12
+                fps = 7 if profile == "light" else 20 if profile=="hd" else 12
                 anylab.native(["record", "--window", window["hwnd"], "--out", root/"demo.mp4",
-                               "--seconds", seconds, "--profile", profile, "--fps", fps])
-                time.sleep(4)
-                anylab.native(["capture","--window",window["hwnd"],"--out",root/"scene.png"])
+                               "--seconds", seconds, "--profile", profile, "--fps", fps,
+                               "--start-marker",marker])
                 (root/"tour.json").write_text(json.dumps({"live_single_run":True,"capture_profile":profile,"capture_fps":fps,"seconds":seconds,"2d_seconds":timing["two_d_seconds"],"camera_route":route,"hold_seconds":timing["holds"],"station_start_seconds":timing["starts"],"warmup_wall_seconds":warmup,"warmup_speed":12,"playback_speed":speed,"angles_degrees":route[0][3:5],"agreed_plan":chosen_plan},indent=2),encoding="utf-8")
                 return {"video":str(root/"demo.mp4"),"tour":str(root/"tour.json")}
             time.sleep(.5)
         raise RuntimeError("Окно записи не появилось")
     finally:
-        close_run_tree(evidence)
+        close_recording_run(evidence,root/"video-run")

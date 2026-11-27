@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="anylab-token" content="__ANYLAB_TOKEN__">
+  <title>AnyLab Studio</title>
+  <link rel="stylesheet" href="/studio.css">
+  <script src="/studio.js" defer></script>
+</head>
+<body>
+  <header class="top"><span class="logo" aria-hidden="true">A</span><strong>AnyLab Studio</strong><span class="local">Локальная мастерская</span></header>
+  <main>
+    <h1>Сборка лабораторной</h1>
+    <nav id="labs" aria-label="Лабораторная работа"></nav>
+    <div class="columns">
+      <form id="config">
+        <section>
+          <h2>Сцена</h2>
+          <fieldset id="template-options"><legend>Оформление</legend><div id="templates" class="options"></div></fieldset>
+          <fieldset id="addon-options"><legend>Дополнения</legend><div id="addons" class="options"></div></fieldset>
+          <div id="details" class="fields"></div>
+          <p id="metro-hint" class="hint" hidden>У каждой станции своя учебная планировка по мотивам реальной. Она используется в 4.1 и 4.2. ТЦ добавляется в 4.2.</p>
+          <label id="hold-option">Выдержка камеры на каждом 3D-ракурсе<select name="hold">
+            <option value="0">По сценарию лабораторной</option><option value="6">6 секунд</option>
+            <option value="8">8 секунд</option><option value="10">10 секунд</option><option value="12">12 секунд</option>
+          </select></label>
+          <label>Скорость демонстрации<select name="speed">
+            <option value="0">По сценарию лабораторной</option>
+            <option value="0.5">0,5×</option><option value="1">1×</option><option value="2">2×</option>
+            <option value="3">3×</option><option value="4">4×</option>
+          </select></label>
+        </section>
+        <section>
+          <h2>Индивидуальная работа с Codex</h2>
+          <label>Пожелания к модели<textarea name="idea" rows="3" maxlength="4000" placeholder="Например, добавьте новый тип детали или подготовьте другую станцию"></textarea></label>
+          <p id="codex-hint" class="hint"></p>
+        </section>
+        <section>
+          <h2>Отчёт</h2>
+          <div class="fields">
+            <label>Студент<input name="student" required maxlength="80" autocomplete="off" placeholder="Фамилия И.О."></label>
+            <label>Группа<input name="group" required maxlength="30" autocomplete="off" placeholder="Б24-503"></label>
+            <label>Преподаватель<input name="teacher" maxlength="80"></label>
+            <label>Зерно оформления<input name="seed" type="number" min="0" max="2147483647" value="73" required></label>
+          </div>
+          <label>Примечания к отчёту<textarea name="notes" rows="3" maxlength="4000"></textarea></label>
+          <label>Фото в отчёт <input name="photoFile" type="file" accept="image/jpeg,image/png"></label>
+        </section>
+        <div class="actions">
+          <button id="build-package" type="submit" value="full">Собрать комплект</button>
+          <button type="submit" value="prepare" class="secondary">Подготовить модели</button>
+          <button type="submit" value="preview" class="secondary">3D-предпросмотр</button>
+        </div>
+      </form>
+      <aside>
+        <section class="status">
+          <h2>Сборка</h2>
+          <p id="status" role="status">Готово к запуску</p>
+          <div id="assistant-handoff" hidden>
+            <label>Запрос для чата Codex<textarea id="assistant-request" rows="4" readonly></textarea></label>
+            <button id="copy-assistant-request" type="button" class="secondary">Скопировать запрос</button>
+          </div>
+          <div id="controls" hidden>
+            <button id="stop" type="button" class="secondary" hidden>Остановить сборку</button>
+            <button id="resume" type="button" class="secondary">Продолжить сборку</button>
+            <button id="refresh-cashier" type="button" class="secondary" hidden>Обновить предпросмотр 6.2</button>
+            <button id="download" type="button">Скачать ZIP</button>
+          </div>
+        </section>
+        <section id="photos" hidden><h2>Кадры проверки</h2><div id="photo-list"></div></section>
+        <section>
+          <h2>В комплекте</h2>
+          <ul>
+            <li>Модель AnyLogic с ресурсами на каждое задание</li>
+            <li>Таблицы экспериментов</li>
+            <li id="media-delivery">Кадры и видео каждого задания</li>
+            <li>Отчёт в DOCX и PDF</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

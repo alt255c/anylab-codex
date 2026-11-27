@@ -53,12 +53,12 @@ class TemplateIntegrity(unittest.TestCase):
     def test_gas_payment_returns_each_driver_to_own_car(self):
         entry=CATALOG["6"]["models"]["6.2"][0]
         xml=(ROOT/entry["file"]).read_text(encoding="utf8")
-        self.assertIn("waitForDriver.stopDelay(agent.car)",xml)
-        for name in ("payQueue0","payQueue1","payment0","payment1","returnToCar","returnedDrivers","RoadNetworkDescriptor"):
+        self.assertTrue("ожиданиеВодителя.stopDelay(agent.car)" in xml)
+        for name in ("очередьКассы1","очередьКассы2","оплатаКасса1","оплатаКасса2","возвратВодителя","returnedDrivers","RoadNetworkDescriptor"):
             self.assertIn(name,xml)
         root=ET.fromstring(xml)
         for counter in root.findall('.//Rectangle'):
-            if counter.findtext('Name','').startswith('cashierCounter'):
+            if counter.findtext('Name','') in ('Касса1','Касса2'):
                 self.assertLessEqual(float(counter.findtext('ZHeight')),12)
         cars=[n for n in root.findall('.//ActiveObjectClass') if n.findtext('Name')=='Car']
         self.assertEqual(len(cars),1)

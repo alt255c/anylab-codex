@@ -205,10 +205,60 @@ def brick(carton, shapes, config):
                             (y - image.height/2) * scale, len(run.group()) * scale, scale, 6.13, .04,
                             config.get("label_color", "#B92129"), "SHAPE_DRAW_2D3D", base + "+6.13")
                 presentation.insertBefore(node, reference)
+    refresh_component(carton, presentation)
+
+
+def refresh_component(carton, presentation):
     refresh = next(n for n in children(child(carton, "Functions"), "Function") if field(n, "Name") == "refreshCargo")
     put(refresh, "Body", "\n".join(
         f'{field(n, "Name")}.setVisible({field(n, "VisibleCode")});\n{field(n, "Name")}.updateDynamicProperties();'
         for n in children(presentation)))
+
+
+def novelty_component(carton, shapes, component):
+    presentation=child(carton,"Presentation/Level/Presentation")
+    elements={field(n,"Name"):n for n in children(presentation)}
+    front=elements["glassRim"]
+    visible=field(elements["component3D"],"VisibleCode")
+    base="(cargoRole==1 ? 0 : (isManuallyAdded ? 2 : 8))"
+    primary="#F3E3C7" if component=="coffee" else "#D48A54"
+
+    def piece(prototype,name,mode,x,y,z,tint,**dimensions):
+        node=shapes.clone(prototype,name,X=x,Y=y,Z=z,DrawMode=mode,VisibleCode=visible,
+                          FillColor=argb(tint),LineColor=argb(tint),LineWidth=0,**dimensions)
+        if mode=="SHAPE_DRAW_3D":
+            put(node,"ZCode",f"{base}+{z}")
+        presentation.insertBefore(node,front)
+
+    def oval(name,x,y,z,rx,ry,depth,tint,mode):
+        prototype=elements["component3D" if mode.endswith("3D") else "component2D"]
+        piece(prototype,name,mode,x,y,z,tint,RadiusX=rx,RadiusY=ry,ZHeight=depth)
+
+    def square(name,x,y,z,w,h,depth,tint,mode,rotation=0):
+        piece(elements["sheet"],name,mode,x,y,z,tint,Width=w,Height=h,ZHeight=depth,Rotation=rotation)
+
+    for mode,suffix in (("SHAPE_DRAW_2D","2D"),("SHAPE_DRAW_3D","3D")):
+        flat=suffix=="2D"
+        if component=="coffee":
+            oval("component"+suffix,0,0,28 if flat else 0,5.7 if flat else 4.0,5.7 if flat else 4.0,2.4,primary,mode)
+            if not flat:
+                for i,(z,r) in enumerate(((2.4,4.3),(4.8,4.65),(7.2,5.0))):
+                    oval(f"coffee_tier{i}",0,0,z,r,r,2.4,"#A97B56" if i==1 else primary,mode)
+            oval("coffee_lid"+suffix,0,0,29 if flat else 9.6,5.35,5.35,1.15,"#275B49",mode)
+            oval("coffee_sip"+suffix,0,-2.8,30 if flat else 10.76,1.1,.53,.15,"#192D26",mode)
+        else:
+            oval("component"+suffix,-.8,1.5,28 if flat else 0,4.2,4.4,4.0,primary,mode)
+            oval("cat_head"+suffix,-.25,-2.3,29 if flat else 3.7,3.2,2.8,3.1,primary,mode)
+            for i,x in enumerate((-2.3,1.8)):
+                square(f"cat_ear{suffix}_{i}",x,-4.1,28 if flat else 6.5,2.1,2.1,1.6,primary,mode,45)
+                oval(f"cat_eye{suffix}_{i}",x*.65,-2.8,30 if flat else 6.82,.36,.36,.12,"#362C28",mode)
+                oval(f"cat_paw{suffix}_{i}",x,-.2,29 if flat else .12,1.15,1.0,1.05,"#F5D6B7",mode)
+            oval("cat_muzzle"+suffix,-.25,-1.5,30 if flat else 6.81,1.4,.75,.12,"#F5D6B7",mode)
+            oval("cat_nose"+suffix,-.25,-1.8,31 if flat else 6.96,.39,.3,.10,"#613F39",mode)
+            square("cat_tail"+suffix,2.5,3.6,28 if flat else 1.5,3.5,1.3,1.2,primary,mode,24)
+    for name in ("component2D","component3D","bore2D","bore3D"):
+        presentation.removeChild(elements[name])
+    refresh_component(carton,presentation)
 
 
 def apply_scene(doc, main, carton, config, component, layout, full):
@@ -240,3 +290,5 @@ def apply_scene(doc, main, carton, config, component, layout, full):
         add_sign(main, shapes, config["sign"])
     if component == "brick":
         brick(carton, shapes, config)
+    elif component in {"coffee","cat"}:
+        novelty_component(carton,shapes,component)

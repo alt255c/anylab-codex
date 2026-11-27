@@ -222,9 +222,11 @@ def close_owned(token):
     # Restrict cleanup to Java runtimes bearing this invocation's unique VM argument.
     command = ("$p=Get-CimInstance Win32_Process -Filter \"Name='javaw.exe' OR Name='java.exe'\" "
                "| Where-Object { $_.CommandLine -match '(?<!\\S)-Danylab[.]run=" + token + "(?=\\s|$)' }; "
-               "foreach ($item in $p) { $proc=Get-Process -Id $item.ProcessId -ErrorAction SilentlyContinue; "
+               "foreach ($item in $p) { try { "
+               "$proc=Get-Process -Id $item.ProcessId -ErrorAction SilentlyContinue; "
                "if ($proc -and [Math]::Abs(($proc.StartTime-$item.CreationDate).TotalSeconds) -lt 1) "
-               "{ $proc.Kill(); $proc.WaitForExit(5000) | Out-Null; $item.ProcessId } }")
+               "{ $proc.Kill(); $proc.WaitForExit(5000) | Out-Null; $item.ProcessId } } "
+               "catch { if (Get-Process -Id $item.ProcessId -ErrorAction SilentlyContinue) { throw } } }; exit 0")
     proc = subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", command],
                           capture_output=True, text=True, timeout=20, check=True)
     return [int(line) for line in proc.stdout.split() if line.isdigit()]
@@ -234,6 +236,14 @@ def close_run_tree(evidence):
     token = evidence["project"].removeprefix("AnyLab_")
     if not re.fullmatch(r"[0-9a-f]{12}", token):
         raise ValueError("Неверный идентификатор прогона AnyLab")
+    errors = []
+
+    def attempt(operation, *args, **kwargs):
+        try:
+            return operation(*args, **kwargs)
+        except (OSError, subprocess.SubprocessError) as exc:
+            errors.append(str(exc))
+
     ide_pid = evidence.get("owned_ide_pid")
     if ide_pid:
         # PID alone can be reused. The command line also has to name this run.
@@ -242,9 +252,9 @@ def close_run_tree(evidence):
             f'if ($item.Name -eq "AnyLogic.exe" -and $item.CommandLine -like "*AnyLab_{token}.alp*") '
             '{ & taskkill.exe /T /F /PID $item.ProcessId 2>$null | Out-Null }'
         )
-        subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
-                       capture_output=True, timeout=20, check=False)
-    closed = close_owned(token)
+        attempt(subprocess.run, ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
+                capture_output=True, timeout=20, check=True)
+    closed = attempt(close_owned, token) or []
     browser_profile = evidence.get("owned_browser_profile")
     if browser_profile:
         # A browser can outlive its Java parent. Match the entire isolated profile,
@@ -258,8 +268,10 @@ def close_run_tree(evidence):
             "& taskkill.exe /T /F /PID $item.ProcessId 2>$null | Out-Null } }"
         )
         env = {**os.environ, "ANYLAB_OWNED_BROWSER_PROFILE": browser_profile}
-        subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
-                       capture_output=True, timeout=20, check=False, env=env)
+        attempt(subprocess.run, ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
+                capture_output=True, timeout=20, check=True, env=env)
+    if errors:
+        raise OSError("Очистка процессов AnyLogic: " + " | ".join(errors))
     return closed
 
 
@@ -280,6 +292,18 @@ def save_result(out, result):
     temp = out / "result.tmp"
     temp.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     temp.replace(out / "result.json")
+
+
+def close_recording_run(evidence, destination):
+    """Retain the cleanup result without hiding a capture failure."""
+    try:
+        evidence["closed_runtime_pids"] = close_run_tree(evidence)
+    except (OSError, subprocess.SubprocessError) as exc:
+        evidence["cleanup_error"] = str(exc)
+    try:
+        save_result(Path(destination), evidence)
+    except OSError as exc:
+        print(f"Не удалось записать результат закрытия AnyLogic: {exc}", file=sys.stderr)
 
 
 def run(args):
@@ -350,16 +374,25 @@ def run(args):
     except (Exception, KeyboardInterrupt) as exc:
         result.update(state="error", error=str(exc) or type(exc).__name__)
     finally:
-        if launched and (args.close or result["state"] in {"timeout", "error", "runtime_error"}):
-            if result["state"] in {"timeout", "error"}:
-                (out / "cancelled").touch()
+        failed = result["state"] in {"timeout", "error", "runtime_error"}
+        close = args.close if args.close is not None else args.until == "finished"
+        if launched and (close or failed):
+            try:
+                if failed:
+                    (out / "cancelled").touch()
+            except OSError as exc:
+                result["cleanup_error"] = str(exc)
             try:
                 result["closed_runtime_pids"] = close_run_tree(result)
             except (OSError, subprocess.SubprocessError) as exc:
                 result["cleanup_error"] = str(exc)
-            if result.get("owned_ide_pid") and ide_process.poll() is None:
-                ide_process.terminate()
-                ide_process.wait(timeout=20)
+            try:
+                if result.get("owned_ide_pid") and ide_process.poll() is None:
+                    ide_process.kill()
+                    ide_process.wait(timeout=10)
+            except (OSError, subprocess.SubprocessError) as exc:
+                if ide_process.poll() is None:
+                    result["cleanup_error"] = str(exc)
         result["elapsed_seconds"] = round(time.monotonic() - start, 3)
         save_result(out, result)
     print(json.dumps(result, ensure_ascii=False))
@@ -379,7 +412,7 @@ def main():
     p.add_argument("--out", required=True)
     p.add_argument("--until", choices=["started", "finished"], default="started")
     p.add_argument("--timeout", type=int, default=120)
-    p.add_argument("--close", action="store_true")
+    p.add_argument("--close", action=argparse.BooleanOptionalAction, default=None)
     p.add_argument("--asset", action="append", default=[], metavar="RELATIVE_PATH")
     p.add_argument("--metrics", help="JSON: столбец -> числовое Java-выражение в контексте root")
     cmds.add_parser("windows")
@@ -391,6 +424,8 @@ def main():
             p.add_argument("--seconds", type=int, default=20)
             p.add_argument("--fps", type=int, default=20)
             p.add_argument("--profile", choices=["window", "hd", "light"], default="window")
+            p.add_argument("--start-marker", type=Path, help="Создать маркер после начала захвата")
+            p.add_argument("--finish-marker", type=Path, help="Остановить захват при завершении сценария")
     args = parser.parse_args()
     if args.cmd == "run":
         if not 1 <= args.timeout <= 900:

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Figure3D>
+  <Id>1436282541847</Id>
+  <Name>anylabFirTree</Name>
+  <X>323</X><Y>180</Y>
+  <Label><X>0</X><Y>-10</Y></Label>
+  <PublicFlag>false</PublicFlag>
+  <PresentationFlag>true</PresentationFlag>
+  <ShowLabel>false</ShowLabel>
+  <DrawMode>SHAPE_DRAW_3D</DrawMode>
+  <X>320</X><Y>180</Y><Z>0</Z>
+  <Label><X>0</X><Y>-10</Y></Label>
+  <ResourceReference>
+    <PackageName>gas_station</PackageName>
+    <ClassName>3d/tree_1.dae</ClassName>
+  </ResourceReference>
+  <ColorTable>
+    <ColorMapping><Name>MA_Color_C18</Name><OriginalColor>-10074584</OriginalColor></ColorMapping>
+    <ColorMapping><Name>MA_material</Name><OriginalColor>-1</OriginalColor></ColorMapping>
+    <ColorMapping><Name>MA_Color_E16</Name><OriginalColor>-10066432</OriginalColor></ColorMapping>
+  </ColorTable>
+  <AutoScale>false</AutoScale>
+  <Scale>0.5</Scale>
+  <Rotation>0</Rotation>
+  <AxisOrder>XYZ_AXIS_ORDER</AxisOrder>
+  <SelectedAnimationPose/>
+  <ApplyShading>true</ApplyShading>
+  <InternalLighting>OFF</InternalLighting>
+  <IgnoreSceneLights>false</IgnoreSceneLights>
+</Figure3D>

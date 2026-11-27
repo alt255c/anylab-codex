@@ -1,15 +1,20 @@
 {
   "spec": {
     "parameters": {
-      "Main.arrivalIntensity": 2.5,
-      "Main.queueLimit": 8
+      "Main.интенсивностьПрибытия": 2.5,
+      "Main.порогОчереди": 1,
+      "Main.правилоОчереди": 0
     }
   },
   "block_code": {},
   "experiments": [
     {
-      "name": "Simulation",
+      "name": "Моделирование",
       "type": "SimulationExperiment"
+    },
+    {
+      "name": "АнализИнтенсивности",
+      "type": "ParamVariationExperiment"
     }
   ]
 }

@@ -48,13 +48,15 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     palettes={"blue_turquoise_orange":("#19B6B0","#F28A3C"),
               "orange_cream_blue":("#E88448","#2867B2"),
               "green_sand_coral":("#49866F","#E57556")}
-    details={"blue_sleeve":"#2867D1","orange_sleeve":"#F28A3C","silver_spool":"#9AA7B3","brick":"#AD5744"}
+    details={"blue_sleeve":"#2867D1","orange_sleeve":"#F28A3C","silver_spool":"#9AA7B3","brick":"#AD5744",
+             "coffee":"#F3E3C7","cat":"#D48A54"}
+    custom_component=component in {"brick","coffee","cat"}
     if palette not in palettes:
         raise ValueError("Выберите палитру: blue_turquoise_orange, orange_cream_blue, green_sand_coral")
     if layout not in {"extended_offset","compact_straight","smooth_s"}:
         raise ValueError("Выберите геометрию: extended_offset, compact_straight или smooth_s")
     if component not in details:
-        raise ValueError("Выберите деталь: blue_sleeve, orange_sleeve, silver_spool или brick")
+        raise ValueError("Выберите деталь: "+", ".join(details))
     path = Path(source).resolve(strict=True)
     doc, model = load(path)
     resources = child(model,"ModelResources")
@@ -105,7 +107,7 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
     has_shipping=any(field(n,"Name")=="warehouseNetwork" for n in main.getElementsByTagName("Network"))
     if canonical and has_shipping!=full_line:
         raise ValueError('Выберите самостоятельный шаблон 5.2 для full_line=true или шаблон 5.1 для full_line=false из prepare_lab.')
-    if not canonical and (config or layout == "smooth_s" or component == "brick"):
+    if not canonical and (config or layout == "smooth_s" or custom_component):
         raise ValueError("Расширенное оформление требует штатного шаблона ЛР5 из prepare_lab")
     if canonical and has_shipping==full_line:
         from lr5_revision import isolate_fragility
@@ -157,7 +159,7 @@ def conveyor_scenario(source, destination, rate, horizon=600, seed=1, full_line=
                 for key in ("FillColor","LineColor"):put(shape,key,str(_argb(details[component])))
             if label in {"tape2D","tape3D"}:
                 for key in ("FillColor","LineColor"):put(shape,key,str(_argb(accent_color)))
-        if scene is not None or layout == "smooth_s" or component == "brick":
+        if scene is not None or layout == "smooth_s" or custom_component:
             apply_scene(doc, main, carton, config, component, layout, full_line)
             validate_cargo(main)
         profile = dict(model=name + ".alp", full_line=full_line, palette=palette, layout=layout,

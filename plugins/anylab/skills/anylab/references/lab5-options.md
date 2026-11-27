@@ -4,7 +4,7 @@
 `conveyor_scenario` независимы. Укажите `full_line: true` для 5.2 и начните с
 соответствующего шаблона. Поддерживаются `compact_straight`, `extended_offset`
 и `smooth_s`. Детали: `blue_sleeve`, `orange_sleeve`, `silver_spool` или
-`brick`. Дополнительные цвета, прямой вход и декор передаются в `scene`.
+`brick`, `coffee` (стаканчик с крышкой) или `cat` (фигурка котика). Дополнительные цвета, прямой вход и декор передаются в `scene`.
 
 ```json
 {

@@ -305,10 +305,13 @@ def video(model, destination, seconds=None, three_d=True, speed=None, screenshot
     if tour:
         from models import load
         _,tour_model=load(Path(model))
+        if any(n.firstChild and n.firstChild.data=="прибытиеАвтомобилей" for n in tour_model.getElementsByTagName("Name")):
+            from station_tour import record_station_tour
+            return record_station_tour(model,destination,profile or "hd",1 if speed is None else speed)
         if not any(n.firstChild and n.firstChild.data=='Carton' for n in tour_model.getElementsByTagName('Name')):
             from scene_tour import record_scene_tour
             return record_scene_tour(model,destination,96 if seconds is None else seconds,
-                                     3 if speed is None else speed,warmup)
+                                     3 if speed is None else speed,warmup,profile or "hd")
         from video_demo import record_tour
         from video_plan import planned_seconds
         duration = planned_seconds(model) if seconds is None else seconds
@@ -328,7 +331,7 @@ def video(model, destination, seconds=None, three_d=True, speed=None, screenshot
     return {"video": str(root / "demo.mp4"), "screenshot": str(root / "scene.png") if screenshot else None}
 
 
-def run_model(model, destination, experiment, timeout=720, until="finished", close=False, metrics=None):
+def run_model(model, destination, experiment, timeout=720, until="finished", close=None, metrics=None):
     if until not in {"started", "finished"}:
         raise ValueError("until: started или finished")
     if not 1 <= timeout <= 900:
@@ -338,11 +341,21 @@ def run_model(model, destination, experiment, timeout=720, until="finished", clo
         raise FileExistsError(f"Укажите пустой каталог запуска: {out}")
     args = ["run", Path(model).resolve(strict=True), "--experiment", experiment, "--out", destination,
             "--timeout", timeout, "--until", until]
-    if close:
-        args.append("--close")
+    if close is not None:
+        args.append("--close" if close else "--no-close")
     if metrics:
         args.extend(["--metrics", dumps(metrics)])
     return native(args, result_path=Path(destination) / "result.json")
+
+
+def close_run(destination):
+    from bridge.anylogic import close_run_tree
+    folder=Path(destination).resolve(strict=True)
+    token=(folder/"run.id").read_text(encoding="ascii").strip()
+    result=load_json(folder/"result.json")
+    if result.get("project")!=f"AnyLab_{token}":
+        raise ValueError("Каталог не совпадает с идентификатором запуска AnyLab")
+    return {"closed_runtime_pids":close_run_tree(result)}
 
 
 def calibrated_run(source, destination, experiment, minutes=12, member=None, metrics=None, keep_final_open=False):
@@ -373,6 +386,8 @@ def calibrated_run(source, destination, experiment, minutes=12, member=None, met
 
 
 def dispatch(action, params):
+    from studio_build import build as studio_build, catalog as studio_catalog
+    from studio_web import open_studio
     from pdf_export import export_pdf
     from template_fill import fill_report
     from reference_docx import inspect_reference, refill_reference
@@ -383,6 +398,9 @@ def dispatch(action, params):
     import materials
     import projects
     functions = {
+        "studio_open": open_studio,
+        "studio_catalog": studio_catalog,
+        "studio_build": studio_build,
         "tasks": task_data,
         "templates": templates,
         "prepare_lab": prepare_lab,
@@ -406,6 +424,7 @@ def dispatch(action, params):
         "budget": experiments.budget,
         "calibrate": calibrated_run,
         "run": run_model,
+        "close_run": close_run,
         "report": lambda spec, destination: materials.write_report(CATALOG, spec, destination),
         "pdf": export_pdf,
         "check_text": lambda paragraphs: materials.check_reuse(CATALOG, paragraphs),
@@ -428,6 +447,10 @@ def dispatch(action, params):
 
 # One schema is shared by the CLI and the tool discovery endpoint.
 COMMANDS = {
+    "studio_open": ("Открыть локальную веб-мастерскую для ЛР1–6.", ("destination",), {"destination":"string"}),
+    "studio_catalog": ("Показать лабораторные, шаблоны и дополнения веб-мастерской.", (), {}),
+    "studio_build": ("Собрать комплект ЛР1–6 или подготовить модели ЛР4–6.", ("raw","destination"),
+                     {"raw":"object","destination":"string","prepare_only":"boolean","preview_only":"boolean"}),
     "tasks": ("Список лабораторных и вариантов или условия всех заданий указанной работы.", (), {"lab":"integer","variant":"string"}),
     "templates": ("Показать локальные образцы всех заданий и общий шаблон DOCX по лабораторной.", ("lab",), {"lab":"integer","root":"string"}),
     "prepare_lab": ("Подготовить DOCX и проекты всех заданий из встроенного или выбранного комплекта.",
@@ -469,8 +492,9 @@ COMMANDS = {
                {"source":"string","destination":"string","experiment":"string","minutes":"number","pilot_seconds":"number","overhead_seconds":"number","member":"string"}),
     "calibrate": ("Выполнить пилот и затем серию в общем бюджете до 15 минут.", ("source","destination","experiment"),
                {"source":"string","destination":"string","experiment":"string","minutes":"number","member":"string","metrics":"object"}),
-    "run": ("Собрать и запустить эксперимент через AnyLogic. until=started или finished.", ("model","destination","experiment"),
+    "run": ("Запустить эксперимент. По завершении процессы запуска закрываются. Для съёмки используйте until=started, затем close_run.", ("model","destination","experiment"),
             {"model":"string","destination":"string","experiment":"string","timeout":"integer","until":"string","close":"boolean","metrics":"object"}),
+    "close_run": ("Закрыть процессы конкретного запуска после кадра или записи.", ("destination",), {"destination":"string"}),
     "windows": ("Получить идентификаторы окон для захвата.", (), {}),
     "capture": ("Сохранить снимок выбранного окна в PNG.", ("window","destination"), {"window":"string","destination":"string"}),
     "record": ("Записать окно демонстрации в MP4.", ("window","destination"), {"window":"string","destination":"string","seconds":"integer"}),

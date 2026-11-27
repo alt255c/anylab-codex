@@ -102,6 +102,13 @@ def installation():
                  if (p / "AnyLogic.exe").is_file()), None)
 
 
+def copy_atomic(source, target):
+    target=Path(target)
+    pending=target.with_name(target.name+".tmp")
+    shutil.copy2(source,pending)
+    pending.replace(target)
+
+
 def copy_resources(alp, out, archive_project):
     # Archived projects may use unregistered files from Java actions.
     if archive_project:
@@ -126,8 +133,6 @@ def copy_resources(alp, out, archive_project):
         if not origin:
             raise FileNotFoundError(f"Требуется ресурс {name} для {alp.name}")
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(origin, target)
-        resources[name] = str(origin)
         if target.suffix.lower() == ".dae":
             # COLLADA texture URIs are relative to the mesh itself.
             from urllib.parse import unquote
@@ -137,7 +142,9 @@ def copy_resources(alp, out, archive_project):
                     texture = relative(unquote(img.text.strip()))
                     texture_target = target.parent / texture
                     texture_target.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(origin.parent / texture, texture_target)
+                    copy_atomic(origin.parent / texture, texture_target)
+        copy_atomic(origin, target)
+        resources[name] = str(origin)
     return resources
 
 
