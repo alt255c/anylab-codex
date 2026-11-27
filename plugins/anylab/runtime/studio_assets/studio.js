@@ -12,6 +12,97 @@ const token = document.querySelector('meta[name="anylab-token"]').content;
 let catalog, selected, jobId, running = false;
 let previewedJob;
 let pollTimer;
+let historyFingerprint;
+let visibleJobState;
+
+const stateNames = {
+  running: "В работе", error: "Требует внимания", cancelled: "Остановлена",
+  interrupted: "Прервана", preview: "Предпросмотр", stale_preview: "Старый предпросмотр",
+  prepared: "Модели готовы", complete: "Готова", assistant_required: "Нужен Codex",
+};
+
+function showProgress(status) {
+  const steps = status.steps ?? [];
+  const done = steps.filter(step => step.state === "done").length;
+  const fractional = steps.reduce((sum, step) =>
+    sum + (step.state !== "done" && step.total ? step.count / step.total : 0), done);
+  document.querySelector("#job-progress").hidden = !steps.length;
+  const bar = document.querySelector("#progress-bar");
+  bar.max = steps.length || 1;
+  bar.value = fractional;
+  document.querySelector("#progress-count").textContent = `${done} из ${steps.length}`;
+  const rows = steps.map(step => {
+    const row = document.createElement("li");
+    row.dataset.state = step.state;
+    if (step.state === "active") row.setAttribute("aria-current", "step");
+    const dot = document.createElement("span");
+    dot.className = "step-dot";
+    dot.setAttribute("aria-hidden", "true");
+    dot.textContent = step.state === "done" ? "✓" : "";
+    const label = document.createElement("span");
+    label.textContent = step.label;
+    row.append(dot, label);
+    if (step.total != null) {
+      const count = document.createElement("small");
+      count.textContent = `${step.count} / ${step.total}`;
+      row.append(count);
+    }
+    return row;
+  });
+  document.querySelector("#job-steps").replaceChildren(...rows);
+}
+
+async function showHistory() {
+  const jobs = await (await api("/api/jobs")).json();
+  setRunning(jobs.some(job => job.state === "running"));
+  const fingerprint = JSON.stringify([jobId, jobs]);
+  if (historyFingerprint === fingerprint) return jobs;
+  historyFingerprint = fingerprint;
+  document.querySelector("#history-count").textContent = jobs.length || "";
+  document.querySelector("#history-empty").hidden = !!jobs.length;
+  document.querySelector("#history-list").replaceChildren(...jobs.map(job => {
+    const item = document.createElement("li");
+    const open = document.createElement("button");
+    open.type = "button";
+    open.className = "history-open";
+    open.setAttribute("aria-pressed", String(job.id === jobId));
+    const name = document.createElement("strong");
+    name.textContent = `ЛР${job.config.lab} · ${job.config.student}`;
+    const details = document.createElement("small");
+    const timestamp = new Intl.DateTimeFormat("ru", { dateStyle: "short", timeStyle: "short" }).format(new Date(job.created));
+    details.textContent = `${timestamp} · ${stateNames[job.state] ?? job.state}`;
+    open.append(name, details);
+    open.addEventListener("click", () => openJob(job.id).catch(showError));
+    item.append(open);
+    return item;
+  }));
+  return jobs;
+}
+
+async function openJob(id) {
+  jobId = id;
+  previewedJob = undefined;
+  visibleJobState = undefined;
+  const url = new URL(location.href);
+  if (id) {
+    url.searchParams.set("job", id);
+    sessionStorage.setItem("anylab-job", id);
+  } else {
+    url.searchParams.delete("job");
+    sessionStorage.removeItem("anylab-job");
+  }
+  history.replaceState(null, "", url);
+  document.querySelector("#photos").hidden = true;
+  document.querySelector("#controls").hidden = true;
+  document.querySelector("#job-progress").hidden = true;
+  assistantPanel.hidden = true;
+  if (id) await poll();
+  else {
+    document.querySelector("#job-title").textContent = "Ход сборки";
+    statusLine.textContent = "Готово к запуску";
+    await showHistory();
+  }
+}
 
 async function api(path, payload) {
   const options = {headers: {"X-AnyLab-Token": token}};
@@ -110,8 +201,13 @@ function selectLab(lab) {
 
 async function poll() {
   clearTimeout(pollTimer);
-  const status = await (await api("/api/jobs/" + jobId)).json();
+  const selectedId = jobId;
+  const status = await (await api("/api/jobs/" + selectedId)).json();
+  if (jobId !== selectedId) return;
+  visibleJobState = status.state;
+  document.querySelector("#job-title").textContent = `ЛР${status.config.lab} · ${status.config.student}`;
   statusLine.textContent = status.message;
+  showProgress(status);
   assistantPanel.hidden = status.state !== "assistant_required";
   assistantRequest.value = status.assistant_request ?? "";
   stopButton.hidden = status.state !== "running";
@@ -119,8 +215,10 @@ async function poll() {
   resumeButton.textContent = status.state === "assistant_required" ? "Проверить и продолжить" : "Продолжить сборку";
   refreshCashier.hidden = status.state !== "stale_preview" || status.config.lab !== "6";
   downloadButton.hidden = status.state !== "complete";
-  document.querySelector("#controls").hidden = stopButton.hidden && resumeButton.hidden && downloadButton.hidden;
-  setRunning(status.state === "running");
+  document.querySelector("#delete-job").hidden = status.state === "running";
+  document.querySelector("#controls").hidden = false;
+  await showHistory();
+  if (jobId !== selectedId) return;
   if (["preview", "complete"].includes(status.state) && previewedJob !== jobId) await showPhotos(status);
   if (status.state === "stale_preview") document.querySelector("#photos").hidden = true;
   if (running) pollTimer = setTimeout(() => poll().catch(showError), 1600);
@@ -165,7 +263,7 @@ async function showPhotos(status) {
 
 function showError(error) {
   statusLine.textContent = error.message;
-  setRunning(false);
+  showHistory().catch(() => {});
 }
 
 form.addEventListener("submit", async event => {
@@ -197,9 +295,7 @@ form.addEventListener("submit", async event => {
       });
     }
     const response = await api("/api/jobs", {config, mode: event.submitter?.value || "full"});
-    jobId = (await response.json()).id;
-    sessionStorage.setItem("anylab-job", jobId);
-    await poll();
+    await openJob((await response.json()).id);
   } catch (error) { showError(error); }
 });
 
@@ -231,6 +327,23 @@ resumeButton.addEventListener("click", async () => {
     await api("/api/jobs/" + jobId + "/resume", {});
     await poll();
   } catch (error) { showError(error); resumeButton.hidden = false; }
+});
+
+document.querySelector("#delete-job").addEventListener("click", () => {
+  if (jobId && visibleJobState !== "running") document.querySelector("#remove-dialog").showModal();
+});
+
+document.querySelector("#confirm-remove").addEventListener("click", async () => {
+  const id = jobId;
+  const dialog = document.querySelector("#remove-dialog");
+  dialog.close();
+  try {
+    await api("/api/jobs/" + id + "/delete", {});
+    if (id === jobId) {
+      const remaining = await showHistory();
+      await openJob(remaining[0]?.id);
+    }
+  } catch (error) { showError(error); }
 });
 
 refreshCashier.addEventListener("click", async () => {
@@ -266,9 +379,8 @@ downloadButton.addEventListener("click", async () => {
     document.querySelector("#labs").append(button);
   }
   jobId = new URLSearchParams(location.search).get("job") || sessionStorage.getItem("anylab-job");
-  const recent = await (await api("/api/jobs")).json();
-  const active = recent.find(job => job.id === jobId) ?? recent[0];
-  jobId = active?.id;
+  const recent = await showHistory();
+  const active = recent.find(job => job.id === jobId) ?? recent.find(job => job.state === "running") ?? recent[0];
   selectLab(active?.config.lab ?? "4");
-  if (jobId) await poll();
+  await openJob(active?.id);
 })().catch(showError);

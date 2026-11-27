@@ -1,5 +1,7 @@
 """Local browser interface for the AnyLab Studio workflow."""
 import argparse
+import csv
+from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -14,7 +16,7 @@ from urllib.parse import quote, urlsplit
 import uuid
 import webbrowser
 
-from studio_build import METRO_CAMERA_PROFILE, STATION_CAMERA_PROFILE, build, catalog, config_from, save_json
+from studio_build import MEASUREMENTS, METRO_CAMERA_PROFILE, STATION_CAMERA_PROFILE, build, build_steps, catalog, config_from, save_json
 from studio_codex import AssistantHandoff
 from studio_process import BuildProcess
 
@@ -32,10 +34,19 @@ def run_job(path):
         status["message"]=message
         save_json(path,status)
 
+    def progress(key, state, count=None, total=None, csv_path=None):
+        step=status.setdefault("steps",{}).setdefault(key,{})
+        step["state"]=state
+        if total is not None:
+            step.update(count=count,total=total,csv=str(csv_path) if csv_path else None)
+        if state=="done" and "total" in step:
+            step.update(count=step["total"],csv=None)
+        save_json(path,status)
+
     try:
         result=build(status["config"],path.parent/"Результат",note,prepare_only=mode=="prepare",
                      preview_only=mode in {"preview","cashier_preview"},
-                     preview_part="6.2" if mode=="cashier_preview" else None)
+                     preview_part="6.2" if mode=="cashier_preview" else None,progress=progress)
         message={"complete":"Комплект готов к скачиванию","preview":"Предпросмотр готов",
                  "prepared":"Модели подготовлены"}[result["state"]]
         status.update(state=result["state"],message=message,result=result)
@@ -59,6 +70,7 @@ class Jobs:
         if not path.is_file():
             raise KeyError(key)
         status = json.loads(path.read_text(encoding="utf-8"))
+        status.setdefault("created",datetime.fromtimestamp(path.stat().st_mtime,timezone.utc).isoformat())
         if status["state"]=="running" and self.active!=key:
             status.update(state="interrupted",message="Сборку можно продолжить с сохранённых этапов")
         if (status["state"]=="preview" and status["config"]["lab"]=="6"
@@ -71,20 +83,90 @@ class Jobs:
             status.pop("result",None)
         return status
 
+    def presentation(self, status):
+        result=status.copy()
+        config=status["config"]
+        mode=status.get("mode") or ("preview" if status["state"] in {"preview","stale_preview"} else
+                                   "prepare" if status["state"]=="prepared" else "full")
+        workspace=self.root/status["id"]/"Результат"
+        file=workspace/"Рабочие файлы"/"Готовые этапы.json"
+        try:
+            saved=json.loads(file.read_text(encoding="utf-8")) if file.is_file() else {}
+        except OSError:
+            saved={}
+        steps=[]
+        for key,label in build_steps(config,mode):
+            stage=status.get("steps",{}).get(key,{}).copy()
+            current=stage.get("state","pending")
+            if not stage:
+                if key=="models":
+                    done=any(name=="Модели" or name.startswith("Модели ЛР4") for name in saved)
+                elif key.endswith(" · видео"):
+                    done=any(name.startswith(key[:3]+" · MP4") for name in saved)
+                elif key.endswith(" · кадры"):
+                    done=any(name.startswith(key[:3]+" · кадры") for name in saved)
+                else:
+                    done=key in saved or (key=="report" and (workspace/"Отчёт.pdf").is_file())
+                if done:
+                    current="done"
+                elif status["state"] in {"error","interrupted"} and key.replace(" — "," · ") in status["message"]:
+                    current="paused"
+            if status["state"] in {"complete","prepared","preview","stale_preview"}:
+                current="done"
+            if current=="active" and status["state"]!="running":
+                current="paused"
+            csv_path=stage.get("csv")
+            count,total=stage.get("count"),stage.get("total")
+            if current=="paused" and not stage and key.startswith("4.2 — "):
+                from hashlib import sha256
+                from itertools import product
+                from studio_grid import read_grid, saved_rows
+                experiment=key.split(" — ",1)[1]
+                metrics=dict(MEASUREMENTS["4.2"])[experiment]
+                source=next((Path(value["4.2"]).resolve() for value in saved.values()
+                             if isinstance(value,dict) and isinstance(value.get("4.2"),str)),None)
+                if source and source.is_file() and source.is_relative_to(workspace):
+                    _,_,axes=read_grid(source,experiment,metrics)
+                    expected=list(product(*(axis[2] for axis in axes)))
+                    rows=saved_rows(source,experiment,metrics,file.parent,sha256(source.read_bytes()).hexdigest(),
+                                    [axis[1] for axis in axes],expected)
+                    count,total=len(rows),len(expected)
+            if csv_path and Path(csv_path).resolve().is_relative_to(workspace):
+                try:
+                    with Path(csv_path).open(encoding="utf-8-sig",newline="") as stream:
+                        count=min(total,count+sum(None not in row and all(row.values()) for row in csv.DictReader(stream)))
+                except (OSError,ValueError):
+                    pass
+            steps.append({"label":label,"state":current,"count":count,"total":total})
+        result["steps"]=steps
+        result["config"]={key:value for key,value in config.items() if key!="photo"}
+        return result
+
     def recent(self):
         paths=(p/"Статус.json" for p in self.root.iterdir() if re.fullmatch(JOB_ID,p.name))
         present=[p for p in paths if p.is_file()]
-        return [self.status(p.parent.name) for p in sorted(present,key=lambda p:p.stat().st_mtime,reverse=True)[:12]]
+        history=[]
+        for path in sorted(present,key=lambda p:p.stat().st_mtime,reverse=True):
+            try:
+                status=self.status(path.parent.name)
+            except (OSError,ValueError,KeyError):
+                continue
+            config=status["config"]
+            history.append({"id":status["id"],"state":status["state"],"created":status["created"],
+                            "config":{key:config.get(key,"") for key in ("lab","student","group","variant")}})
+        return history
 
     def begin(self, config, mode, key=None):
         with self.lock:
             if self.active:
                 raise RuntimeError("Дождитесь завершения текущей сборки")
+            created=datetime.now(timezone.utc).isoformat()
             if key is None:
                 key=uuid.uuid4().hex
                 config=config_from(config)
             else:
                 previous=self.status(key)
+                created=previous["created"]
                 if previous["state"] not in {"prepared","preview","stale_preview","assistant_required","error","interrupted","cancelled"}:
                     raise ValueError("Эту сборку уже можно скачать")
                 config=previous["config"]
@@ -92,7 +174,8 @@ class Jobs:
                     mode=previous.get("mode","full")
             directory=self.root/key
             directory.mkdir(exist_ok=True)
-            status={"id":key,"state":"running","message":"Подготовка шаблонов","config":config,"mode":mode}
+            status={"id":key,"state":"running","message":"Подготовка шаблонов","config":config,"mode":mode,
+                    "created":created}
             path=directory/"Статус.json"
             save_json(path,status)
             try:
@@ -137,6 +220,18 @@ class Jobs:
             finally:
                 self.active=self.worker=None
             return current
+
+    def delete(self,key):
+        with self.lock:
+            if key==self.active:
+                raise RuntimeError("Остановите сборку перед удалением")
+            self.status(key)
+            source=self.root/key
+            if source.resolve()!=source or source.resolve().parent!=self.root:
+                raise ValueError("Каталог сборки находится вне истории")
+            discarded=self.root/(".deleted-"+uuid.uuid4().hex)
+            source.rename(discarded)
+        shutil.rmtree(discarded)
 
 
 def handler(jobs, token, authority):
@@ -206,7 +301,7 @@ def handler(jobs, token, authority):
                 try:
                     status=jobs.status(match[1])
                     if not match[2]:
-                        self.result(status)
+                        self.result(jobs.presentation(status))
                         return
                     archive=jobs.root/match[1]/"Результат"/"Комплект.zip"
                     if status["state"]!="complete" or not archive.is_file():
@@ -233,6 +328,11 @@ def handler(jobs, token, authority):
                 retry=re.fullmatch(fr"/api/jobs/({JOB_ID})/resume",path)
                 cashier=re.fullmatch(fr"/api/jobs/({JOB_ID})/cashier-preview",path)
                 cancel=re.fullmatch(fr"/api/jobs/({JOB_ID})/cancel",path)
+                remove=re.fullmatch(fr"/api/jobs/({JOB_ID})/delete",path)
+                if remove:
+                    jobs.delete(remove[1])
+                    self.result({"deleted":True})
+                    return
                 if cancel:
                     self.result(jobs.cancel(cancel[1]))
                     return
@@ -259,7 +359,7 @@ def handler(jobs, token, authority):
                 self.result(status,HTTPStatus.ACCEPTED)
             except KeyError:
                 self.result({"error":"Сборка отсутствует"},HTTPStatus.NOT_FOUND)
-            except RuntimeError as error:
+            except (RuntimeError,OSError) as error:
                 self.result({"error":str(error)},HTTPStatus.CONFLICT)
             except ValueError as error:
                 self.result({"error":str(error)},HTTPStatus.BAD_REQUEST)

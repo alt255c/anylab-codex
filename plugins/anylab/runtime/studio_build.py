@@ -326,8 +326,32 @@ def publish_archive(content, archive, lab):
         tmp.unlink(missing_ok=True)
 
 
+def build_steps(config, mode):
+    lab=config["lab"]
+    if int(lab)<=3:
+        return [("Комплект Codex","Модели, эксперименты и отчёт")]
+    steps=[("models","Подготовка моделей")]
+    if config.get("idea"):
+        steps.append(("Модели после Codex","Доработка моделей"))
+    if mode=="prepare":
+        return steps
+    for part in LABS[lab]["tasks"]:
+        if mode=="cashier_preview" and part!="6.2":
+            continue
+        if mode=="full":
+            steps.extend((f"{part} — {name}",f"{part} · {label}") for (name,_),label in zip(
+                MEASUREMENTS[part],
+                {"4.1":["Интенсивность входа"],"4.2":["Время в ТЦ","Влияние потока метро"],
+                 "5.1":["Пропускная способность"],"5.2":["Пропускная способность"],
+                 "6.1":["Интенсивность потока"],"6.2":["Интенсивность потока"]}[part]))
+        steps.extend([(part+" · видео",part+" · Запись видео"),(part+" · кадры",part+" · Кадры и ресурсы")])
+    if mode=="full":
+        steps.extend([("report","Отчёт DOCX и PDF"),("archive","Проверка и упаковка ZIP")])
+    return steps
+
+
 def build(raw, destination, note=lambda message: None, *, prepare_only=False, preview_only=False,
-          preview_part=None):
+          preview_part=None, progress=lambda *args: None):
     import anylab
     import shutil
     from projects import copy_atomic, copy_resources
@@ -353,10 +377,14 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
     completed_path=data/"Готовые этапы.json"
     checkpoints=json.loads(completed_path.read_text(encoding="utf-8")) if completed_path.is_file() else {}
 
-    def once(name, fn):
+    def once(name, fn, step=None):
+        if step:
+            progress(step,"active" if name not in checkpoints else "done")
         if name not in checkpoints:
             checkpoints[name]=fn()
             save_json(completed_path,checkpoints)
+            if step:
+                progress(step,"done")
         return checkpoints[name]
 
     if int(config["lab"])<=3:
@@ -374,7 +402,7 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
             publish_archive(target,root/"Комплект.zip",config["lab"])
             return models
 
-        models=once("Комплект Codex",early)
+        models=once("Комплект Codex",early,"Комплект Codex")
         return {"state":"complete","archive":str(root/"Комплект.zip"),"models":models,"photos":{}}
 
     def prepare():
@@ -387,10 +415,10 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
     if model_key not in checkpoints and config["lab"]=="4" and old_metro_keys.intersection(checkpoints):
         checkpoints={key:value for key,value in checkpoints.items()
                      if key!="Модели после Codex" and key!="Текст отчёта Codex" and not key.startswith(("4.1 ·","4.2 ·","4.1 —","4.2 —"))}
-    models=once(model_key,prepare)
+    models=once(model_key,prepare,"models")
     if config["idea"]:
         from studio_codex import customize_models
-        models=once("Модели после Codex",lambda:customize_models(config,models,data/"Доработка Codex",note))
+        models=once("Модели после Codex",lambda:customize_models(config,models,data/"Доработка Codex",note),"Модели после Codex")
     if prepare_only:
         return {"state":"prepared","models":models}
     evidence=root/"Проверка"
@@ -420,7 +448,12 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
             from studio_presets import configure_metro_grid
             doc,model=load(path)
             configure_metro_grid(model,part)
-            Path(path).write_bytes(doc.toxml(encoding="utf-8"))
+            project=Path(path)
+            updated=doc.toxml(encoding="utf-8")
+            if updated!=project.read_bytes():
+                pending=project.with_suffix(".tmp")
+                pending.write_bytes(updated)
+                pending.replace(project)
 
         def measure():
             import tempfile
@@ -429,6 +462,10 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
                 entry=f"{part} — {experiment}"
                 def run():
                     note(f"{part} · эксперимент {experiment}")
+                    if part=="4.2":
+                        from studio_grid import resume_grid
+                        return resume_grid(path,experiment,metrics,data,evidence/(entry+".csv"),anylab.run_model,
+                                           lambda count,total,csv_path:progress(entry,"active",count,total,csv_path))
                     directory=Path(tempfile.mkdtemp(prefix="эксперимент-",dir=data))
                     run_folder=directory/"run"
                     timeout={"4.1":540,"4.2":900}.get(part,240)
@@ -458,7 +495,7 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
                     copy=evidence/(entry+".csv")
                     shutil.copyfile(table,copy)
                     return str(copy)
-                result[experiment]=once(entry,run)
+                result[experiment]=once(entry,run,entry)
             return result
 
         def record():
@@ -476,7 +513,8 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
         if not preview_only:
             measurements[part]=measure()
         profile={"4":METRO_CAMERA_PROFILE,"5":"conveyor_full_plan","6":STATION_CAMERA_PROFILE}[part[0]]
-        capture=once(part+" · запись"+(" · "+profile if profile else ""),record)
+        capture=once(part+" · запись"+(" · "+profile if profile else ""),record,part+" · видео")
+        progress(part+" · кадры","active")
         frames=evidence/part
         frames.mkdir(exist_ok=True)
         captures[part]=once(part+" · кадры на остановках · "+profile,
@@ -492,19 +530,24 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
         if not (folder/"Демонстрация.mp4").exists() or profile:
             copy_atomic(capture["video"],folder/"Демонстрация.mp4")
         shutil.copyfile(capture["tour"],evidence/(part+" — камера.json"))
+        progress(part+" · кадры","done")
     if preview_only:
         return {"state":"preview","models":models,"photos":captures,"shot_labels":shot_labels,
                 "camera_profile":profile or "tour"}
     if config["lab"]=="5":
         cargo_chart(models["5.2"],evidence/"Состояния коробок.png")
     note("Отчёт и проверка ZIP")
+    progress("report","active")
     if not (root/"Отчёт.pdf").exists() or not (root/"Отчёт.docx").exists():
         from studio_codex import compose_report
         text=once("Текст отчёта Codex",lambda:compose_report(config,measurements,DESCRIPTIONS,data/"Отчёт Codex",note))
         create_report(config,measurements,captures,root,text)
+    progress("report","done")
+    progress("archive","active")
     archive=root/"Комплект.zip"
     save_json(evidence/"Параметры сборки.json",{k:v for k,v in config.items() if k!="photo"})
     publish_archive(root,archive,config["lab"])
+    progress("archive","done")
     return {"state":"complete","archive":str(archive),"shot_labels":shot_labels,
             "camera_profile":profile or "tour",
             "models":{key:str(root/key/Path(path).name) for key,path in models.items()},"photos":captures}

@@ -54,9 +54,25 @@
         </div>
       </form>
       <aside>
+        <section class="history-panel">
+          <div class="section-heading">
+            <h2>История сборок</h2>
+            <span id="history-count" class="quiet"></span>
+          </div>
+          <p id="history-empty" class="quiet">Здесь появятся ваши сборки.</p>
+          <ul id="history-list" class="history-list"></ul>
+        </section>
         <section class="status">
-          <h2>Сборка</h2>
+          <h2 id="job-title">Ход сборки</h2>
           <p id="status" role="status">Готово к запуску</p>
+          <div id="job-progress" hidden>
+            <div class="section-heading progress-heading">
+              <label for="progress-bar">Выполнено этапов</label>
+              <span id="progress-count"></span>
+            </div>
+            <progress id="progress-bar"></progress>
+            <ol id="job-steps" class="step-list"></ol>
+          </div>
           <div id="assistant-handoff" hidden>
             <label>Запрос для чата Codex<textarea id="assistant-request" rows="4" readonly></textarea></label>
             <button id="copy-assistant-request" type="button" class="secondary">Скопировать запрос</button>
@@ -66,6 +82,7 @@
             <button id="resume" type="button" class="secondary">Продолжить сборку</button>
             <button id="refresh-cashier" type="button" class="secondary" hidden>Обновить предпросмотр 6.2</button>
             <button id="download" type="button">Скачать ZIP</button>
+            <button id="delete-job" type="button" class="danger" hidden>Удалить сборку</button>
           </div>
         </section>
         <section id="photos" hidden><h2>Кадры проверки</h2><div id="photo-list"></div></section>
@@ -81,5 +98,15 @@
       </aside>
     </div>
   </main>
+  <dialog id="remove-dialog">
+    <form method="dialog">
+      <h2>Удалить сборку?</h2>
+      <p>Будут удалены её модели, результаты и готовый ZIP.</p>
+      <div class="actions">
+        <button class="secondary" autofocus>Оставить</button>
+        <button type="button" class="danger" id="confirm-remove">Удалить</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
