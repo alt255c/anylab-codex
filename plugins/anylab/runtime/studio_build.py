@@ -476,10 +476,10 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
                         if not details.is_file():
                             raise
                         state=json.loads(details.read_text(encoding="utf-8"))
-                        progress=run_folder/"metrics.csv"
+                        metrics_path=run_folder/"metrics.csv"
                         count=0
-                        if progress.is_file():
-                            with progress.open(encoding="utf-8-sig",newline="") as stream:
+                        if metrics_path.is_file():
+                            with metrics_path.open(encoding="utf-8-sig",newline="") as stream:
                                 count=sum(1 for _ in csv.DictReader(stream))
                         reason="Истекло время ожидания" if state["state"]=="timeout" else state.get("error",state["state"])
                         raise RuntimeError(f"{part} · {experiment}. {reason}. Завершено прогонов: {count}.") from error
