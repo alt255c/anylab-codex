@@ -526,7 +526,16 @@ def build(raw, destination, note=lambda message: None, *, prepare_only=False, pr
         shipped=folder/Path(path).name
         if not shipped.exists() or part.startswith(("4","6")):
             copy_resources(Path(path),folder,False)
-            copy_atomic(path,shipped)
+            if part in ("4.1", "4.2"):
+                from bridge.metro_charts import compact_metro_charts
+                from models import load
+                doc, model = load(path)
+                compact_metro_charts(model)
+                temp_model = shipped.with_suffix(".tmp")
+                temp_model.write_bytes(doc.toxml(encoding="utf-8"))
+                temp_model.replace(shipped)
+            else:
+                copy_atomic(path,shipped)
         if not (folder/"Демонстрация.mp4").exists() or profile:
             copy_atomic(capture["video"],folder/"Демонстрация.mp4")
         shutil.copyfile(capture["tour"],evidence/(part+" — камера.json"))

@@ -117,6 +117,8 @@ def decorate(path, key, config):
             add_label(scene,editor,Path(__file__).parent,"anylabGateGuide",490,780,"ДОСМОТР")
             add_label(scene,editor,Path(__file__).parent,"anylabEntryGuide",750,1050,"ТУРНИКЕТЫ")
         configure_metro_grid(model,key)
+        from bridge.metro_charts import compact_metro_charts
+        compact_metro_charts(model)
     elif key.startswith("5"):
         if "safety" in addons:
             for i in range(8):

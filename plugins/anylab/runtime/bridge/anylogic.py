@@ -133,6 +133,12 @@ def prepare(args, out, result, build, token):
     is_simulation = ex.tagName == "SimulationExperiment"
     if ex.tagName not in ("SimulationExperiment", "ParamVariationExperiment", "OptimizationExperiment", "MonteCarloExperiment"):
         raise ValueError("Обработчики запуска не настроены для " + ex.tagName)
+    if ex.tagName == "ParamVariationExperiment":
+        if __package__:
+            from .metro_charts import compact_experiment
+        else:
+            from metro_charts import compact_experiment
+        compact_experiment(ex)
     project = "AnyLab_" + token
     result.update(project=project, experiment=args.experiment, experiment_type=ex.tagName)
     put(model, "Name", project)
